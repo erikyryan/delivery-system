@@ -25,7 +25,8 @@ public class Category {
 
     @NotNull
     @ManyToOne
-    private Menu menu;
+    @JoinColumn(name = "idmenu",referencedColumnName = "id")
+    private Menu idMenu;
 
 
 }

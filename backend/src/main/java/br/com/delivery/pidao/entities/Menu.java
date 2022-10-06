@@ -1,6 +1,7 @@
 package br.com.delivery.pidao.entities;
 
 
+import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -10,8 +11,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import java.util.List;
 
-@Getter
-@Setter
+@Data
 @Entity
 public class Menu {
 

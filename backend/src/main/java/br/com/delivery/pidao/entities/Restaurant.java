@@ -1,13 +1,13 @@
 package br.com.delivery.pidao.entities;
 
+import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
 import java.util.List;
 
-@Setter
-@Getter
+@Data
 @Entity
 public class Restaurant extends User {
 
@@ -21,6 +21,7 @@ public class Restaurant extends User {
     private Restaurant restaurant;
 
     @OneToOne
+    @JoinColumn(referencedColumnName = "id")
     private Menu menu;
 
     @OneToMany
