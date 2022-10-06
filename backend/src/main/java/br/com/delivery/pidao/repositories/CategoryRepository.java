@@ -8,6 +8,6 @@ import java.util.Optional;
 @Repository
 public interface CategoryRepository {
 
-    Optional<Category> findByDetails(String details);
+    Optional<Category> findByDetailsAndIdmenu(String details,Long idMenu);
 
 }
