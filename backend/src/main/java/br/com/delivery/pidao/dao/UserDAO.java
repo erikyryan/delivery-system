@@ -8,19 +8,19 @@ import br.com.delivery.pidao.entities.dto.UserDTO;
 import br.com.delivery.pidao.repositories.ClientRepository;
 import br.com.delivery.pidao.repositories.DeliveryRepository;
 import br.com.delivery.pidao.repositories.ManagerRepository;
+import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.Optional;
 
+@AllArgsConstructor
 public class UserDAO {
 
-    @Autowired
     ManagerRepository managerRepository;
 
-    @Autowired
     ClientRepository clientRepository;
 
-    @Autowired
     DeliveryRepository deliveryRepository;
 
     public Restaurant isManager(UserDTO userDTO){
