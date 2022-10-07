@@ -21,8 +21,6 @@
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 
 		<java.version>11</java.version>
-
-		<lombok.version>1.18.10</lombok.version>
 	</properties>
 	<dependencies>
 		<dependency>
@@ -42,7 +40,8 @@
 		<dependency>
 			<groupId>org.projectlombok</groupId>
 			<artifactId>lombok</artifactId>
-			<version>${lombok.version}</version>
+			<version>1.18.22</version>
+			<scope>compile</scope>
 		</dependency>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>

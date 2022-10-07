@@ -15,8 +15,6 @@ public class ItemDTO {
 
     private String name;
 
-    private Rating rating;
-
     private Double value;
 
     private String description;
@@ -25,10 +23,12 @@ public class ItemDTO {
 
     private String restarauntName;
 
-    public Item dtoToEntity(ItemDTO itemDTO){
+    public Item dtoToEntity(){
         Item item = new Item();
-
-
+        item.setName(name);
+        item.setValue(value);
+        item.setDescription(description);
+        return item;
     }
 
 }
