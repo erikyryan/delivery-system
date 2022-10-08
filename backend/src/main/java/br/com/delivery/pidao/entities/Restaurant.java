@@ -1,5 +1,6 @@
 package br.com.delivery.pidao.entities;
 
+import com.sun.istack.NotNull;
 import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
@@ -9,16 +10,13 @@ import java.util.List;
 
 @Data
 @Entity
-public class Restaurant extends User {
+public class Restaurant {
 
     @Id
     private Long id;
 
     @OneToOne
     private Adress adressRestaurant;
-
-    @OneToOne
-    private Restaurant restaurant;
 
     @OneToOne
     @JoinColumn(referencedColumnName = "id")

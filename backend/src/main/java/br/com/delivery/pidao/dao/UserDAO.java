@@ -23,20 +23,12 @@ public class UserDAO {
 
     DeliveryRepository deliveryRepository;
 
-    public Restaurant isManager(UserDTO userDTO){
-        Optional<Manager> manager = managerRepository.findByEmailAndPassword(userDTO.getEmail(), userDTO.getPassword());
-        if(manager.isPresent()){
-            return manager.get().getRestaurantManager();
-        }
-        return null;
+    public Optional<Manager> isManager(UserDTO userDTO){
+        return managerRepository.findByEmailAndPassword(userDTO.getEmail(), userDTO.getPassword());
     }
 
-    public boolean isClient(UserDTO userDTO){
-        Optional<Client> client = clientRepository.findByEmailAndPassword(userDTO.getEmail(), userDTO.getPassword());
-        if(client.isPresent()){
-            return true;
-        }
-        return false;
+    public Optional<Client> isClient(UserDTO userDTO){
+        return clientRepository.findByEmailAndPassword(userDTO.getEmail(), userDTO.getPassword());
     }
 
     public boolean isDeliveryman(UserDTO userDTO){
