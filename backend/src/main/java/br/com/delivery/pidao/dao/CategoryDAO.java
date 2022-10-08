@@ -11,9 +11,8 @@ public class CategoryDAO {
 
     private CategoryRepository categoryRepository;
 
-    public Category isPresent(String details,Long idMenu){
-        Optional<Category> category = categoryRepository.findByDetailsAndIdmenu(details,idMenu);
-        return category.isPresent() ? category.get() : null;
+    public Optional<Category> isPresent(String details,Long idMenu){
+        return categoryRepository.findByDetailsAndIdmenu(details,idMenu);
     }
 
     public Category isPresent(String details){

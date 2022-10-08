@@ -9,23 +9,25 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
+import javax.persistence.*;
+import java.util.List;
 
 @Data
 @Entity
 @NoArgsConstructor
 public class Item {
+
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long Id;
 
+    @Id
     @NotNull
     private String name;
 
     @Nullable
-    private Rating rating;
+    @OneToMany
+    private List<Rating> ratings;
 
     @NotNull
     private Double value;
@@ -33,6 +35,7 @@ public class Item {
     @Nullable
     private String description;
 
+    @Id
     @NotNull
     @ManyToOne
     @JoinColumn(name="category", referencedColumnName = "details")

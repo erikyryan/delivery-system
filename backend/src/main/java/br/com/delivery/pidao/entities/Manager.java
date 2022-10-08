@@ -1,5 +1,6 @@
 package br.com.delivery.pidao.entities;
 
+import com.sun.istack.NotNull;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -18,6 +19,7 @@ public class Manager extends User {
 
     private String Department;
 
+    @NotNull
     @ManyToOne
     private Restaurant RestaurantManager;
 }

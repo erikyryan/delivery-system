@@ -21,8 +21,6 @@ public class ItemDTO {
 
     private String categoryDetails;
 
-    private String restarauntName;
-
     public Item dtoToEntity(){
         Item item = new Item();
         item.setName(name);
