@@ -3,18 +3,13 @@ package br.com.delivery.pidao.services;
 
 import br.com.delivery.pidao.dao.CategoryDAO;
 import br.com.delivery.pidao.dao.ItemDAO;
-import br.com.delivery.pidao.dao.UserDAO;
 import br.com.delivery.pidao.entities.Category;
-import br.com.delivery.pidao.entities.Client;
 import br.com.delivery.pidao.entities.Item;
 import br.com.delivery.pidao.entities.Restaurant;
 import br.com.delivery.pidao.entities.dto.*;
 import br.com.delivery.pidao.repositories.ItemRepository;
-import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.util.Objects;
 import java.util.Optional;
