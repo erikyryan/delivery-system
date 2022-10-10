@@ -10,4 +10,8 @@ import java.util.Optional;
 public interface DeliveryRepository extends JpaRepository <Delivery,Long> {
 
     Optional<Delivery> findByEmailAndPassword(String email, String password);
+
+    Optional<Delivery> findEmail(String email);
+
+    Optional<Delivery> findSocialSecurity(String socialSecurity);
 }
