@@ -12,4 +12,7 @@ public abstract class User {
     private String name;
     private String socialsSecurity;
     private String cellphone;
+    public User get() {
+        return null;
+    }
 }
