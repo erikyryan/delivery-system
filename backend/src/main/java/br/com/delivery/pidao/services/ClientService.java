@@ -2,25 +2,31 @@ package br.com.delivery.pidao.services;
 
 import java.util.Optional;
 
-import org.hibernate.jdbc.ReturningWork;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 
-import br.com.delivery.pidao.dao.ClientDAO;
-import br.com.delivery.pidao.dao.UserDAO;
-import br.com.delivery.pidao.entities.dto.UserDTO;
+import br.com.delivery.pidao.dao.*;
+import br.com.delivery.pidao.entities.dto.*;
+import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import br.com.delivery.pidao.entities.*;
 import br.com.delivery.pidao.enums.*;
-
+import br.com.delivery.pidao.repositories.*;
 @Service
-@RequiredArgsConstructor
+@AllArgsConstructor
 public class ClientService {
     
     private UserDAO userDAO;
 
-    //private ClientDAO clientDAO;
+    private ClientDAO clientDAO;
 
-    //private ClientRepository clientRepository;
+    private ClientRepository clientRepository;
+
+    public ClientService( ClientRepository clientRepository, UserDAO userDAO) {
+        this.clientRepository = clientRepository;
+        this.userDAO = userDAO;
+    }
 
     private User checkUserExist(String socialSecurity){
         Optional<Client> user = userDAO.IsPresent(socialSecurity);   
@@ -65,22 +71,24 @@ public class ClientService {
         return user;  
     }
 
-    private void checkEmailExist(UserDTO userDTO){
-        boolean emailExist = userDAO.checkEmailExist(userDTO);
+    private void checkEmailExist(ClientDTO clientDTO){
+        boolean emailExist = clientDAO.checkEmailExist(clientDTO);
         if(emailExist == true){
             throw new RuntimeException("Email já cadastrado!");
         }
     }
 
 
-
-    //metodo de criar endereço
-
-    //metodo de criar cadastro 
-
-    //verificação do email
-
-    //verificação do cpf
-
+    public ClientDTO addUser(final ClientDTO clientDTO){
+        Optional<Client> client = clientDAO.getClientFromClientDTO(clientDTO);
+        if(client.isPresent()){
+            throw new RuntimeException("Usuário já cadastrado");
+        }else{
+            checkEmailExist(clientDTO);
+            Client newClient = clientDTO.dtoToEntity();
+            clientRepository.save(newClient);
+            return clientDTO;
+        }
+    }
 
 }

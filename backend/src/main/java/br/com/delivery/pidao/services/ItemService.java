@@ -7,8 +7,6 @@ import br.com.delivery.pidao.dao.UserDAO;
 import br.com.delivery.pidao.entities.*;
 import br.com.delivery.pidao.entities.dto.*;
 import br.com.delivery.pidao.repositories.ItemRepository;
-import br.com.delivery.pidao.repositories.MenuRepository;
-import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -22,8 +20,6 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class ItemService {
 
-    private CategoryService categoryService;
-
     private MenuService menuService;
 
     private CategoryDAO categoryDAO;
@@ -34,7 +30,7 @@ public class ItemService {
 
     private ItemRepository itemRepository;
 
-    public ItemDTO addItem(final ItemDTO itemDTO,UserDTO userDTO){
+    public ItemDTO addItem(final ItemDTO itemDTO, UserDTO userDTO){
         Restaurant restaurant = getRestaurantIfTheUserIsAManagerFromUserDTO(userDTO);
         Optional<Item> item = itemDAO.getItemFromItemDTO(itemDTO);
         if(item.isPresent()){
