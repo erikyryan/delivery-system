@@ -1,6 +1,7 @@
 package br.com.delivery.pidao.entities;
 
 
+import br.com.delivery.pidao.entities.dto.ItemDTO;
 import br.com.delivery.pidao.enums.Rating;
 import com.sun.istack.NotNull;
 import com.sun.istack.Nullable;
@@ -40,5 +41,14 @@ public class Item {
     @ManyToOne
     @JoinColumn(name="category", referencedColumnName = "details")
     private Category category;
+
+    public ItemDTO entityToDTO(){
+        ItemDTO itemDTO = new ItemDTO();
+        itemDTO.setValue(value);
+        itemDTO.setDescription(description);
+        itemDTO.setName(name);
+        itemDTO.setCategoryDetails(category.getDetails());
+        return itemDTO;
+    }
 
 }

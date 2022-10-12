@@ -7,6 +7,7 @@ import lombok.Setter;
 
 import javax.persistence.*;
 import java.util.List;
+import java.util.UUID;
 
 @Getter
 @Setter
@@ -16,17 +17,18 @@ public class Category {
     @Id
     private long Id;
 
+    @Column(name = "categoryidentifier")
+    private String categoryIdentifier = UUID.randomUUID().toString();
+
     @NotNull
     private String details;
 
     @Nullable
     @OneToMany
-    private List<Item> itemCategory;
+    private List<Item> items;
 
     @NotNull
     @ManyToOne
     @JoinColumn(name = "idmenu",referencedColumnName = "id")
     private Menu idMenu;
-
-
 }

@@ -2,6 +2,7 @@ package br.com.delivery.pidao.enums;
 
 import br.com.delivery.pidao.entities.Client;
 import br.com.delivery.pidao.entities.Item;
+import br.com.delivery.pidao.entities.dto.ItemDTO;
 import com.sun.istack.NotNull;
 import com.sun.istack.Nullable;
 import lombok.AllArgsConstructor;

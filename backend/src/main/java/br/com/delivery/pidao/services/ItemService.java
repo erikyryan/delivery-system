@@ -3,55 +3,59 @@ package br.com.delivery.pidao.services;
 
 import br.com.delivery.pidao.dao.CategoryDAO;
 import br.com.delivery.pidao.dao.ItemDAO;
-import br.com.delivery.pidao.entities.Category;
-import br.com.delivery.pidao.entities.Item;
-import br.com.delivery.pidao.entities.Restaurant;
+import br.com.delivery.pidao.dao.UserDAO;
+import br.com.delivery.pidao.entities.*;
 import br.com.delivery.pidao.entities.dto.*;
 import br.com.delivery.pidao.repositories.ItemRepository;
+import br.com.delivery.pidao.repositories.MenuRepository;
 import lombok.NoArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
-@NoArgsConstructor
+@RequiredArgsConstructor
 public class ItemService {
+
+    private CategoryService categoryService;
+
+    private MenuService menuService;
 
     private CategoryDAO categoryDAO;
 
     private ItemDAO itemDAO;
 
+    private UserDAO userDAO;
+
     private ItemRepository itemRepository;
 
-    private Category getCategoryFromRestaurant(Long idMenu, String details){
-        Optional<Category> category = categoryDAO.isPresent(details, idMenu);
-        if (category.isPresent()) {
-            return category.get();
-        }
-        throw new RuntimeException("Categoria não existente!");
-    }
-
-    public ItemDTO addItem(final ItemDTO itemDTO, final Restaurant restaurant){
+    public ItemDTO addItem(final ItemDTO itemDTO,UserDTO userDTO){
+        Restaurant restaurant = getRestaurantIfTheUserIsAManagerFromUserDTO(userDTO);
         Optional<Item> item = itemDAO.getItemFromItemDTO(itemDTO);
         if(item.isPresent()){
             throw new RuntimeException("Item já existente!");
         }else{
             Item newItem = itemDTO.dtoToEntity();
             Long idMenu = restaurant.getMenu().getId();
-            Category category = getCategoryFromRestaurant(idMenu,itemDTO.getCategoryDetails());
+            Category category = categoryDAO.getCategory(idMenu,itemDTO.getCategoryDetails());
             newItem.setCategory(category);
             itemRepository.save(newItem);
             return itemDTO;
         }
     }
 
-    public ItemDTO updateItem(final ItemDTO itemDTO, final Restaurant restaurant){
+    public ItemDTO updateItem(final ItemDTO itemDTO, UserDTO userDTO){
+        Restaurant restaurant = getRestaurantIfTheUserIsAManagerFromUserDTO(userDTO);
         Optional<Item> item = itemDAO.getItemFromItemDTO(itemDTO);
         if(item.isPresent()){
             Item newItem = item.get();
             Long idMenu = restaurant.getMenu().getId();
-            Category category = getCategoryFromRestaurant(idMenu,itemDTO.getCategoryDetails());
+            Category category = categoryDAO.getCategory(idMenu,itemDTO.getCategoryDetails());
             newItem.setCategory(category);
 
             if(!Objects.equals(itemDTO.getName(),null))
@@ -71,8 +75,11 @@ public class ItemService {
     }
 
 
-    public Boolean deleteItem(ItemDescriptionDTO itemDescriptionDTO,String details,Long idMenu){
-        Category category = getCategoryFromRestaurant(idMenu,details);
+    public Boolean deleteItem(UserDTO userDTO,ItemDescriptionDTO itemDescriptionDTO,String menuIdentifier){
+        Long idMenu = menuService.getIdMenuFromIdentifier(menuIdentifier);
+
+        getRestaurantIfTheUserIsAManagerFromUserDTO(userDTO);
+        Category category = categoryDAO.getCategory(idMenu, itemDescriptionDTO.getDetailsCategory());
         Optional<Item> item = itemDAO.getItemFromItemDescriptionDTOAndCategory(itemDescriptionDTO,category);
 
         if(item.isPresent()){
@@ -83,8 +90,48 @@ public class ItemService {
         }
     }
 
-//
-//    public Long addRating(Long rating, Client client) {
-//
-//    }
+    private Restaurant getRestaurantIfTheUserIsAManagerFromUserDTO(UserDTO userDTO) {
+        Optional<Manager> manager = userDAO.isManager(userDTO);
+
+        if (manager.isPresent()) {
+            Restaurant managerRestaurant = manager.get().getRestaurantManager();
+            if (!Objects.equals(managerRestaurant, null)) {
+                return managerRestaurant;
+            }
+            throw new RuntimeException("Restaurante inválido!");
+        }
+        throw new RuntimeException("Acesso não autorizado");
+    }
+
+    public List<ItemDTO> getItensFromMenuIdentifier(String menuIdentifier) {
+        Menu menu = menuService.getMenu(menuIdentifier);
+        Restaurant restaurant = menuService.getRestaurantFromIdentifier(menuIdentifier);
+        List<Category> categories = menu.getCategoryMenu().stream().map( category ->
+                categoryDAO.getCategory(menu.getId(),category.getDetails())).collect(Collectors.toList());
+
+         List<List<Item>> itemsListsFromCategories = categories.stream().map( category -> { return category.getItems(); }).collect(Collectors.toList());
+
+         List<ItemDTO> itemsDTO = new ArrayList<>();
+
+         for(List<Item> itemList : itemsListsFromCategories){
+             List<ItemDTO> items = itemList.stream().map(item -> {
+                 return item.entityToDTO();
+             }).collect(Collectors.toList());
+             itemsDTO.addAll(items);
+         }
+
+         return itemsDTO;
+    }
+
+    public List<ItemDTO> getItensFromCategoryIdentifier(String categoryIdentifier) {
+        Category category = categoryDAO.getCategoryByIdentifier(categoryIdentifier);
+
+        List<ItemDTO> itemsDTO = category.getItems().stream().map(item -> {
+                return item.entityToDTO();
+            }
+        ).collect(Collectors.toList());
+
+        return itemsDTO;
+    }
+
 }

@@ -3,9 +3,11 @@ package br.com.delivery.pidao.entities.dto;
 
 import br.com.delivery.pidao.entities.Item;
 import lombok.Getter;
+import lombok.Setter;
 
 
 @Getter
+@Setter
 public class ItemDTO {
 
     private String name;
