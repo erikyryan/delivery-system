@@ -2,13 +2,11 @@ package br.com.delivery.pidao.entities;
 
 
 import br.com.delivery.pidao.entities.dto.ItemDTO;
-import br.com.delivery.pidao.enums.Rating;
+
 import com.sun.istack.NotNull;
 import com.sun.istack.Nullable;
 import lombok.Data;
-import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 
 import javax.persistence.*;
 import java.util.List;

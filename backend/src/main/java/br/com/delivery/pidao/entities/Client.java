@@ -1,7 +1,7 @@
 package br.com.delivery.pidao.entities;
 
-import br.com.delivery.pidao.enums.Rating;
 import com.sun.istack.NotNull;
+
 import lombok.Getter;
 import lombok.Setter;
 

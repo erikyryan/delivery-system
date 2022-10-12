@@ -15,6 +15,4 @@ public interface ClientRepository extends JpaRepository<Client, Long> {
 
     Optional<Client> findEmail(String email);
 
-    Optional<Client> findSocialSecurity(String socialSecurity);
-
 }
