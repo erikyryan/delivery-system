@@ -3,11 +3,12 @@ package br.com.delivery.pidao.entities;
 import lombok.Data;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.List;
 
 @Data
 @Entity
-public class Restaurant {
+public class Restaurant implements Serializable {
 
     @Id
     private Long id;

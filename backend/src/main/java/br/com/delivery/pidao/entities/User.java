@@ -1,10 +1,10 @@
 package br.com.delivery.pidao.entities;
 
+import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 
-@Getter
-@Setter
+@Data
 public abstract class User {
     private String email;
     private String password;

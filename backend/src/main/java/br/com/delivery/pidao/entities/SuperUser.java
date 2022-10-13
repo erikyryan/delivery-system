@@ -5,9 +5,12 @@ import com.sun.istack.NotNull;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.IdClass;
+import java.io.Serializable;
 
 @Entity
-public class SuperUser {
+@IdClass(SuperUser.class)
+public class SuperUser implements Serializable {
 
     @Id
     private Long id;

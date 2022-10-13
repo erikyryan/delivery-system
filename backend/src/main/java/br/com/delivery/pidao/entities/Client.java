@@ -21,8 +21,8 @@ public class Client extends User {
     @OneToOne
     private Adress AdressClient;
 
-    @OneToMany
-    private List<Rating> ratings;
+//    @OneToMany
+//    private List<Rating> ratings;
 
     @OneToMany
     private List<Order> OrderClient;

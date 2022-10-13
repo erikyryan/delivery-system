@@ -5,25 +5,25 @@ import com.sun.istack.Nullable;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.RequiredArgsConstructor;
 
 import javax.persistence.*;
+import java.io.Serializable;
 
 @Data
 @Entity
-@NoArgsConstructor
-@AllArgsConstructor
-public class Rating {
+@RequiredArgsConstructor
+public class Rating implements Serializable {
 
     @Id
-    @NotNull
+    private Long id;
+
     @ManyToOne
     private Item item;
 
     @Nullable
     private Long rating;
 
-    @Id
-    @NotNull
     @ManyToOne
     private Client client;
 

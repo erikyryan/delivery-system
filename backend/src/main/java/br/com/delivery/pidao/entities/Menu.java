@@ -1,19 +1,18 @@
 package br.com.delivery.pidao.entities;
 
 
-import lombok.Data;
-import lombok.Getter;
-import lombok.RequiredArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.List;
 import java.util.UUID;
 
+@Data
 @Entity
-@Getter
-@RequiredArgsConstructor
-public class Menu {
+@NoArgsConstructor
+@IdClass(Menu.class)
+public class Menu implements Serializable {
 
     @Id
     private long Id;
@@ -24,7 +23,7 @@ public class Menu {
     @OneToOne
     private Restaurant restaurant;
 
-    @OneToMany
+    @OneToMany(mappedBy = "idCategory",cascade=CascadeType.ALL)
     private List<Category> CategoryMenu;
 
 }
