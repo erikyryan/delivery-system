@@ -11,4 +11,5 @@ public interface ItemRepository extends JpaRepository<Item, Long> {
 
     Optional<Item> findByNameAndDescriptionAndCategory(String name, String description, String details);
 
+    Optional<Item> findByItemIdentifier(String itemIdentifier);
 }

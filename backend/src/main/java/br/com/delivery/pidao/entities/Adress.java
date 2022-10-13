@@ -1,26 +1,15 @@
 package br.com.delivery.pidao.entities;
 
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import javax.persistence.*;
+import java.io.Serializable;
 
-@Getter
-@Setter
+@Data
 @Entity
-@NoArgsConstructor
-public class Adress {
-
-    public Adress(String publicPlace, String number, String zipCode, String neighborhood, String state, String city, String details) {
-        publicPlace = publicPlace;
-        number = number;
-        zipCode = zipCode;
-        neighborhood = neighborhood;
-        state = state;
-        city = city;
-        details = details;
-    }
+@IdClass(Adress.class)
+@RequiredArgsConstructor
+public class Adress implements Serializable {
 
     @Id
     private long id;
@@ -36,6 +25,7 @@ public class Adress {
 
     @OneToOne
     private Client ClientAdress;
+
     @OneToOne
     private Restaurant RestaurantAdress;
 

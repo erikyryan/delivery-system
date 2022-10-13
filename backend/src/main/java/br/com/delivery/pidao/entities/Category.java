@@ -2,20 +2,21 @@ package br.com.delivery.pidao.entities;
 
 import com.sun.istack.NotNull;
 import com.sun.istack.Nullable;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.List;
 import java.util.UUID;
 
-@Getter
-@Setter
+@Data
 @Entity
-public class Category {
+@NoArgsConstructor
+@IdClass(Category.class)
+public class Category implements Serializable {
 
     @Id
-    private long Id;
+    private long id;
 
     @Column(name = "categoryidentifier")
     private String categoryIdentifier = UUID.randomUUID().toString();
@@ -27,8 +28,9 @@ public class Category {
     @OneToMany
     private List<Item> items;
 
+    @MapsId
     @NotNull
-    @ManyToOne
-    @JoinColumn(name = "idmenu",referencedColumnName = "id")
-    private Menu idMenu;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "idMenu",referencedColumnName = "id")
+    private Menu menu;
 }

@@ -68,4 +68,13 @@ public class ItemController {
         }
     }
 
+    @GetMapping("{itemIdentifier}")
+    public ResponseEntity<?> findItemByIdentifier(@PathVariable String itemIdentifier){
+        try{
+            return ResponseEntity.ok(itemService.getItemByIdentifier(itemIdentifier));
+        }catch (Exception e){
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+    }
+
 }

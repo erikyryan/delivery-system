@@ -130,4 +130,12 @@ public class ItemService {
         return itemsDTO;
     }
 
+    public  Item getItemByIdentifier(String itemIdentifier){
+        Optional<Item> item = itemRepository.findByItemIdentifier(itemIdentifier);
+        if(item.isPresent()){
+            return item.get();
+        }
+        throw new RuntimeException("Item inválido");
+    }
+
 }
