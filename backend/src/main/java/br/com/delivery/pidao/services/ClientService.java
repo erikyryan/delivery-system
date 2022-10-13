@@ -14,7 +14,7 @@ import br.com.delivery.pidao.entities.*;
 import br.com.delivery.pidao.enums.*;
 import br.com.delivery.pidao.repositories.*;
 @Service
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class ClientService {
     
     private UserDAO userDAO;
