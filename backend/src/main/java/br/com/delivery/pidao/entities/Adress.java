@@ -23,11 +23,9 @@ public class Adress implements Serializable {
     private String details;
 
 
-    @OneToOne
-    private Client ClientAdress;
+    private Long ClientAdress;
 
-    @OneToOne
-    private Restaurant RestaurantAdress;
+    private Long RestaurantAdress;
 
 
 }

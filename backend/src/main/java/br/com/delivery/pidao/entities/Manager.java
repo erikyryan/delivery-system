@@ -1,8 +1,7 @@
 package br.com.delivery.pidao.entities;
 
 import com.sun.istack.NotNull;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
@@ -10,8 +9,7 @@ import javax.persistence.ManyToOne;
 import java.io.Serializable;
 
 
-@Getter
-@Setter
+@Data
 @Entity
 public class Manager extends User implements Serializable {
 
@@ -20,7 +18,6 @@ public class Manager extends User implements Serializable {
 
     private String Department;
 
-    @NotNull
     @ManyToOne
     private Restaurant RestaurantManager;
 }

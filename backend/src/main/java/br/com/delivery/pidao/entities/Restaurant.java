@@ -13,8 +13,7 @@ public class Restaurant implements Serializable {
     @Id
     private Long id;
 
-    @OneToOne
-    private Adress adressRestaurant;
+    private Long adressRestaurant;
 
     @OneToOne
     @JoinColumn(referencedColumnName = "id")

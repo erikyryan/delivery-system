@@ -20,7 +20,6 @@ import java.util.UUID;
 @NoArgsConstructor
 @AllArgsConstructor
 @RequiredArgsConstructor
-@IdClass(Item.class)
 public class Item implements Serializable {
 
     @Id
@@ -33,7 +32,6 @@ public class Item implements Serializable {
     @NotNull
     private String name;
 
-//    @Nullable
 //    @OneToMany
 //    private List<Rating> ratings;
 
