@@ -5,6 +5,7 @@ import br.com.delivery.pidao.entities.dto.ItemDTO;
 
 import com.sun.istack.NotNull;
 import com.sun.istack.Nullable;
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
@@ -17,6 +18,8 @@ import java.util.UUID;
 @Data
 @Entity
 @NoArgsConstructor
+@AllArgsConstructor
+@RequiredArgsConstructor
 @IdClass(Item.class)
 public class Item implements Serializable {
 
@@ -40,10 +43,7 @@ public class Item implements Serializable {
     @Nullable
     private String description;
 
-    @Id
-    @NotNull
     @ManyToOne
-    @JoinColumn(name="category", referencedColumnName = "details")
     private Category category;
 
     public ItemDTO entityToDTO(){
