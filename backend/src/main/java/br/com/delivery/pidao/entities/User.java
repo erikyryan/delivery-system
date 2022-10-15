@@ -1,11 +1,12 @@
 package br.com.delivery.pidao.entities;
 
 import lombok.Data;
-import lombok.Getter;
-import lombok.Setter;
+
+import javax.persistence.MappedSuperclass;
 
 @Data
-public abstract class User {
+@MappedSuperclass
+public class User {
     private String email;
     private String password;
     private String date;

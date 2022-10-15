@@ -10,12 +10,13 @@ import java.util.UUID;
 
 @Data
 @Entity
-@NoArgsConstructor
-@IdClass(Menu.class)
+@RequiredArgsConstructor
 public class Menu implements Serializable {
 
+
+
     @Id
-    private long Id;
+    private long id;
 
     @Column(name = "menuidentifier")
     private String menuIdentifier = UUID.randomUUID().toString();
@@ -23,7 +24,7 @@ public class Menu implements Serializable {
     @OneToOne
     private Restaurant restaurant;
 
-    @OneToMany(mappedBy = "idCategory",cascade=CascadeType.ALL)
-    private List<Category> CategoryMenu;
+    @OneToMany
+    private List<Category> categoryMenu;
 
 }

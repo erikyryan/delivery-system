@@ -2,12 +2,12 @@ package br.com.delivery.pidao.entities.dto;
 
 
 import br.com.delivery.pidao.entities.Item;
+import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 
 
-@Getter
-@Setter
+@Data
 public class ItemDTO {
 
     private String name;

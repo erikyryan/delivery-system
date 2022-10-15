@@ -29,8 +29,8 @@ public class ClientDAO {
     }
 
     public boolean checkEmailExist(ClientDTO clientDTO){
-        Optional<Manager> manager = managerRepository.findEmail(clientDTO.getEmail());
-        Optional<Client> client = clientRepository.findEmail(clientDTO.getEmail());
+        Optional<Manager> manager = managerRepository.findByEmail(clientDTO.getEmail());
+        Optional<Client> client = clientRepository.findByEmail(clientDTO.getEmail());
         Optional<Delivery> deliveryman = deliveryRepository.findEmail(clientDTO.getEmail());
         if(manager.isPresent()){
             return true;

@@ -11,11 +11,11 @@ import java.util.UUID;
 
 @Data
 @Entity
-@NoArgsConstructor
-@IdClass(Category.class)
+@RequiredArgsConstructor
 public class Category implements Serializable {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
     @Column(name = "categoryidentifier")
@@ -24,13 +24,9 @@ public class Category implements Serializable {
     @NotNull
     private String details;
 
-    @Nullable
     @OneToMany
     private List<Item> items;
 
-    @MapsId
-    @NotNull
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "idMenu",referencedColumnName = "id")
+    @ManyToOne
     private Menu menu;
 }
