@@ -18,13 +18,13 @@ public class Rating implements Serializable {
     @Id
     private Long id;
 
-    @ManyToOne
-    private Item item;
+//    @ManyToOne
+//    private Item item;
 
     @Nullable
     private Long rating;
 
-    @ManyToOne
-    private Client client;
+//    @ManyToOne
+//    private Cl ient client;
 
 }

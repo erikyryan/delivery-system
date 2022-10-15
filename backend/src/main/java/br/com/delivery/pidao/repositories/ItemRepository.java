@@ -9,10 +9,11 @@ import org.springframework.stereotype.Repository;
 import java.util.Optional;
 
 @Repository
-public interface ItemRepository extends CrudRepository<Item, Long> {
+public interface ItemRepository extends JpaRepository<Item, Long> {
 
     @Query("SELECT i FROM Item i WHERE i.name = :name and i.description = :description and i.category.details = :details")
     Optional<Item> findByNameAndDescriptionAndCategory(String name, String description, String details);
 
+    @Query("SELECT i FROM Item i WHERE i.itemIdentifier = :itemIdentifier")
     Optional<Item> findByItemIdentifier(String itemIdentifier);
 }

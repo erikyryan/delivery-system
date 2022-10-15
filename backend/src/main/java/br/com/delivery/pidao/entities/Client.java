@@ -17,15 +17,12 @@ public class Client extends User {
     @NotNull
     private Long id;
 
-    @NotNull
-    @OneToOne
-    private Adress AdressClient;
-
-//    @OneToMany
-//    private List<Rating> ratings;
+    private Long AdressClient;
 
     @OneToMany
-    private List<Order> OrderClient;
+    private List<ClientOrder> OrderClient;
 
+//    @OneToMany
+//    private List<Rating> rating;
 
 }

@@ -19,6 +19,7 @@ public class ClientDTO {
     private String cellphone;
     private Adress adressClient;
 
+    //TODO: Resgatar o endereço a partir de um ID ou um IDENTIFIER
     public Client dtoToEntity(){
         Client client = new Client();
         client.setName(name);
@@ -27,7 +28,7 @@ public class ClientDTO {
         client.setSocialsSecurity(socialsSecurity);
         client.setCellphone(cellphone);
         client.setDate(date);
-        client.setAdressClient(adressClient);
+        //client.setAdressClient(adressClient);
         return client;
     }
 }

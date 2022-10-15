@@ -19,4 +19,5 @@ public interface ManagerRepository extends JpaRepository <Manager, Long> {
     @Query("SELECT m FROM Manager m WHERE m.socialsSecurity = :socialSecurity")
     Optional<Manager> findBySocialSecurity(String socialSecurity);
 
+    Optional<Manager> findByUserIdentifier(String userIdentifier);
 }
