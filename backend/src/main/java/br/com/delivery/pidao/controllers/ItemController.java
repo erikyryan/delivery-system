@@ -1,20 +1,13 @@
 package br.com.delivery.pidao.controllers;
 
-import br.com.delivery.pidao.dao.UserDAO;
-import br.com.delivery.pidao.entities.Manager;
-import br.com.delivery.pidao.entities.Restaurant;
 import br.com.delivery.pidao.entities.dto.ItemDTO;
 import br.com.delivery.pidao.entities.dto.ItemDescriptionDTO;
 import br.com.delivery.pidao.entities.dto.UserDTO;
 import br.com.delivery.pidao.services.ItemService;
 import br.com.delivery.pidao.services.SessionService;
-import br.com.delivery.pidao.services.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.Objects;
-import java.util.Optional;
 
 
 @RestController
