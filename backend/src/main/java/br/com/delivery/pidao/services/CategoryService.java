@@ -10,6 +10,7 @@ import br.com.delivery.pidao.repositories.MenuRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.Objects;
 import java.util.Optional;
 
 @Service
@@ -22,23 +23,63 @@ public class CategoryService {
 
     private ItemService itemService;
 
-    public CategoryDTO addCategory(CategoryDTO categoryDTO, UserDTO userDTO) {
-
-        itemService.getRestaurantIfTheUserIsAManagerFromUserDTO(userDTO);
+    public String addCategory(CategoryDTO categoryDTO) {
         Optional<Menu> menu = menuRepository.findByMenuIdentifier(categoryDTO.getMenuIdentifier());
-        if(!menu.isPresent()){
+        if (!menu.isPresent()) {
             throw new RuntimeException("Menu não encontrado!");
         }
 
         Optional<Category> category = categoryRepository.findByDetailsAndIdmenu(categoryDTO.getDetails(), menu.get().getId());
 
-        if(category.isPresent()){
+        if (category.isPresent()) {
             throw new RuntimeException("Categoria já existente!");
         }
 
-        categoryRepository.save(category.get());
-        return new CategoryDTO(category.get().getDetails(),
-                category.get().getMenu().getMenuIdentifier());
-
+        Category categorySaved = categoryRepository.save(new Category(categoryDTO.getDetails(),menu.get()));
+        return categorySaved.getCategoryIdentifier();
     }
+
+    public String updateCategory(CategoryDTO categoryDTO) {
+        Optional<Menu> menu = menuRepository.findByMenuIdentifier(categoryDTO.getMenuIdentifier());
+        if (!menu.isPresent()) {
+            throw new RuntimeException("Menu não encontrado!");
+        }
+
+        Optional<Category> category = categoryRepository.findByDetailsAndIdmenu(categoryDTO.getDetails(), menu.get().getId());
+
+        if (!category.isPresent()) {
+            throw new RuntimeException("Categoria não existente!");
+        }
+
+        if(categoryDTO.getDetails().isBlank()){
+            throw new RuntimeException("Details inválido!");
+        }
+
+        category.get().setDetails(categoryDTO.getDetails());
+        categoryRepository.save(category.get());
+        return category.get().getCategoryIdentifier();
+    }
+
+    public CategoryDTO findByIdentifier(String categoryIdentifier) {
+        Optional<Category> category = categoryRepository.findByCategoryIdentifier(categoryIdentifier);
+        if (!category.isPresent()) {
+            throw new RuntimeException("Categoria não existente!");
+        }
+
+        CategoryDTO categoryDTO = new CategoryDTO(category.get().getDetails(), category.get().getMenu().getMenuIdentifier());
+
+        return categoryDTO;
+    }
+
+    public Boolean deleteCategory(String categoryIdentifier) {
+        Optional<Category> category = categoryRepository.findByCategoryIdentifier(categoryIdentifier);
+        if (!category.isPresent()) {
+            throw new RuntimeException("Categoria não existente!");
+        }
+
+        categoryRepository.delete(category.get());
+        return true;
+    }
+
+
 }
