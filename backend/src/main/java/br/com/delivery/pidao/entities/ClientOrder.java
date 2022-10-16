@@ -1,7 +1,7 @@
 package br.com.delivery.pidao.entities;
 
 import br.com.delivery.pidao.enums.OrderStatus;
-import lombok.Data;
+import lombok.*;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
@@ -10,6 +10,8 @@ import java.io.Serializable;
 
 @Data
 @Entity
+@AllArgsConstructor
+@NoArgsConstructor
 public class ClientOrder implements Serializable {
 
     @Id

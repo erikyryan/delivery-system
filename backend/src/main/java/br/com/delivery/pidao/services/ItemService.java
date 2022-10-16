@@ -30,6 +30,9 @@ public class ItemService {
 
     private ItemRepository itemRepository;
 
+
+    // RESTAURANTE -> MENU -> CATEGORIAS -> ITENS
+
     public ItemDTO addItem(final ItemDTO itemDTO, UserDTO userDTO){
         Restaurant restaurant = getRestaurantIfTheUserIsAManagerFromUserDTO(userDTO);
         Optional<Item> item = itemDAO.getItemFromItemDTO(itemDTO);

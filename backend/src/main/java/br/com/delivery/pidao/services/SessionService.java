@@ -31,7 +31,7 @@ public class SessionService {
         LoginSession session = this.findSessionByToken(token);
         Date expirationDate = session.getExpirationDate();
         if (new Date().after(expirationDate)) {
-            throw new RuntimeException("Sessão expirou.");
+            throw new RuntimeException("Sessão expirou!");
         }
     }
 
