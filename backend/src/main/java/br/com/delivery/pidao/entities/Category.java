@@ -24,7 +24,7 @@ public class Category implements Serializable {
     @NotNull
     private String details;
 
-    @OneToMany
+    @OneToMany(fetch=FetchType.LAZY, mappedBy="category")
     private List<Item> items;
 
     @ManyToOne

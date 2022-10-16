@@ -13,8 +13,6 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class Menu implements Serializable {
 
-
-
     @Id
     private long id;
 
