@@ -86,7 +86,7 @@ public class ItemService {
         }
     }
 
-    private Restaurant getRestaurantIfTheUserIsAManagerFromUserDTO(UserDTO userDTO) {
+    Restaurant getRestaurantIfTheUserIsAManagerFromUserDTO(UserDTO userDTO) {
         Optional<Manager> manager = userDAO.isManager(userDTO);
 
         if (manager.isPresent()) {

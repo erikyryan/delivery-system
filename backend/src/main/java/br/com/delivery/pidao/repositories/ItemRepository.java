@@ -11,7 +11,7 @@ import java.util.Optional;
 @Repository
 public interface ItemRepository extends JpaRepository<Item, Long> {
 
-    @Query("SELECT i FROM Item i WHERE i.name = :name and i.description = :description and i.category.details = :details")
+    @Query("SELECT i FROM Item i JOIN i.category c WHERE i.name = :name and i.description = :description and c.details  = :details")
     Optional<Item> findByNameAndDescriptionAndCategory(String name, String description, String details);
 
     @Query("SELECT i FROM Item i WHERE i.itemIdentifier = :itemIdentifier")
