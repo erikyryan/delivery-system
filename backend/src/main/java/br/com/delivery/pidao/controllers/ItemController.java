@@ -54,7 +54,8 @@ public class ItemController {
         try{
             sessionService.validateToken(token);
             UserDTO userDTO = sessionService.findUserDTOByToken(token);
-            return ResponseEntity.ok(itemService.deleteItem(userDTO,itemDescriptionDTO,menuIdentifier));
+            itemService.deleteItem(userDTO,itemDescriptionDTO,menuIdentifier);
+            return ResponseEntity.ok().build();
         }catch (Exception e){
             return ResponseEntity.badRequest().body(e.getMessage());
         }

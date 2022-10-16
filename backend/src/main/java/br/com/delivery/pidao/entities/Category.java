@@ -29,4 +29,9 @@ public class Category implements Serializable {
 
     @ManyToOne
     private Menu menu;
+
+    public Category(String details, Menu menu) {
+        this.details = details;
+        this.menu = menu;
+    }
 }

@@ -15,5 +15,6 @@ public interface CategoryRepository extends JpaRepository<Category, Long> {
 
     Optional<Category> findByDetails(String details);
 
+    @Query("SELECT c FROM Category c WHERE c.categoryIdentifier = :identifier")
     Optional<Category> findByCategoryIdentifier(String identifier);
 }
