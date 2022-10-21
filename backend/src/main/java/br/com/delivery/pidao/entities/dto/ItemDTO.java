@@ -16,6 +16,8 @@ public class ItemDTO {
 
     private String description;
 
+    private String categoryIdentifier;
+
     private String categoryDetails;
 
     public Item dtoToEntity(){
