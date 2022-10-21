@@ -4,13 +4,11 @@ package br.com.delivery.pidao.services;
 import br.com.delivery.pidao.entities.Category;
 import br.com.delivery.pidao.entities.Menu;
 import br.com.delivery.pidao.entities.dto.CategoryDTO;
-import br.com.delivery.pidao.entities.dto.UserDTO;
 import br.com.delivery.pidao.repositories.CategoryRepository;
 import br.com.delivery.pidao.repositories.MenuRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.util.Objects;
 import java.util.Optional;
 
 @Service
@@ -81,5 +79,17 @@ public class CategoryService {
         return true;
     }
 
+    Category getCategoryByIdentifier(String categoryIdentifier){
+        Optional<Category> category = categoryRepository.findByCategoryIdentifier(categoryIdentifier);
 
+        if (category.isPresent()) {
+            return category.get();
+        }
+        throw new RuntimeException("Categoria não existente!");
+    }
+
+    public Category isPresent(String details){
+        Optional<Category> category = categoryRepository.findByDetails(details);
+        return category.isPresent() ? category.get() : null;
+    }
 }
