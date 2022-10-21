@@ -30,5 +30,4 @@ public class Restaurant implements Serializable {
 
     private String cellphone;
 
-
 }
