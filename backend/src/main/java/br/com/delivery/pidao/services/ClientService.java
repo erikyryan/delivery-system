@@ -23,72 +23,100 @@ public class ClientService {
 
     private ClientRepository clientRepository;
 
+    private ManagerRepository managerRepository;
+
+    private DeliveryRepository deliveryRepository;
+
+    private SessionService sessionService;
+
     public ClientService( ClientRepository clientRepository, UserDAO userDAO) {
         this.clientRepository = clientRepository;
         this.userDAO = userDAO;
     }
+  
+    private Manager validateLoginManager(UserDTO userDTO) {
+        Optional<Manager> manegerLogin = managerRepository.findByEmail(userDTO.getEmail());
+		if (!managerRepository.findByEmail(userDTO.getEmail()).isPresent()) {
+			throw new RuntimeException("Usuário administrador não encontrado");
+		}
+        Manager login = manegerLogin.get();
 
-    private User checkUserExist(String socialSecurity){
-        Optional<Client> user = userDAO.IsPresent(socialSecurity);   
-        if(user.isPresent()){
-            return user.get();
+        if(!userDTO.getPassword().equals(login.getPassword())){
+            throw new RuntimeException("Senha inválida");
         }
-        throw new RuntimeException("Usuario não existe");
+
+        return login;
+	}
+
+    private void validateLoginClient(UserDTO userDTO){
+        Optional <Client> clientLogin = clientRepository.findByEmail(userDTO.getEmail());
+        if(!clientLogin.isPresent()){
+            throw new RuntimeException("E-mail inválido");
+        }
+        User login = clientLogin.get();
+        
+        if(!userDTO.getPassword().equals(login.getPassword())){
+            throw new RuntimeException("Senha inválida");
+        } 
     }
 
-    private int checkTypeLogin(final UserDTO userDTO){
-        Optional<Manager> userManeger = userDAO.isManager(userDTO);
-        Optional<Client> userCustomer = userDAO.isClient(userDTO);
-        boolean userDelivery = userDAO.isDeliveryman(userDTO);
-        int result;
-        if(userCustomer.isPresent()){
-            result = ClientType.CUSTOMER.ordinal();
+    private void validateLoginDelivery(UserDTO userDTO){
+        Optional <Delivery> deliveryLogin = deliveryRepository.findEmail(userDTO.getEmail());
+        if(!deliveryLogin.isPresent()){
+            throw new RuntimeException("E-mail inválido");
         }
-        else if(userManeger.isPresent()){
-            result = ClientType.MANAGER.ordinal();
-        }
-        else if(userDelivery == true){
-            result = ClientType.DELIVERYMAN.ordinal();
-        }else{
-            throw new RuntimeException("Usuario incorreto!");
-        }
-        return result;
+        User login = deliveryLogin.get();
+        
+        if(!userDTO.getPassword().equals(login.getPassword())){
+            throw new RuntimeException("Senha inválida");
+        } 
     }
 
-    public User loginUser(final UserDTO userDTO, final User user){
-        //retornar o token -> de acordo com o usuario 
-        //retornar o refresh token 
-        // retorna o nome do usuario
-        checkUserExist(user.getSocialsSecurity());
-        int result = checkTypeLogin(userDTO);
-        if(result == ClientType.CUSTOMER.ordinal()){
-            //tela de login do comprador
-        }else if(result == ClientType.MANAGER.ordinal()){
-            //tela de login do gerente
-        }else if(result == ClientType.DELIVERYMAN.ordinal()){
-            //tela de login do entregador 
-        }
-        return user;  
-    }
-
-    private void checkEmailExist(ClientDTO clientDTO){
-        boolean emailExist = clientDAO.checkEmailExist(clientDTO);
-        if(emailExist == true){
-            throw new RuntimeException("Email já cadastrado!");
-        }
-    }
-
-
-    public ClientDTO addUser(final ClientDTO clientDTO){
+    public ClientDTO addUserClient(final ClientDTO clientDTO){
         Optional<Client> client = clientDAO.getClientFromClientDTO(clientDTO);
-        if(client.isPresent()){
-            throw new RuntimeException("Usuário já cadastrado");
-        }else{
-            checkEmailExist(clientDTO);
+        if(!client.isPresent()){
             Client newClient = clientDTO.dtoToEntity();
             clientRepository.save(newClient);
             return clientDTO;
+        }else{
+            throw new RuntimeException("Usuário já cadastrado");
+
         }
     }
+
+    public ManagerDTO addUserManager(final UserDTO userDTO, final ManagerDTO managerDTO){
+        Optional<Manager> manager = userDAO.isManager(userDTO);
+        if(!manager.isPresent()){
+            Manager newmanager = managerDTO.dtoToEntity();
+            managerRepository.save(newmanager);
+            return managerDTO;
+        }else{
+            throw new RuntimeException("Gerente já cadastrado");
+
+        }
+    }
+
+
+    public String loginUser(UserDTO userDTO, User user) {
+        int typeUser = userDAO.typeUser(userDTO.getEmail());
+        if(typeUser == 0){
+            validateLoginClient(userDTO);
+        }else if(typeUser == 1){
+            validateLoginManager(userDTO);
+        }else if(typeUser == 2){
+            validateLoginDelivery(userDTO);
+        }
+
+        return sessionService.generateSession(user);  
+   }
+
+   public LoginSession logoutUser(String token) {
+       try {
+           LoginSession session = sessionService.logout(token);
+           return session;
+       } catch (Exception e) {
+           throw new RuntimeException(e.getMessage());
+       }
+   }
 
 }

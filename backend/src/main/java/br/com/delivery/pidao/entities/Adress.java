@@ -22,10 +22,7 @@ public class Adress implements Serializable {
     private String city;
     private String details;
 
-
     private Long ClientAdress;
 
     private Long RestaurantAdress;
-
-
 }
