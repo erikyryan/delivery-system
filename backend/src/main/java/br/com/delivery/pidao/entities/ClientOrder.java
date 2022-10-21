@@ -1,5 +1,6 @@
 package br.com.delivery.pidao.entities;
 
+import br.com.delivery.pidao.entities.dto.OrderDTO;
 import br.com.delivery.pidao.enums.OrderStatus;
 import lombok.*;
 
@@ -7,6 +8,7 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import java.io.Serializable;
+import java.util.UUID;
 
 @Data
 @Entity
@@ -15,14 +17,28 @@ import java.io.Serializable;
 public class ClientOrder implements Serializable {
 
     @Id
-    private long Id;
+    private long id;
 
-    private String Name;
-    private String Value;
-    private OrderStatus Status;
-    private String Comment;
+    private String clientOrderIdentifier = UUID.randomUUID().toString();
+
+    private String name;
+    private String value;
+    private OrderStatus status;
+    private String comment;
 
     @ManyToOne
-    private Client ClientOrder;
+    private Client client;
+
+    public OrderDTO orderToDto() {
+
+        OrderDTO orderDTO = new OrderDTO();
+
+        orderDTO.setName(name);
+        orderDTO.setValue(value);
+        orderDTO.setStatus(status);
+        orderDTO.setComment(comment);
+
+        return orderDTO;
+    }
 
 }
