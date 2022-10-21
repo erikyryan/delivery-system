@@ -24,30 +24,33 @@ public class ItemController {
         try{
             sessionService.validateToken(token);
             UserDTO userDTO = sessionService.findUserDTOByToken(token);
-            return ResponseEntity.ok(itemService.addItem(itemDTO,userDTO));
+            itemService.getRestaurantIfTheUserIsAManagerFromUserDTO(userDTO);
+            return ResponseEntity.ok(itemService.addItem(itemDTO));
         }catch (Exception e){
             return ResponseEntity.badRequest().body(e.getMessage());
         }
 
     }
 
-    @PutMapping
-    public ResponseEntity<?> updateItem(@RequestBody ItemDTO itemDTO, @RequestHeader("token") String token){
+    @PutMapping("/{itemIdentifier}")
+    public ResponseEntity<?> updateItem(@PathVariable String itemIdentifier, @RequestHeader("token") String token, @RequestBody ItemDTO itemDTO){
         try{
             sessionService.validateToken(token);
             UserDTO userDTO = sessionService.findUserDTOByToken(token);
-            return ResponseEntity.ok(itemService.updateItem(itemDTO,userDTO));
+            itemService.getRestaurantIfTheUserIsAManagerFromUserDTO(userDTO);
+            return ResponseEntity.ok(itemService.updateItem(itemDTO,itemIdentifier));
         }catch (Exception e){
             return ResponseEntity.badRequest().body(e.getMessage());
         }
     }
 
     @DeleteMapping("/{menuIdentifier}")
-    public ResponseEntity<?> deleteItem(@PathVariable String menuIdentifier,@RequestHeader("token") final String token, @RequestBody ItemDescriptionDTO itemDescriptionDTO){
+    public ResponseEntity<?> deleteItem(@PathVariable String itemIdentifier,@RequestHeader("token") final String token, @RequestBody ItemDescriptionDTO itemDescriptionDTO){
         try{
             sessionService.validateToken(token);
             UserDTO userDTO = sessionService.findUserDTOByToken(token);
-            itemService.deleteItem(userDTO,itemDescriptionDTO,menuIdentifier);
+            itemService.getRestaurantIfTheUserIsAManagerFromUserDTO(userDTO);
+            itemService.deleteItem(itemIdentifier);
             return ResponseEntity.ok().build();
         }catch (Exception e){
             return ResponseEntity.badRequest().body(e.getMessage());

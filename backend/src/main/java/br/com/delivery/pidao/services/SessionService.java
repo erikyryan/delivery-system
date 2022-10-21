@@ -9,7 +9,6 @@ import br.com.delivery.pidao.repositories.ClientRepository;
 import br.com.delivery.pidao.repositories.ManagerRepository;
 import br.com.delivery.pidao.repositories.SessionRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
