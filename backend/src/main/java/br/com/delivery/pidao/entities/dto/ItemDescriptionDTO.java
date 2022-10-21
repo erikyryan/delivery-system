@@ -5,6 +5,8 @@ import lombok.Getter;
 @Getter
 public class ItemDescriptionDTO {
 
+
+
     private String name;
 
     private String description;
