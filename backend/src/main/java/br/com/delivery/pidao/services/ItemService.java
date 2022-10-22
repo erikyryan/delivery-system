@@ -5,10 +5,12 @@ import br.com.delivery.pidao.dao.UserDAO;
 import br.com.delivery.pidao.entities.*;
 import br.com.delivery.pidao.entities.dto.*;
 import br.com.delivery.pidao.exceptions.ItemNotFound;
+import br.com.delivery.pidao.exceptions.RestaurantNotFound;
 import br.com.delivery.pidao.repositories.ItemRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -19,18 +21,18 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class ItemService {
 
-    private MenuService menuService;
-
     private UserService userService;
 
-    private ItemRepository itemRepository;
+    private MenuService menuService;
 
     private CategoryService categoryService;
+
+    private ItemRepository itemRepository;
 
     public ItemDTO addItem(final ItemDTO itemDTO){
         Optional<Item> item = itemRepository.findByNameAndDescriptionAndCategory(itemDTO.getName(), itemDTO.getDescription(), itemDTO.getCategoryDetails());
         if(item.isPresent()){
-            throw new RuntimeException("Item já existente!");
+            throw new IllegalArgumentException("Item já existente");
         }else{
             Item newItem = itemDTO.dtoToEntity();
 
@@ -60,7 +62,7 @@ public class ItemService {
             itemRepository.save(newItem);
             return itemDTO;
         }else{
-            throw new ItemNotFound("Item não existente!");
+            throw new ItemNotFound("Item não existente");
         }
     }
 
@@ -72,11 +74,11 @@ public class ItemService {
             itemRepository.delete(item.get());
             return true;
         }else{
-            throw new RuntimeException("Item não existente!");
+            throw new RuntimeException("Item não existente");
         }
     }
 
-    public Restaurant getRestaurantIfTheUserIsAManagerFromUserDTO(UserDTO userDTO) {
+    public Restaurant getRestaurantIfTheUserIsAManagerFromUserDTO(UserDTO userDTO) throws IOException {
         Optional<Manager> manager = userService.isManager(userDTO);
 
         if (manager.isPresent()) {
@@ -84,40 +86,32 @@ public class ItemService {
             if (!Objects.equals(managerRestaurant, null)) {
                 return managerRestaurant;
             }
-            throw new RuntimeException("Restaurante inválido!");
+            throw new RestaurantNotFound("Restaurante não encontrado");
         }
-        throw new RuntimeException("Acesso não autorizado");
+        throw new IOException("Acesso não autorizado");
     }
 
     public List<ItemDTO> getItensFromMenuIdentifier(String menuIdentifier) {
         Menu menu = menuService.getMenu(menuIdentifier);
-        Restaurant restaurant = menuService.getRestaurantFromIdentifier(menuIdentifier);
-        List<Category> categories = menu.getCategoryMenu().stream().map( category ->
-                categoryService.getCategoryByIdentifier(category.getCategoryIdentifier()))
-                .collect(Collectors.toList());
+        menuService.getRestaurantFromIdentifier(menuIdentifier);
 
-         List<List<Item>> itemsListsFromCategories = categories.stream().map( category -> { return category.getItems(); }).collect(Collectors.toList());
+        List<Category> categories = menu.getCategoryMenu().stream().map(
+                category -> categoryService.getCategoryByIdentifier(category.getCategoryIdentifier())
+                ).collect(Collectors.toList());
 
-         List<ItemDTO> itemsDTO = new ArrayList<>();
-
-         for(List<Item> itemList : itemsListsFromCategories){
-             List<ItemDTO> items = itemList.stream().map(item -> {
-                 return item.entityToDTO();
-             }).collect(Collectors.toList());
-             itemsDTO.addAll(items);
-         }
+        List<ItemDTO> itemsDTO = new ArrayList<>();
+        List<List<Item>> itemsListsFromCategories = categories.stream().map(category ->  category.getItems()).collect(Collectors.toList());
+        for(List<Item> itemList : itemsListsFromCategories){
+            List<ItemDTO> items = itemList.stream().map(item -> item.entityToDTO()).collect(Collectors.toList());
+            itemsDTO.addAll(items);
+        }
 
          return itemsDTO;
     }
 
     public List<ItemDTO> getItensFromCategoryIdentifier(String categoryIdentifier) {
         Category category = categoryService.getCategoryByIdentifier(categoryIdentifier);
-
-        List<ItemDTO> itemsDTO = category.getItems().stream().map(item -> {
-                return item.entityToDTO();
-            }
-        ).collect(Collectors.toList());
-
+        List<ItemDTO> itemsDTO = category.getItems().stream().map(item -> item.entityToDTO()).collect(Collectors.toList());
         return itemsDTO;
     }
 
@@ -126,7 +120,7 @@ public class ItemService {
         if(item.isPresent()){
             return item.get();
         }
-        throw new RuntimeException("Item inválido");
+        throw new ItemNotFound("Item não encontrado");
     }
 
 }
