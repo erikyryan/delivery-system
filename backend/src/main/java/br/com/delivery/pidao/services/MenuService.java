@@ -14,7 +14,7 @@ import java.util.Optional;
 public class MenuService {
 
     private MenuRepository menuRepository;
-    
+
     public Menu getMenu(String menuIdentifier){
         Optional<Menu> menu = menuRepository.findByMenuIdentifier(menuIdentifier);
         if(menu.isPresent()){
@@ -28,9 +28,7 @@ public class MenuService {
         if(menu.isPresent()){
             return menu.get().getRestaurant();
         }
-        throw new MenuNotFound("Menu não encontrado!");
+        throw new MenuNotFound("Menu não encontrado");
     }
-
-
 
 }

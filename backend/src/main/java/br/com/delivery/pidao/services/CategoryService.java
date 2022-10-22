@@ -18,16 +18,16 @@ public class CategoryService {
 
     private MenuService menuService;
 
-    private CategoryRepository categoryRepository;
-
     private ItemService itemService;
+
+    private CategoryRepository categoryRepository;
 
     public String addCategory(CategoryDTO categoryDTO) {
         Menu menu = menuService.getMenu(categoryDTO.getMenuIdentifier());
         Optional<Category> category = categoryRepository.findByDetailsAndIdmenu(categoryDTO.getDetails(), menu.getId());
 
         if (category.isPresent()) {
-            throw new RuntimeException("Categoria já existente!");
+            throw new IllegalArgumentException("Categoria já existente");
         }
 
         Category categorySaved = categoryRepository.save(new Category(categoryDTO.getDetails(),menu));
@@ -40,11 +40,11 @@ public class CategoryService {
         Optional<Category> category = categoryRepository.findByDetailsAndIdmenu(categoryDTO.getDetails(), menu.getId());
 
         if (!category.isPresent()) {
-            throw new CategoryNotFound("Categoria não existente!");
+            throw new CategoryNotFound("Categoria não existente");
         }
 
         if(categoryDTO.getDetails().isBlank()){
-            throw new IllegalArgumentException("Details inválido!");
+            throw new IllegalArgumentException("Details inválido");
         }
 
         category.get().setDetails(categoryDTO.getDetails());
@@ -55,7 +55,7 @@ public class CategoryService {
     public CategoryDTO findByIdentifier(String categoryIdentifier) {
         Optional<Category> category = categoryRepository.findByCategoryIdentifier(categoryIdentifier);
         if (!category.isPresent()) {
-            throw new CategoryNotFound("Categoria não existente!");
+            throw new CategoryNotFound("Categoria não existente");
         }
 
         CategoryDTO categoryDTO = new CategoryDTO(category.get().getDetails(), category.get().getMenu().getMenuIdentifier());
@@ -66,7 +66,7 @@ public class CategoryService {
     public Boolean deleteCategory(String categoryIdentifier) {
         Optional<Category> category = categoryRepository.findByCategoryIdentifier(categoryIdentifier);
         if (!category.isPresent()) {
-            throw new CategoryNotFound("Categoria não existente!");
+            throw new CategoryNotFound("Categoria não existente");
         }
 
         categoryRepository.delete(category.get());
