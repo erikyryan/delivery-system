@@ -1,5 +1,6 @@
 package br.com.delivery.pidao.services;
 
+import br.com.delivery.pidao.dao.UserDAO;
 import br.com.delivery.pidao.entities.Client;
 import br.com.delivery.pidao.entities.LoginSession;
 import br.com.delivery.pidao.entities.Manager;
@@ -22,6 +23,8 @@ public class UserService {
     private ClientRepository clientRepository;
 
     private SessionService loginSessionService;
+
+    private UserDAO userDAO;
 
     public String login(UserDTO userDTO) {
         User currentUser = validateLogin(userDTO);
@@ -62,4 +65,7 @@ public class UserService {
         return user;
     }
 
+    public Optional<Manager> isManager(UserDTO userDTO) {
+        return userDAO.isManager(userDTO);
+    }
 }
