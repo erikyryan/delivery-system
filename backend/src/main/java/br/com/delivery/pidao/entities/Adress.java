@@ -4,6 +4,7 @@ import lombok.*;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.UUID;
 
 @Data
 @Entity
@@ -14,6 +15,8 @@ public class Adress implements Serializable {
     @Id
     private long id;
 
+    private String adressIdentifier = UUID.randomUUID().toString();
+
     private String publicPlace;
     private String number;
     private String zipCode;
@@ -22,7 +25,7 @@ public class Adress implements Serializable {
     private String city;
     private String details;
 
-    private Long ClientAdress;
+    private String clientIdentifier;
 
-    private Long RestaurantAdress;
+    private String restarauntIdentifier;
 }

@@ -17,8 +17,7 @@ public class Client extends User {
     @NotNull
     private Long id;
 
-    @ManyToOne
-    private Long AdressClient;
+    private String adressIdentifier;
 
     @OneToMany
     private List<ClientOrder> OrderClient;
