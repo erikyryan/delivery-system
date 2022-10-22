@@ -4,6 +4,7 @@ package br.com.delivery.pidao.services;
 import br.com.delivery.pidao.dao.UserDAO;
 import br.com.delivery.pidao.entities.*;
 import br.com.delivery.pidao.entities.dto.*;
+import br.com.delivery.pidao.exceptions.ItemNotFound;
 import br.com.delivery.pidao.repositories.ItemRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -59,7 +60,7 @@ public class ItemService {
             itemRepository.save(newItem);
             return itemDTO;
         }else{
-            throw new RuntimeException("Item não existente!");
+            throw new ItemNotFound("Item não existente!");
         }
     }
 
