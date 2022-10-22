@@ -20,7 +20,7 @@ public class ItemService {
 
     private MenuService menuService;
 
-    private UserDAO userDAO;
+    private UserService userService;
 
     private ItemRepository itemRepository;
 
@@ -76,7 +76,7 @@ public class ItemService {
     }
 
     public Restaurant getRestaurantIfTheUserIsAManagerFromUserDTO(UserDTO userDTO) {
-        Optional<Manager> manager = userDAO.isManager(userDTO);
+        Optional<Manager> manager = userService.isManager(userDTO);
 
         if (manager.isPresent()) {
             Restaurant managerRestaurant = manager.get().getRestaurantManager();

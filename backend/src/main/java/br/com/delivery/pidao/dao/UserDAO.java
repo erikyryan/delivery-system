@@ -39,7 +39,7 @@ public class UserDAO {
         return false;
     }
 
-    public Optional<Client> IsPresent(String socialSecurity){
+    public Optional<Client> isPresent(String socialSecurity){
         return clientRepository.findBySocialSecurity(socialSecurity);
     }
 
@@ -54,7 +54,7 @@ public class UserDAO {
             return userManageer;
         }
 
-        Optional <Delivery> userDelivery = deliveryRepository.findEmail(email);
+        Optional <Delivery> userDelivery = deliveryRepository.findByEmail(email);
         if(userDelivery.isPresent()){
             return userDelivery;
         }
@@ -75,7 +75,7 @@ public class UserDAO {
             return typeUser = 1;
         }
 
-        Optional <Delivery> userDelivery = deliveryRepository.findEmail(email);
+        Optional <Delivery> userDelivery = deliveryRepository.findByEmail(email);
         if(userDelivery.isPresent()){
             return typeUser = 2;
         }

@@ -61,7 +61,7 @@ public class ClientService {
     }
 
     private void validateLoginDelivery(UserDTO userDTO){
-        Optional <Delivery> deliveryLogin = deliveryRepository.findEmail(userDTO.getEmail());
+        Optional <Delivery> deliveryLogin = deliveryRepository.findByEmail(userDTO.getEmail());
         if(!deliveryLogin.isPresent()){
             throw new RuntimeException("E-mail inválido");
         }
