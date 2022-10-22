@@ -4,6 +4,7 @@ package br.com.delivery.pidao.services;
 import br.com.delivery.pidao.entities.Category;
 import br.com.delivery.pidao.entities.Menu;
 import br.com.delivery.pidao.entities.dto.CategoryDTO;
+import br.com.delivery.pidao.exceptions.CategoryNotFound;
 import br.com.delivery.pidao.repositories.CategoryRepository;
 import br.com.delivery.pidao.repositories.MenuRepository;
 import lombok.RequiredArgsConstructor;
@@ -15,42 +16,35 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class CategoryService {
 
-    private MenuRepository menuRepository;
+    private MenuService menuService;
 
     private CategoryRepository categoryRepository;
 
     private ItemService itemService;
 
     public String addCategory(CategoryDTO categoryDTO) {
-        Optional<Menu> menu = menuRepository.findByMenuIdentifier(categoryDTO.getMenuIdentifier());
-        if (!menu.isPresent()) {
-            throw new RuntimeException("Menu não encontrado!");
-        }
-
-        Optional<Category> category = categoryRepository.findByDetailsAndIdmenu(categoryDTO.getDetails(), menu.get().getId());
+        Menu menu = menuService.getMenu(categoryDTO.getMenuIdentifier());
+        Optional<Category> category = categoryRepository.findByDetailsAndIdmenu(categoryDTO.getDetails(), menu.getId());
 
         if (category.isPresent()) {
             throw new RuntimeException("Categoria já existente!");
         }
 
-        Category categorySaved = categoryRepository.save(new Category(categoryDTO.getDetails(),menu.get()));
+        Category categorySaved = categoryRepository.save(new Category(categoryDTO.getDetails(),menu));
         return categorySaved.getCategoryIdentifier();
     }
 
     public String updateCategory(CategoryDTO categoryDTO) {
-        Optional<Menu> menu = menuRepository.findByMenuIdentifier(categoryDTO.getMenuIdentifier());
-        if (!menu.isPresent()) {
-            throw new RuntimeException("Menu não encontrado!");
-        }
+        Menu menu = menuService.getMenu(categoryDTO.getMenuIdentifier());
 
-        Optional<Category> category = categoryRepository.findByDetailsAndIdmenu(categoryDTO.getDetails(), menu.get().getId());
+        Optional<Category> category = categoryRepository.findByDetailsAndIdmenu(categoryDTO.getDetails(), menu.getId());
 
         if (!category.isPresent()) {
-            throw new RuntimeException("Categoria não existente!");
+            throw new CategoryNotFound("Categoria não existente!");
         }
 
         if(categoryDTO.getDetails().isBlank()){
-            throw new RuntimeException("Details inválido!");
+            throw new IllegalArgumentException("Details inválido!");
         }
 
         category.get().setDetails(categoryDTO.getDetails());
@@ -61,7 +55,7 @@ public class CategoryService {
     public CategoryDTO findByIdentifier(String categoryIdentifier) {
         Optional<Category> category = categoryRepository.findByCategoryIdentifier(categoryIdentifier);
         if (!category.isPresent()) {
-            throw new RuntimeException("Categoria não existente!");
+            throw new CategoryNotFound("Categoria não existente!");
         }
 
         CategoryDTO categoryDTO = new CategoryDTO(category.get().getDetails(), category.get().getMenu().getMenuIdentifier());
@@ -72,7 +66,7 @@ public class CategoryService {
     public Boolean deleteCategory(String categoryIdentifier) {
         Optional<Category> category = categoryRepository.findByCategoryIdentifier(categoryIdentifier);
         if (!category.isPresent()) {
-            throw new RuntimeException("Categoria não existente!");
+            throw new CategoryNotFound("Categoria não existente!");
         }
 
         categoryRepository.delete(category.get());
@@ -85,7 +79,7 @@ public class CategoryService {
         if (category.isPresent()) {
             return category.get();
         }
-        throw new RuntimeException("Categoria não existente!");
+        throw new CategoryNotFound("Categoria não existente!");
     }
 
     public Category isPresent(String details){
