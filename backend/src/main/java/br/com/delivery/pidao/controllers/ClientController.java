@@ -25,20 +25,28 @@ public class ClientController {
     public ClientController(ClientService clientService){
         this.clientService = clientService;
     }
-
+    
     @PostMapping("/addClient")
-    public ResponseEntity<?> insertClient(@RequestBody ClientDTO clientDTO){
+    public ResponseEntity<?> insertClient(@RequestBody ClientDTO clientDTO, @RequestBody UserDTO userDTO){
         try{
-            return ResponseEntity.ok(clientService.addUserClient(clientDTO));
+            return ResponseEntity.ok(clientService.addUserClient(userDTO,clientDTO));
         }catch (Exception e){
             return ResponseEntity.badRequest().body("aaaaaaaaaaaaaaaaaaaaaaa");
         }
     }
 
     @PostMapping("/addManager")
-    public ResponseEntity<?> insertManager(@RequestBody ManagerDTO managerDTO, @RequestBody UserDTO userDTO){
+    public ResponseEntity<?> insertManager(@RequestBody ManagerDTO managerDTO, @RequestBody UserDTO userDTO, @RequestBody AdressDTO adressDTO){
         try{
-            return ResponseEntity.ok(clientService.addUserManager(userDTO, managerDTO));
+            return ResponseEntity.ok(clientService.addUserManager(userDTO, managerDTO,adressDTO));
+        }catch (Exception e){
+            return ResponseEntity.badRequest().body("aaaaaaaaaaaaaaaaaaaaaaa");
+        }
+    }
+    
+    public ResponseEntity<?> insertAdress(@RequestBody AdressDTO adressDTO){
+        try{
+            return ResponseEntity.ok(clientService.addAdress(adressDTO));
         }catch (Exception e){
             return ResponseEntity.badRequest().body("aaaaaaaaaaaaaaaaaaaaaaa");
         }
