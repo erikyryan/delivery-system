@@ -63,24 +63,22 @@ public class UserDAO {
     }
 
     public int typeUser(String email){
-        int typeUser;
-
         Optional <Client> userClient = clientRepository.findByEmail(email);
         if(userClient.isPresent()){
-            return typeUser = 0;
+            return 1;
         }
 
         Optional <Manager> userManageer = managerRepository.findByEmail(email);
         if(userManageer.isPresent()){
-            return typeUser = 1;
+            return 2;
         }
 
         Optional <Delivery> userDelivery = deliveryRepository.findByEmail(email);
         if(userDelivery.isPresent()){
-            return typeUser = 2;
+            return 3;
         }
-
-        return typeUser = 3;
+        
+        return 0;
     }
 
 }
