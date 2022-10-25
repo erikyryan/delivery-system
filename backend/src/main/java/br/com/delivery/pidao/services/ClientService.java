@@ -2,8 +2,10 @@ package br.com.delivery.pidao.services;
 
 import java.util.Optional;
 
+import lombok.NoArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
+import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
 import br.com.delivery.pidao.dao.*;
@@ -13,26 +15,22 @@ import lombok.RequiredArgsConstructor;
 import br.com.delivery.pidao.entities.*;
 import br.com.delivery.pidao.enums.*;
 import br.com.delivery.pidao.repositories.*;
+
 @Service
-@RequiredArgsConstructor
+@AllArgsConstructor
 public class ClientService {
     
-    private UserDAO userDAO;
+    private final UserDAO userDAO;
 
-    private ClientDAO clientDAO;
+    private final ClientDAO clientDAO;
 
-    private ClientRepository clientRepository;
+    private final ClientRepository clientRepository;
 
-    private ManagerRepository managerRepository;
+    private final ManagerRepository managerRepository;
 
-    private DeliveryRepository deliveryRepository;
+    private final DeliveryRepository deliveryRepository;
 
-    private SessionService sessionService;
-
-    public ClientService( ClientRepository clientRepository, UserDAO userDAO) {
-        this.clientRepository = clientRepository;
-        this.userDAO = userDAO;
-    }
+    private final SessionService sessionService;
   
     private Manager validateLoginManager(UserDTO userDTO) {
         Optional<Manager> manegerLogin = managerRepository.findByEmail(userDTO.getEmail());

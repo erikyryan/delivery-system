@@ -24,20 +24,22 @@ public class CategoryService {
 
     public String addCategory(CategoryDTO categoryDTO) {
         Menu menu = menuService.getMenu(categoryDTO.getMenuIdentifier());
-        Optional<Category> category = categoryRepository.findByDetailsAndIdmenu(categoryDTO.getDetails(), menu.getId());
+        Optional<Category> category = categoryRepository.findByDetailsAndMenuIdentifier(categoryDTO.getDetails(), menu.getMenuIdentifier());
 
         if (category.isPresent()) {
             throw new IllegalArgumentException("Categoria já existente");
         }
 
-        Category categorySaved = categoryRepository.save(new Category(categoryDTO.getDetails(),menu));
+
+
+        Category categorySaved = categoryRepository.save(new Category(categoryDTO.getDetails(),menu.getMenuIdentifier()));
         return categorySaved.getCategoryIdentifier();
     }
 
     public String updateCategory(CategoryDTO categoryDTO) {
         Menu menu = menuService.getMenu(categoryDTO.getMenuIdentifier());
 
-        Optional<Category> category = categoryRepository.findByDetailsAndIdmenu(categoryDTO.getDetails(), menu.getId());
+        Optional<Category> category = categoryRepository.findByDetailsAndMenuIdentifier(categoryDTO.getDetails(), menu.getMenuIdentifier());
 
         if (!category.isPresent()) {
             throw new CategoryNotFound("Categoria não existente");
@@ -58,7 +60,7 @@ public class CategoryService {
             throw new CategoryNotFound("Categoria não existente");
         }
 
-        CategoryDTO categoryDTO = new CategoryDTO(category.get().getDetails(), category.get().getMenu().getMenuIdentifier());
+        CategoryDTO categoryDTO = new CategoryDTO(category.get().getDetails(), category.get().getMenuIdentifier());
 
         return categoryDTO;
     }

@@ -18,13 +18,12 @@ public class ItemDTO {
 
     private String categoryIdentifier;
 
-    private String categoryDetails;
-
     public Item dtoToEntity(){
         Item item = new Item();
         item.setName(name);
         item.setValue(value);
         item.setDescription(description);
+        item.setCategoryIdentifier(categoryIdentifier);
         return item;
     }
 

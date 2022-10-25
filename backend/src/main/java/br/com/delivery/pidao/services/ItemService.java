@@ -7,6 +7,7 @@ import br.com.delivery.pidao.entities.dto.*;
 import br.com.delivery.pidao.exceptions.ItemNotFound;
 import br.com.delivery.pidao.exceptions.RestaurantNotFound;
 import br.com.delivery.pidao.repositories.ItemRepository;
+import br.com.delivery.pidao.repositories.RestaurantRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -29,15 +30,14 @@ public class ItemService {
 
     private ItemRepository itemRepository;
 
+    private RestaurantRepository restaurantRepository;
+
     public ItemDTO addItem(final ItemDTO itemDTO){
-        Optional<Item> item = itemRepository.findByNameAndDescriptionAndCategory(itemDTO.getName(), itemDTO.getDescription(), itemDTO.getCategoryDetails());
+        Optional<Item> item = itemRepository.findByNameAndDescriptionAndAndCategoryIdentifier(itemDTO.getName(), itemDTO.getDescription(), itemDTO.getCategoryIdentifier());
         if(item.isPresent()){
             throw new IllegalArgumentException("Item já existente");
         }else{
             Item newItem = itemDTO.dtoToEntity();
-
-            Category category = categoryService.getCategoryByIdentifier(itemDTO.getCategoryIdentifier());
-            newItem.setCategory(category);
             itemRepository.save(newItem);
             return itemDTO;
         }
@@ -47,8 +47,6 @@ public class ItemService {
         Optional<Item> item = itemRepository.findByItemIdentifier(itemIdentifier);
         if(item.isPresent()){
             Item newItem = item.get();
-            Category category = categoryService.getCategoryByIdentifier(itemDTO.getCategoryIdentifier());
-            newItem.setCategory(category);
 
             if(!Objects.equals(itemDTO.getName(),null))
                 newItem.setName(itemDTO.getName());
@@ -82,9 +80,9 @@ public class ItemService {
         Optional<Manager> manager = userService.isManager(userDTO);
 
         if (manager.isPresent()) {
-            Restaurant managerRestaurant = manager.get().getRestaurantManager();
-            if (!Objects.equals(managerRestaurant, null)) {
-                return managerRestaurant;
+            Optional<Restaurant> managerRestaurant = restaurantRepository.findByRestaurantIdentifier(manager.get().getRestaurantIdentifier());
+            if (managerRestaurant.isPresent()) {
+                return managerRestaurant.get();
             }
             throw new RestaurantNotFound("Restaurante não encontrado");
         }
@@ -95,24 +93,25 @@ public class ItemService {
         Menu menu = menuService.getMenu(menuIdentifier);
         menuService.getRestaurantFromIdentifier(menuIdentifier);
 
-        List<Category> categories = menu.getCategoryMenu().stream().map(
-                category -> categoryService.getCategoryByIdentifier(category.getCategoryIdentifier())
-                ).collect(Collectors.toList());
+//        List<Category> categories = menu.getCategoryMenu().stream().map(
+//                category -> categoryService.getCategoryByIdentifier(category.getCategoryIdentifier())
+//                ).collect(Collectors.toList());
+//
+//        List<ItemDTO> itemsDTO = new ArrayList<>();
+//        List<List<Item>> itemsListsFromCategories = categories.stream().map(category ->  category.getItems()).collect(Collectors.toList());
+//        for(List<Item> itemList : itemsListsFromCategories){
+//            List<ItemDTO> items = itemList.stream().map(item -> item.entityToDTO()).collect(Collectors.toList());
+//            itemsDTO.addAll(items);
+//        }
 
-        List<ItemDTO> itemsDTO = new ArrayList<>();
-        List<List<Item>> itemsListsFromCategories = categories.stream().map(category ->  category.getItems()).collect(Collectors.toList());
-        for(List<Item> itemList : itemsListsFromCategories){
-            List<ItemDTO> items = itemList.stream().map(item -> item.entityToDTO()).collect(Collectors.toList());
-            itemsDTO.addAll(items);
-        }
-
-         return itemsDTO;
+         return null;
     }
 
     public List<ItemDTO> getItensFromCategoryIdentifier(String categoryIdentifier) {
-        Category category = categoryService.getCategoryByIdentifier(categoryIdentifier);
-        List<ItemDTO> itemsDTO = category.getItems().stream().map(item -> item.entityToDTO()).collect(Collectors.toList());
-        return itemsDTO;
+//        Category category = categoryService.getCategoryByIdentifier(categoryIdentifier);
+//        List<ItemDTO> itemsDTO = category.getItems().stream().map(item -> item.entityToDTO()).collect(Collectors.toList());
+//        return itemsDTO;
+        return  null;
     }
 
     public  Item getItemByIdentifier(String itemIdentifier){

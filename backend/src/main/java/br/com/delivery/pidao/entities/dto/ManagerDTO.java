@@ -11,7 +11,7 @@ public class ManagerDTO {
     private String name;
     private String socialsSecurity;
     private String cellphone;
-    private Restaurant restaurantManager;
+    private String restaurantIdentifier;
     private String department;
 
     public Manager dtoToEntity(){
@@ -22,7 +22,7 @@ public class ManagerDTO {
         manager.setSocialsSecurity(socialsSecurity);
         manager.setCellphone(cellphone);
         manager.setDate(date);
-        manager.setRestaurantManager(restaurantManager);
+        manager.setRestaurantIdentifier(restaurantIdentifier);
         manager.setDepartment(department);
         return manager;
     }
