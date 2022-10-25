@@ -10,11 +10,9 @@ import java.util.Optional;
 @Repository
 public interface CategoryRepository extends JpaRepository<Category, Long> {
 
-    @Query("SELECT c FROM Category c WHERE c.details = :details and c.menu.id = :idMenu")
-    Optional<Category> findByDetailsAndIdmenu(String details,Long idMenu);
+    Optional<Category> findByDetailsAndMenuIdentifier(String details,String menuIdentifier);
 
     Optional<Category> findByDetails(String details);
 
-    @Query("SELECT c FROM Category c WHERE c.categoryIdentifier = :identifier")
-    Optional<Category> findByCategoryIdentifier(String identifier);
+    Optional<Category> findByCategoryIdentifier(String categoryIdentifier);
 }

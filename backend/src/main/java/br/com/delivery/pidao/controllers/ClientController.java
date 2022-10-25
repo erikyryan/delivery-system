@@ -1,5 +1,6 @@
 package br.com.delivery.pidao.controllers;
 
+import lombok.NoArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -16,22 +17,18 @@ import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
 
 @RestController
-@RequiredArgsConstructor
 @RequestMapping("/Client")
+@AllArgsConstructor
 public class ClientController {
 
     ClientService clientService;
 
-    public ClientController(ClientService clientService){
-        this.clientService = clientService;
-    }
-    
     @PostMapping("/addClient")
     public ResponseEntity<?> insertClient(@RequestBody ClientDTO clientDTO, @RequestBody UserDTO userDTO){
         try{
             return ResponseEntity.ok(clientService.addUserClient(userDTO,clientDTO));
         }catch (Exception e){
-            return ResponseEntity.badRequest().body("aaaaaaaaaaaaaaaaaaaaaaa");
+            return ResponseEntity.badRequest().body(e.getMessage());
         }
     }
 

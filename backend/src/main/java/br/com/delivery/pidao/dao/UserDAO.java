@@ -8,20 +8,22 @@ import br.com.delivery.pidao.repositories.ClientRepository;
 import br.com.delivery.pidao.repositories.DeliveryRepository;
 import br.com.delivery.pidao.repositories.ManagerRepository;
 import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Component;
 
 import java.util.Optional;
 
 
+@Component
 @AllArgsConstructor
 public class UserDAO {
 
-    ManagerRepository managerRepository;
+    private final ManagerRepository managerRepository;
 
-    ClientRepository clientRepository;
+    private final ClientRepository clientRepository;
 
-    DeliveryRepository deliveryRepository;
-
+    private final DeliveryRepository deliveryRepository;
 
     public Optional<Manager> isManager(UserDTO userDTO){
         return managerRepository.findByEmailAndPassword(userDTO.getEmail(), userDTO.getPassword());
@@ -40,7 +42,7 @@ public class UserDAO {
     }
 
     public Optional<Client> isPresent(String socialSecurity){
-        return clientRepository.findBySocialSecurity(socialSecurity);
+        return clientRepository.findBySocialsSecurity(socialSecurity);
     }
 
     public Object valitadeUserEmail(String email){

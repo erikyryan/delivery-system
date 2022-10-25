@@ -3,9 +3,7 @@ package br.com.delivery.pidao.entities;
 import com.sun.istack.NotNull;
 import lombok.*;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.ManyToOne;
+import javax.persistence.*;
 import java.io.Serializable;
 
 
@@ -14,10 +12,10 @@ import java.io.Serializable;
 public class Manager extends User implements Serializable {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     private String Department;
 
-    @ManyToOne
-    private Restaurant RestaurantManager;
+    private String restaurantIdentifier;
 }
