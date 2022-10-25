@@ -8,11 +8,11 @@ import java.util.UUID;
 
 @Data
 @Entity
-@IdClass(Adress.class)
 @RequiredArgsConstructor
 public class Adress implements Serializable {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
     private String adressIdentifier = UUID.randomUUID().toString();

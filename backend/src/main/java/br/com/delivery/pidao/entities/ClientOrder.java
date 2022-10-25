@@ -4,9 +4,7 @@ import br.com.delivery.pidao.entities.dto.OrderDTO;
 import br.com.delivery.pidao.enums.OrderStatus;
 import lombok.*;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.ManyToOne;
+import javax.persistence.*;
 import java.io.Serializable;
 import java.util.UUID;
 
@@ -17,6 +15,7 @@ import java.util.UUID;
 public class ClientOrder implements Serializable {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
     private String clientOrderIdentifier = UUID.randomUUID().toString();

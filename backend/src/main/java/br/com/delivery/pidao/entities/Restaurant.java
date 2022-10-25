@@ -5,22 +5,23 @@ import lombok.Data;
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.List;
+import java.util.UUID;
 
 @Data
 @Entity
 public class Restaurant implements Serializable {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     private Long adressRestaurant;
 
-    @OneToOne
-    @JoinColumn(referencedColumnName = "id")
-    private Menu menu;
+    private String restaurantIdentifier = UUID.randomUUID().toString();
 
-    @OneToMany
-    private List<Manager> managerRestaurant;
+    private String menuIdentifier;
+
+    private String managerIdentifier;
 
     private String date;
 

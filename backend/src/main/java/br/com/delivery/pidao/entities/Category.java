@@ -11,7 +11,6 @@ import java.util.UUID;
 
 @Data
 @Entity
-@AllArgsConstructor
 @NoArgsConstructor
 public class Category implements Serializable {
 
@@ -25,14 +24,10 @@ public class Category implements Serializable {
     @NotNull
     private String details;
 
-    @OneToMany(fetch=FetchType.LAZY, mappedBy="category")
-    private List<Item> items;
+    private String menuIdentifier;
 
-    @ManyToOne
-    private Menu menu;
-
-    public Category(String details, Menu menu) {
+    public Category(String details,String menuIdentifier){
         this.details = details;
-        this.menu = menu;
+        this.menuIdentifier = menuIdentifier;
     }
 }
