@@ -14,15 +14,12 @@ import java.util.UUID;
 public class Menu implements Serializable {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
     @Column(name = "menuidentifier")
     private String menuIdentifier = UUID.randomUUID().toString();
 
-    @OneToOne
-    private Restaurant restaurant;
-
-    @OneToMany
-    private List<Category> categoryMenu;
+    private String restaurantIdentifier;
 
 }

@@ -29,7 +29,6 @@ public class Item implements Serializable {
 
     private String itemIdentifier = UUID.randomUUID().toString();
 
-    @Id
     @NotNull
     private String name;
 
@@ -42,15 +41,14 @@ public class Item implements Serializable {
     @Nullable
     private String description;
 
-    @ManyToOne
-    private Category category;
+    private String categoryIdentifier;
 
     public ItemDTO entityToDTO(){
         ItemDTO itemDTO = new ItemDTO();
         itemDTO.setValue(value);
         itemDTO.setDescription(description);
         itemDTO.setName(name);
-        itemDTO.setCategoryDetails(category.getDetails());
+        itemDTO.setCategoryIdentifier(categoryIdentifier);
         return itemDTO;
     }
 
