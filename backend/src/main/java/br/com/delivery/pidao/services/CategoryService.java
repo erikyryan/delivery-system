@@ -10,6 +10,7 @@ import br.com.delivery.pidao.repositories.MenuRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -87,5 +88,16 @@ public class CategoryService {
     public Category isPresent(String details){
         Optional<Category> category = categoryRepository.findByDetails(details);
         return category.isPresent() ? category.get() : null;
+    }
+
+    List<Category> findByMenuIdentifier(String menuIdentifier){
+        Optional<List<Category>> categories = categoryRepository.findByMenuIdentifier(menuIdentifier);
+        if(categories.isPresent()){
+            if(!categories.get().isEmpty()) {
+                return categories.get();
+            }
+        }
+        throw new CategoryNotFound("Categorias não existente");
+
     }
 }
