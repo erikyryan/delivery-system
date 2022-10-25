@@ -22,19 +22,21 @@ public class ClientService {
     
     private final UserDAO userDAO;
 
-    private final ClientDAO clientDAO;
-
-    private final ClientRepository clientRepository;
+    private ClientRepository clientRepository;
 
     private final ManagerRepository managerRepository;
 
     private final DeliveryRepository deliveryRepository;
 
-    private final SessionService sessionService;
-  
+    private SessionService sessionService;
+
+    private AdressService adressService;
+
+    private AdressRepository adressRepository;
+
     private Manager validateLoginManager(UserDTO userDTO) {
-        Optional<Manager> manegerLogin = managerRepository.findByEmail(userDTO.getEmail());
-		if (!managerRepository.findByEmail(userDTO.getEmail()).isPresent()) {
+        Optional<Manager> manegerLogin = userDAO.isManager(userDTO);
+		if (!manegerLogin.isPresent()) {
 			throw new RuntimeException("Usuário administrador não encontrado");
 		}
         Manager login = manegerLogin.get();
@@ -47,7 +49,7 @@ public class ClientService {
 	}
 
     private void validateLoginClient(UserDTO userDTO){
-        Optional <Client> clientLogin = clientRepository.findByEmail(userDTO.getEmail());
+        Optional <Client> clientLogin = userDAO.isClient(userDTO);
         if(!clientLogin.isPresent()){
             throw new RuntimeException("E-mail inválido");
         }
@@ -70,8 +72,9 @@ public class ClientService {
         } 
     }
 
-    public ClientDTO addUserClient(final ClientDTO clientDTO){
-        Optional<Client> client = clientDAO.getClientFromClientDTO(clientDTO);
+    public ClientDTO addUserClient(final UserDTO userDTO, ClientDTO clientDTO){
+      
+        Optional<Client> client = userDAO.isClient(userDTO);
         if(!client.isPresent()){
             Client newClient = clientDTO.dtoToEntity();
             clientRepository.save(newClient);
@@ -82,7 +85,14 @@ public class ClientService {
         }
     }
 
-    public ManagerDTO addUserManager(final UserDTO userDTO, final ManagerDTO managerDTO){
+    public AdressDTO addAdress(final AdressDTO adressDTO){
+        Adress newAdress = adressDTO.dtoToEntity();
+        adressRepository.save(newAdress);
+
+        return adressDTO;
+    }
+
+    public ManagerDTO addUserManager(final UserDTO userDTO, final ManagerDTO managerDTO, final AdressDTO adressDTO){
         Optional<Manager> manager = userDAO.isManager(userDTO);
         if(!manager.isPresent()){
             Manager newmanager = managerDTO.dtoToEntity();
@@ -116,5 +126,4 @@ public class ClientService {
            throw new RuntimeException(e.getMessage());
        }
    }
-
 }
