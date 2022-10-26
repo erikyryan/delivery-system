@@ -10,13 +10,10 @@ import java.util.Optional;
 @Repository
 public interface ManagerRepository extends JpaRepository <Manager, Long> {
 
-    @Query("SELECT m FROM Manager m WHERE m.email = :email and m.password = :password")
     Optional<Manager> findByEmailAndPassword(String email, String password);
 
-    @Query("SELECT m FROM Manager m WHERE m.email = :email")
     Optional<Manager> findByEmail(String email);
 
-    @Query("SELECT m FROM Manager m WHERE m.socialsSecurity = :socialSecurity")
     Optional<Manager> findBySocialSecurity(String socialSecurity);
 
     Optional<Manager> findByUserIdentifier(String userIdentifier);

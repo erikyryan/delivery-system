@@ -1,6 +1,6 @@
 package br.com.delivery.pidao.enums;
 
-public enum ClientType {
+public enum UserTypeEnum {
 
     MANAGER(0),
     DELIVERYMAN(1),
@@ -9,7 +9,7 @@ public enum ClientType {
     int code;
 
 
-    ClientType(int i) {
+    UserTypeEnum(int i) {
         code = i;
     }
 }

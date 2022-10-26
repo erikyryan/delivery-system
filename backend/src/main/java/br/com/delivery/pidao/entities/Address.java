@@ -9,7 +9,7 @@ import java.util.UUID;
 @Data
 @Entity
 @RequiredArgsConstructor
-public class Adress implements Serializable {
+public class Address implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

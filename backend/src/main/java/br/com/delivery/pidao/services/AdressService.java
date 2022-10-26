@@ -1,10 +1,10 @@
 package br.com.delivery.pidao.services;
 
 
-import br.com.delivery.pidao.entities.Adress;
+import br.com.delivery.pidao.entities.Address;
 import br.com.delivery.pidao.entities.Category;
 import br.com.delivery.pidao.entities.Menu;
-import br.com.delivery.pidao.entities.dto.AdressDTO;
+import br.com.delivery.pidao.entities.dto.AddressDTO;
 import br.com.delivery.pidao.entities.dto.CategoryDTO;
 import br.com.delivery.pidao.exceptions.CategoryNotFound;
 import br.com.delivery.pidao.repositories.AdressRepository;
@@ -21,15 +21,15 @@ public class AdressService{
 
     AdressRepository adressRepository;    
 
-    public AdressDTO addAdress(final AdressDTO adressDTO){
-        Adress newAdress = adressDTO.dtoToEntity();
+    public AddressDTO addAdress(final AddressDTO adressDTO){
+        Address newAdress = adressDTO.dtoToEntity();
         adressRepository.save(newAdress);
         return adressDTO;
         
     }
 
-    public Adress findByIdentifier(String adressIdentifier) {
-        Optional<Adress> adress = adressRepository.findByAdressIdentifier(adressIdentifier);
+    public Address findByIdentifier(String adressIdentifier) {
+        Optional<Address> adress = adressRepository.findByAdressIdentifier(adressIdentifier);
         if(adress.isPresent()){
             return adress.get();
         }
@@ -37,8 +37,8 @@ public class AdressService{
 
     }
 
-    public Adress isPresent(String adressIdentifier){
-        Optional<Adress> adress = adressRepository.findByAdressIdentifier(adressIdentifier);
+    public Address isPresent(String adressIdentifier){
+        Optional<Address> adress = adressRepository.findByAdressIdentifier(adressIdentifier);
         return adress.isPresent() ? adress.get() : null;
     }
 

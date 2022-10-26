@@ -24,36 +24,41 @@ public class ClientController {
     ClientService clientService;
 
     @PostMapping("/addClient")
-    public ResponseEntity<?> insertClient(@RequestBody ClientDTO clientDTO, @RequestBody UserDTO userDTO){
+    public ResponseEntity<?> insertClient(@RequestBody ClientDTO clientDTO){
         try{
-            return ResponseEntity.ok(clientService.addUserClient(userDTO,clientDTO));
+            return ResponseEntity.ok(clientService.createUserClient(clientDTO));
+        }catch (Exception e){
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+    }
+/*
+@PostMapping("/addManager")
+    public ResponseEntity<?> insertManager(@RequestBody ManagerDTO managerDTO){
+        try{
+            return ResponseEntity.ok(clientService.addUserManager(managerDTO));
+        }catch (Exception e){
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+    } */
+    
+
+    @PostMapping("/addAddress")
+    public ResponseEntity<?> insertAdress(@RequestBody AddressDTO adressDTO){
+        try{
+            return ResponseEntity.ok(clientService.addAdress(adressDTO));
         }catch (Exception e){
             return ResponseEntity.badRequest().body(e.getMessage());
         }
     }
 
-    @PostMapping("/addManager")
-    public ResponseEntity<?> insertManager(@RequestBody ManagerDTO managerDTO, @RequestBody UserDTO userDTO, @RequestBody AdressDTO adressDTO){
-        try{
-            return ResponseEntity.ok(clientService.addUserManager(userDTO, managerDTO,adressDTO));
-        }catch (Exception e){
-            return ResponseEntity.badRequest().body("aaaaaaaaaaaaaaaaaaaaaaa");
-        }
-    }
-    
-    public ResponseEntity<?> insertAdress(@RequestBody AdressDTO adressDTO){
-        try{
-            return ResponseEntity.ok(clientService.addAdress(adressDTO));
-        }catch (Exception e){
-            return ResponseEntity.badRequest().body("aaaaaaaaaaaaaaaaaaaaaaa");
-        }
-    }
-
-    @PostMapping(value = "/loginUser")
-    public ResponseEntity<?> login(@RequestBody final UserDTO userDTO, @RequestBody User user) {
-    	String token = this.clientService.loginUser(userDTO, null);
+    /* 
+     *  @PostMapping(value = "/loginUser")
+    public ResponseEntity<?> login(@RequestBody final UserDTO userDTO) {
+    	String token = this.clientService.loginUser(userDTO);
     	return ResponseEntity.ok(token);
     }
+    */
+   
     
     @PostMapping(value = "/logoutUser")
     public ResponseEntity<?> logout(@RequestHeader("token") final String token){
