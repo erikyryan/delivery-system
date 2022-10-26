@@ -1,5 +1,6 @@
 package br.com.delivery.pidao.services;
 
+import java.lang.StackWalker.Option;
 import java.util.Optional;
 
 import lombok.NoArgsConstructor;
@@ -34,66 +35,45 @@ public class ClientService {
 
     private AdressRepository adressRepository;
 
-    private Manager validateLoginManager(UserDTO userDTO) {
-        Optional<Manager> manegerLogin = userDAO.isManager(userDTO);
-		if (!manegerLogin.isPresent()) {
-			throw new RuntimeException("Usuário administrador não encontrado");
-		}
-        Manager login = manegerLogin.get();
+    private Optional<Client> findByEmail;
 
-        if(!userDTO.getPassword().equals(login.getPassword())){
-            throw new RuntimeException("Senha inválida");
+    public boolean validateUserExistreate(UserDTO userDTO){
+        Optional<Manager> manager = managerRepository.findByEmail(userDTO.getEmail());
+        if(!manager.isEmpty()){
+            throw new RuntimeException("Email já Existente");
         }
-
-        return login;
-	}
-
-    private void validateLoginClient(UserDTO userDTO){
-        Optional <Client> clientLogin = userDAO.isClient(userDTO);
-        if(!clientLogin.isPresent()){
-            throw new RuntimeException("E-mail inválido");
-        }
-        User login = clientLogin.get();
         
-        if(!userDTO.getPassword().equals(login.getPassword())){
-            throw new RuntimeException("Senha inválida");
-        } 
-    }
-
-    private void validateLoginDelivery(UserDTO userDTO){
-        Optional <Delivery> deliveryLogin = deliveryRepository.findByEmail(userDTO.getEmail());
-        if(!deliveryLogin.isPresent()){
-            throw new RuntimeException("E-mail inválido");
+        Optional<Client> client = clientRepository.findByEmail(userDTO.getEmail());
+        if(!client.isEmpty()){
+            throw new  RuntimeException("Email já Existente");
         }
-        User login = deliveryLogin.get();
+
+        Optional<Delivery> delivery = deliveryRepository.findByEmail(userDTO.getEmail());
+        if(!delivery.isEmpty()){
+            throw new  RuntimeException("Email já Existente");
+        }
         
-        if(!userDTO.getPassword().equals(login.getPassword())){
-            throw new RuntimeException("Senha inválida");
-        } 
+        return false;
     }
 
-    public ClientDTO addUserClient(final UserDTO userDTO, ClientDTO clientDTO){
-      
-        Optional<Client> client = userDAO.isClient(userDTO);
-        if(!client.isPresent()){
-            Client newClient = clientDTO.dtoToEntity();
-            clientRepository.save(newClient);
-            return clientDTO;
-        }else{
-            throw new RuntimeException("Usuário já cadastrado");
+    public ClientDTO createUserClient(ClientDTO clientDTO){
 
-        }
+        this.validateUserExistreate(clientDTO.toUserDTO());
+        
+        Client newClient = clientDTO.dtoToEntity();
+        clientRepository.save(newClient);
+        return clientDTO; 
     }
 
-    public AdressDTO addAdress(final AdressDTO adressDTO){
-        Adress newAdress = adressDTO.dtoToEntity();
+    public AddressDTO addAdress(AddressDTO addressDTO){
+        Address newAdress = addressDTO.dtoToEntity();
         adressRepository.save(newAdress);
 
-        return adressDTO;
+        return addressDTO;
     }
-
-    public ManagerDTO addUserManager(final UserDTO userDTO, final ManagerDTO managerDTO, final AdressDTO adressDTO){
-        Optional<Manager> manager = userDAO.isManager(userDTO);
+/*
+ * public ManagerDTO addUserManager(ManagerDTO managerDTO){
+        //Optional<Manager> manager = userDAO.valitadeUserEmail(managerDTO.dtoToEntity().getEmail())
         if(!manager.isPresent()){
             Manager newmanager = managerDTO.dtoToEntity();
             managerRepository.save(newmanager);
@@ -103,21 +83,24 @@ public class ClientService {
 
         }
     }
+*/
+    
 
-
-    public String loginUser(UserDTO userDTO, User user) {
-        int typeUser = userDAO.typeUser(userDTO.getEmail());
-        if(typeUser == 0){
-            validateLoginClient(userDTO);
-        }else if(typeUser == 1){
-            validateLoginManager(userDTO);
-        }else if(typeUser == 2){
-            validateLoginDelivery(userDTO);
+/*
+    public String loginUser(UserDTO userDTO) {
+        UserTypeEnum typeUser = userDAO.typeUser(userDTO.getEmail());
+        if(typeUser == UserTypeEnum.CUSTOMER){
+            
+        }else if(typeUser == UserTypeEnum.MANAGER){
+           
+        }else if(typeUser == UserTypeEnum.DELIVERYMAN){
+            
         }
 
-        return sessionService.generateSession(user);  
-   }
-
+        return sessionService.generateSession();  
+   } */
+ 
+   
    public LoginSession logoutUser(String token) {
        try {
            LoginSession session = sessionService.logout(token);
