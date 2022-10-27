@@ -1,17 +1,24 @@
 package br.com.delivery.pidao.configurations;
 
+import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
 import org.flywaydb.core.Flyway;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Configuration;
 
-import javax.sql.DataSource;
-
+//@ConfigurationProperties(prefix = "spring.datasource")
 @Configuration
 public class FlywayConfig {
 
-    @Autowired
-    public FlywayConfig(DataSource dataSource) {
-        Flyway.configure().baselineOnMigrate(true).dataSource(dataSource).load().migrate();
+//    private String url;
+//
+//    private String user;
+//
+//    private String password;
+
+    public FlywayConfig () {
+        Flyway.configure().baselineOnMigrate(true).dataSource("jdbc:postgresql://localhost:5432/postgres","postgres","12345").load().migrate();
     }
 
 }

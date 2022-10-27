@@ -16,17 +16,10 @@ import javax.persistence.EntityManagerFactory;
 import javax.sql.DataSource;
 
 @SpringBootApplication
-public class PidaoApplication implements CommandLineRunner {
-
-	@Autowired
-	private DataSource dataSource;
+public class PidaoApplication {
 
 	public static void main(String[] args) {
 		SpringApplication.run(PidaoApplication.class, args);
 	}
 
-	@Override
-	public void run(String... args) throws Exception {
-		Flyway.configure().baselineOnMigrate(true).dataSource(dataSource).load().migrate();
-	}
 }
