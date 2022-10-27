@@ -32,7 +32,7 @@ public class AddressController {
         }
     }
 
-    @PostMapping("/{addresIdentifier}"){
+    @PostMapping("/{addresIdentifier}")
     public ResponseEntity<?> updateCategory(@RequestHeader final String token,@RequestBody AddressDTO addressDTO){
         try {
             sessionService.validateToken(token);
@@ -42,7 +42,5 @@ public class AddressController {
         }catch (Exception e ){
             return ResponseEntity.badRequest().body(e.getMessage());
         }   
-    }
-
     }
 }
