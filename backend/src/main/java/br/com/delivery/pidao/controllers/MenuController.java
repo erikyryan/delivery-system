@@ -26,8 +26,7 @@ public class MenuController {
         try {
             sessionService.validateToken(token);
             userService.isManager(userDTO);
-            Menu newMenu = menuService.addMenu(menuDTO);
-            return ResponseEntity.ok(newMenu);
+            return ResponseEntity.ok(menuService.addMenu(menuDTO).getMenuIdentifier());
         } catch (Exception e) {
             return ResponseEntity.badRequest().body(e.getMessage());
         }

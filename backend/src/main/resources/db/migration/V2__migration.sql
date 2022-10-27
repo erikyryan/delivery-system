@@ -1,8 +1,6 @@
 INSERT INTO public.address (adress_identifier, city, client_identifier, details, neighborhood, "number", public_place, restaraunt_identifier, state, zip_code) VALUES('', '', '', '', '', '', '', '', '', '');
 INSERT INTO public.category (categoryidentifier, details, menu_identifier) VALUES('', '', '');
 INSERT INTO public.client (cellphone, "date", email, "name", "password", socials_security, user_identifier, adress_identifier) VALUES('', '', '', '', '', '', '', '');
-INSERT INTO public.client_order (client_order_identifier, "comment", "name", status, value, client_id) VALUES('', '', '', 0, '', 0);
-INSERT INTO public.client_order_client (client_id, order_client_id) VALUES(0, 0);
 INSERT INTO public.delivery (cellphone, "date", email, "name", "password", socials_security, user_identifier, status) VALUES('', '', '', '', '', '', '', 0);
 INSERT INTO public.item (category_identifier, description, item_identifier, "name", value) VALUES('', '', '', '', 0);
 INSERT INTO public.manager (cellphone, "date", email, "name", "password", socials_security, user_identifier, department, restaurant_identifier) VALUES('', '', '', '', '', '', '', '', '');

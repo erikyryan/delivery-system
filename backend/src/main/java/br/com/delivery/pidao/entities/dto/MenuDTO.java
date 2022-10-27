@@ -6,7 +6,7 @@ public class MenuDTO {
 
     private String restaurantIdentifier;
 
-    public Menu menuToEntity() {
+    public Menu dtoToEntity() {
         Menu menu = new Menu();
         menu.setRestaurantIdentifier(restaurantIdentifier);
         return menu;

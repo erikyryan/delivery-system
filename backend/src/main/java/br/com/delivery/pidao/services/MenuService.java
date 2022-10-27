@@ -20,7 +20,7 @@ public class MenuService {
     private RestaurantService restaurantService;
 
     public Menu addMenu(final MenuDTO menuDTO) {
-        Menu newMenu = menuDTO.menuToEntity();
+        Menu newMenu = menuDTO.dtoToEntity();
         menuRepository.save(newMenu);
         return newMenu;
     }
@@ -49,7 +49,7 @@ public class MenuService {
             menuRepository.delete(menu.get());
             return true;
         }else{
-            throw new RuntimeException("Menu não existente");
+            throw new MenuNotFound("Menu não existente");
         }
     }
 
