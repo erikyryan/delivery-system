@@ -105,11 +105,10 @@ public class ItemService {
     }
 
     private List<Item> findByCategoryIdentifier(String categoryIdentifier){
-        Optional<List<Item>> items = itemRepository.findByCategoryIdentifier(categoryIdentifier);
-        if(items.isPresent()){
-            if(!items.get().isEmpty()) {
-                return items.get();
-            }
+        List<Item> items = itemRepository.findByCategoryIdentifier(categoryIdentifier);
+        if(!items.isEmpty()){
+            return items;
+
         }
 
         throw new ItemNotFound("Itens não encontrados");

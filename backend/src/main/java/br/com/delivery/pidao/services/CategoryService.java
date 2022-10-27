@@ -31,8 +31,6 @@ public class CategoryService {
             throw new IllegalArgumentException("Categoria já existente");
         }
 
-
-
         Category categorySaved = categoryRepository.save(new Category(categoryDTO.getDetails(),menu.getMenuIdentifier()));
         return categorySaved.getCategoryIdentifier();
     }
