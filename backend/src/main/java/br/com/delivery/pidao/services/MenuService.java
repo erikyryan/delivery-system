@@ -3,9 +3,7 @@ package br.com.delivery.pidao.services;
 import br.com.delivery.pidao.entities.Menu;
 import br.com.delivery.pidao.entities.Restaurant;
 import br.com.delivery.pidao.exceptions.MenuNotFound;
-import br.com.delivery.pidao.exceptions.RestaurantNotFound;
 import br.com.delivery.pidao.repositories.MenuRepository;
-import br.com.delivery.pidao.repositories.RestaurantRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -19,7 +17,7 @@ public class MenuService {
 
     private RestaurantService restaurantService;
 
-    public Menu getMenu(String menuIdentifier){
+    public Menu findMenuByIdentifier(String menuIdentifier){
         Optional<Menu> menu = menuRepository.findByMenuIdentifier(menuIdentifier);
         if(menu.isPresent()){
             return menu.get();
