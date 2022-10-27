@@ -6,7 +6,6 @@ import br.com.delivery.pidao.entities.Menu;
 import br.com.delivery.pidao.entities.dto.CategoryDTO;
 import br.com.delivery.pidao.exceptions.CategoryNotFound;
 import br.com.delivery.pidao.repositories.CategoryRepository;
-import br.com.delivery.pidao.repositories.MenuRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -19,12 +18,10 @@ public class CategoryService {
 
     private MenuService menuService;
 
-    private ItemService itemService;
-
     private CategoryRepository categoryRepository;
 
     public String addCategory(CategoryDTO categoryDTO) {
-        Menu menu = menuService.getMenu(categoryDTO.getMenuIdentifier());
+        Menu menu = menuService.findMenuByIdentifier(categoryDTO.getMenuIdentifier());
         Optional<Category> category = categoryRepository.findByDetailsAndMenuIdentifier(categoryDTO.getDetails(), menu.getMenuIdentifier());
 
         if (category.isPresent()) {
@@ -36,7 +33,7 @@ public class CategoryService {
     }
 
     public String updateCategory(CategoryDTO categoryDTO) {
-        Menu menu = menuService.getMenu(categoryDTO.getMenuIdentifier());
+        Menu menu = menuService.findMenuByIdentifier(categoryDTO.getMenuIdentifier());
 
         Optional<Category> category = categoryRepository.findByDetailsAndMenuIdentifier(categoryDTO.getDetails(), menu.getMenuIdentifier());
 
