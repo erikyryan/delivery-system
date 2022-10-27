@@ -40,16 +40,7 @@ public class ClientController {
             return ResponseEntity.badRequest().body(e.getMessage());
         }
     } */
-    
 
-    @PostMapping("/addAddress")
-    public ResponseEntity<?> insertAdress(@RequestBody AddressDTO adressDTO){
-        try{
-            return ResponseEntity.ok(clientService.addAdress(adressDTO));
-        }catch (Exception e){
-            return ResponseEntity.badRequest().body(e.getMessage());
-        }
-    }
 
     /* 
      *  @PostMapping(value = "/loginUser")
