@@ -1,0 +1,1 @@
+INSERT INTO public.address (adress_identifier, city, client_identifier, details, neighborhood, "number", public_place, restaraunt_identifier, state, zip_code) VALUES('', '', '', '', '', '', '', '', '', '');
