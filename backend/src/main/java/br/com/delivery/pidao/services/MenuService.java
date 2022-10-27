@@ -17,7 +17,7 @@ public class MenuService {
 
     private MenuRepository menuRepository;
 
-    private RestaurantRepository restaurantRepository;
+    private RestaurantService restaurantService;
 
     public Menu getMenu(String menuIdentifier){
         Optional<Menu> menu = menuRepository.findByMenuIdentifier(menuIdentifier);
@@ -29,14 +29,10 @@ public class MenuService {
 
     public Restaurant getRestaurantFromIdentifier(String menuIdentifier){
         Optional<Menu> menu = menuRepository.findByMenuIdentifier(menuIdentifier);
-        if(menu.isPresent()){
-            Optional<Restaurant> restaurant = restaurantRepository.findByRestaurantIdentifier(menu.get().getRestaurantIdentifier());
-            if(restaurant.isPresent()) {
-                return restaurant.get();
-            }
-
-            throw new RestaurantNotFound("Restaurante não encontrado");
+        if(menu.isPresent()) {
+            return restaurantService.findByRestaurantIdentifier(menu.get().getRestaurantIdentifier());
         }
+
         throw new MenuNotFound("Menu não encontrado");
     }
 

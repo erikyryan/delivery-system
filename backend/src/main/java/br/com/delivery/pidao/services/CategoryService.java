@@ -19,8 +19,6 @@ public class CategoryService {
 
     private MenuService menuService;
 
-    private ItemService itemService;
-
     private CategoryRepository categoryRepository;
 
     public String addCategory(CategoryDTO categoryDTO) {
