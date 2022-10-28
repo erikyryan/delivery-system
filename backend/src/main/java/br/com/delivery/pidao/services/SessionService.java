@@ -8,6 +8,7 @@ import br.com.delivery.pidao.entities.dto.UserDTO;
 import br.com.delivery.pidao.repositories.ClientRepository;
 import br.com.delivery.pidao.repositories.ManagerRepository;
 import br.com.delivery.pidao.repositories.SessionRepository;
+import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -15,7 +16,7 @@ import java.util.Date;
 import java.util.Optional;
 
 @Service
-@RequiredArgsConstructor
+@AllArgsConstructor
 public class SessionService {
 
     private SessionRepository loginSessionRepository;

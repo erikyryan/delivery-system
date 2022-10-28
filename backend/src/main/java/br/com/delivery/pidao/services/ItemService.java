@@ -8,6 +8,7 @@ import br.com.delivery.pidao.exceptions.ItemNotFound;
 import br.com.delivery.pidao.exceptions.RestaurantNotFound;
 import br.com.delivery.pidao.repositories.ItemRepository;
 import br.com.delivery.pidao.repositories.RestaurantRepository;
+import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -19,7 +20,7 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
-@RequiredArgsConstructor
+@AllArgsConstructor
 public class ItemService {
 
     private UserService userService;

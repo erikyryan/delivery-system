@@ -6,6 +6,7 @@ import br.com.delivery.pidao.entities.Menu;
 import br.com.delivery.pidao.entities.dto.CategoryDTO;
 import br.com.delivery.pidao.exceptions.CategoryNotFound;
 import br.com.delivery.pidao.repositories.CategoryRepository;
+import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -13,7 +14,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
-@RequiredArgsConstructor
+@AllArgsConstructor
 public class CategoryService {
 
     private MenuService menuService;
@@ -86,11 +87,9 @@ public class CategoryService {
     }
 
     List<Category> findByMenuIdentifier(String menuIdentifier){
-        Optional<List<Category>> categories = categoryRepository.findByMenuIdentifier(menuIdentifier);
-        if(categories.isPresent()){
-            if(!categories.get().isEmpty()) {
-                return categories.get();
-            }
+        List<Category> categories = categoryRepository.findByMenuIdentifier(menuIdentifier);
+        if(!categories.isEmpty()){
+            return categories;
         }
         throw new CategoryNotFound("Categorias não existente");
 

@@ -57,12 +57,15 @@ public class ClientService {
     }
 
     public ClientDTO createUserClient(ClientDTO clientDTO){
-
         this.validateUserExistreate(clientDTO.toUserDTO());
-        
+
         Client newClient = clientDTO.dtoToEntity();
-        clientRepository.save(newClient);
-        return clientDTO; 
+        Client client = clientRepository.save(newClient);
+        AddressDTO addressDTO = clientDTO.getAddressDTO().dtoAndClientIdentifierToAdressDTO(client.getUserIdentifier());
+        adressService.addAdress(addressDTO);
+
+
+        return clientDTO;
     }
 
     public AddressDTO addAdress(AddressDTO addressDTO){

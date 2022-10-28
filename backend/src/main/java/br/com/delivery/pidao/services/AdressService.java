@@ -10,13 +10,14 @@ import br.com.delivery.pidao.exceptions.CategoryNotFound;
 import br.com.delivery.pidao.repositories.AdressRepository;
 import br.com.delivery.pidao.repositories.CategoryRepository;
 import br.com.delivery.pidao.repositories.MenuRepository;
+import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
 
 @Service
-@RequiredArgsConstructor
+@AllArgsConstructor
 public class AdressService{
 
     AdressRepository adressRepository;    

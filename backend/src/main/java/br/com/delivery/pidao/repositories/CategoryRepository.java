@@ -17,5 +17,5 @@ public interface CategoryRepository extends JpaRepository<Category, Long> {
 
     Optional<Category> findByCategoryIdentifier(String categoryIdentifier);
 
-    Optional<List<Category>> findByMenuIdentifier(String menuIdentifier);
+    List<Category> findByMenuIdentifier(String menuIdentifier);
 }

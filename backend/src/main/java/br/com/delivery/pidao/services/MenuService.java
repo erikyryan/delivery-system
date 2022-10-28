@@ -6,13 +6,14 @@ import br.com.delivery.pidao.entities.Restaurant;
 import br.com.delivery.pidao.entities.dto.MenuDTO;
 import br.com.delivery.pidao.exceptions.MenuNotFound;
 import br.com.delivery.pidao.repositories.MenuRepository;
+import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
 
 @Service
-@RequiredArgsConstructor
+@AllArgsConstructor
 public class MenuService {
 
     private MenuRepository menuRepository;

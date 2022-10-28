@@ -2,10 +2,11 @@ package br.com.delivery.pidao.entities.dto;
 
 import br.com.delivery.pidao.entities.Address;
 import lombok.AllArgsConstructor;
+import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-@Getter
+@Data
 @AllArgsConstructor
 @NoArgsConstructor
 public class AddressDTO {
@@ -36,4 +37,6 @@ public class AddressDTO {
 
        return address;
     }
+
+
 }

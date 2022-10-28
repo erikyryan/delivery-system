@@ -17,7 +17,7 @@ public class ClientDTO {
     private String name;
     private String socialsSecurity;
     private String cellphone;
-    private String adressIdentifier;
+    private AddressClientDTO addressDTO;
 
 
     public UserDTO toUserDTO(){
@@ -33,7 +33,6 @@ public class ClientDTO {
         client.setSocialsSecurity(socialsSecurity);
         client.setCellphone(cellphone);
         client.setDate(date);
-        client.setAdressIdentifier(adressIdentifier);
         return client;
     }
 }

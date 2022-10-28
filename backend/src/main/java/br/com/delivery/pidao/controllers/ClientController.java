@@ -21,7 +21,9 @@ import lombok.RequiredArgsConstructor;
 @AllArgsConstructor
 public class ClientController {
 
-    ClientService clientService;
+    private ClientService clientService;
+
+    private  AdressService adressService;
 
     @PostMapping("/addClient")
     public ResponseEntity<?> insertClient(@RequestBody ClientDTO clientDTO){
@@ -56,9 +58,5 @@ public class ClientController {
     	this.clientService.logoutUser(token);	
     	return ResponseEntity.ok("");
     }
-  
-
-   
-        
 }
 
