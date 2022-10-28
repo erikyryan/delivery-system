@@ -25,6 +25,8 @@ public class ClientController {
 
     private  AdressService adressService;
 
+    private UserService userService;
+
     @PostMapping("/addClient")
     public ResponseEntity<?> insertClient(@RequestBody ClientDTO clientDTO){
         try{
@@ -33,27 +35,24 @@ public class ClientController {
             return ResponseEntity.badRequest().body(e.getMessage());
         }
     }
-/*
-@PostMapping("/addManager")
+
+    @PostMapping("/addManager")
     public ResponseEntity<?> insertManager(@RequestBody ManagerDTO managerDTO){
         try{
-            return ResponseEntity.ok(clientService.addUserManager(managerDTO));
+            return ResponseEntity.ok(clientService.createUserManager(managerDTO));
         }catch (Exception e){
             return ResponseEntity.badRequest().body(e.getMessage());
         }
-    } */
+    }
 
-
-    /* 
-     *  @PostMapping(value = "/loginUser")
-    public ResponseEntity<?> login(@RequestBody final UserDTO userDTO) {
-    	String token = this.clientService.loginUser(userDTO);
+    @PostMapping("/loginUser")
+    public ResponseEntity<?> login(@RequestBody UserDTO userDTO) {
+    	String token = this.userService.login(userDTO);
     	return ResponseEntity.ok(token);
     }
-    */
    
-    
-    @PostMapping(value = "/logoutUser")
+   
+    @PostMapping("/logoutUser")
     public ResponseEntity<?> logout(@RequestHeader("token") final String token){
     	this.clientService.logoutUser(token);	
     	return ResponseEntity.ok("");

@@ -4,6 +4,7 @@ import br.com.delivery.pidao.entities.Client;
 import br.com.delivery.pidao.entities.Delivery;
 import br.com.delivery.pidao.entities.Manager;
 import br.com.delivery.pidao.entities.dto.UserDTO;
+import br.com.delivery.pidao.enums.UserTypeEnum;
 import br.com.delivery.pidao.repositories.ClientRepository;
 import br.com.delivery.pidao.repositories.DeliveryRepository;
 import br.com.delivery.pidao.repositories.ManagerRepository;
@@ -64,23 +65,23 @@ public class UserDAO {
         return null;
     }
 
-    public int typeUser(String email){
+    public UserTypeEnum typeUser(String email){
         Optional <Client> userClient = clientRepository.findByEmail(email);
         if(userClient.isPresent()){
-            return 1;
+            return UserTypeEnum.CUSTOMER;
         }
 
         Optional <Manager> userManageer = managerRepository.findByEmail(email);
         if(userManageer.isPresent()){
-            return 2;
+            return UserTypeEnum.MANAGER;
         }
 
         Optional <Delivery> userDelivery = deliveryRepository.findByEmail(email);
         if(userDelivery.isPresent()){
-            return 3;
+            return UserTypeEnum.DELIVERYMAN;
         }
         
-        return 0;
+        return null;
     }
 
 }

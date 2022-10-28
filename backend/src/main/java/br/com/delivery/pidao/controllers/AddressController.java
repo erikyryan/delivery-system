@@ -33,7 +33,7 @@ public class AddressController {
     }
 
     @PostMapping("/{addresIdentifier}")
-    public ResponseEntity<?> updateCategory(@RequestHeader final String token,@RequestBody AddressDTO addressDTO){
+    public ResponseEntity<?> updateAddress(@RequestHeader final String token,@RequestBody AddressDTO addressDTO){
         try {
             sessionService.validateToken(token);
             UserDTO userDTO = sessionService.findUserDTOByToken(token);

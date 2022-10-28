@@ -3,6 +3,8 @@ package br.com.delivery.pidao.services;
 import java.lang.StackWalker.Option;
 import java.util.Optional;
 
+import javax.swing.InternalFrameFocusTraversalPolicy;
+
 import lombok.NoArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
@@ -35,7 +37,6 @@ public class ClientService {
 
     private AdressRepository adressRepository;
 
-    private Optional<Client> findByEmail;
 
     public boolean validateUserExistreate(UserDTO userDTO){
         Optional<Manager> manager = managerRepository.findByEmail(userDTO.getEmail());
@@ -74,36 +75,18 @@ public class ClientService {
 
         return addressDTO;
     }
-/*
- * public ManagerDTO addUserManager(ManagerDTO managerDTO){
-        //Optional<Manager> manager = userDAO.valitadeUserEmail(managerDTO.dtoToEntity().getEmail())
-        if(!manager.isPresent()){
-            Manager newmanager = managerDTO.dtoToEntity();
-            managerRepository.save(newmanager);
-            return managerDTO;
-        }else{
-            throw new RuntimeException("Gerente já cadastrado");
 
-        }
+    public ManagerDTO createUserManager(ManagerDTO managerDTO){
+        this.validateUserExistreate(managerDTO.toUserDTO());
+
+        Manager newManager = managerDTO.dtoToEntity();
+        Manager manager = managerRepository.save(newManager);
+        AddressDTO addressDTO = managerDTO.getAddressDTO().dtoAndRestaurantIdentifierToAdressDTO(manager.getUserIdentifier());
+        adressService.addAdress(addressDTO);
+
+        return managerDTO;
     }
-*/
-    
 
-/*
-    public String loginUser(UserDTO userDTO) {
-        UserTypeEnum typeUser = userDAO.typeUser(userDTO.getEmail());
-        if(typeUser == UserTypeEnum.CUSTOMER){
-            
-        }else if(typeUser == UserTypeEnum.MANAGER){
-           
-        }else if(typeUser == UserTypeEnum.DELIVERYMAN){
-            
-        }
-
-        return sessionService.generateSession();  
-   } */
- 
-   
    public LoginSession logoutUser(String token) {
        try {
            LoginSession session = sessionService.logout(token);
