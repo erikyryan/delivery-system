@@ -15,7 +15,7 @@ public class Restaurant implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private Long adressRestaurant;
+    private String adressRestaurant;
 
     private String restaurantIdentifier = UUID.randomUUID().toString();
 
