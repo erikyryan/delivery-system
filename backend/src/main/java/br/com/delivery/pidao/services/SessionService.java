@@ -25,8 +25,6 @@ public class SessionService {
 
     private ClientRepository clientRepository;
 
-    private UserService userService;
-
     public void validateToken(String token) {
         LoginSession session = this.findSessionByToken(token);
         Date expirationDate = session.getExpirationDate();
