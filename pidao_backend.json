@@ -1,0 +1,830 @@
+swagger: '2.0'
+host: localhost:8080
+basePath: /
+tags:
+  - name: address-controller
+    description: Address Controller
+  - name: category-controller
+    description: Category Controller
+  - name: client-controller
+    description: Client Controller
+  - name: client-order-controller
+    description: Client Order Controller
+  - name: item-controller
+    description: Item Controller
+  - name: menu-controller
+    description: Menu Controller
+consumes:
+  - application/json
+produces:
+  - application/json
+paths:
+  /Client/addClient:
+    post:
+      tags:
+        - client-controller
+      summary: insertClient
+      operationId: insertClientUsingPOST
+      parameters:
+        - in: body
+          name: clientDTO
+          description: clientDTO
+          required: true
+          schema:
+            $ref: '#/definitions/ClientDTO'
+      responses:
+        '200':
+          description: OK
+          schema:
+            type: object
+        '201':
+          description: Created
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+  /Client/logoutUser:
+    post:
+      tags:
+        - client-controller
+      summary: logout
+      operationId: logoutUsingPOST
+      parameters:
+        - name: token
+          in: header
+          description: token
+          required: true
+          type: string
+      responses:
+        '200':
+          description: OK
+          schema:
+            type: object
+        '201':
+          description: Created
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+  /addAddress:
+    post:
+      tags:
+        - address-controller
+      summary: insertAdress
+      operationId: insertAdressUsingPOST
+      parameters:
+        - in: body
+          name: adressDTO
+          description: adressDTO
+          required: true
+          schema:
+            $ref: '#/definitions/AddressDTO'
+      responses:
+        '200':
+          description: OK
+          schema:
+            type: object
+        '201':
+          description: Created
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+  /category:
+    post:
+      tags:
+        - category-controller
+      summary: insertCategory
+      operationId: insertCategoryUsingPOST
+      parameters:
+        - in: body
+          name: categoryDTO
+          description: categoryDTO
+          required: true
+          schema:
+            $ref: '#/definitions/CategoryDTO'
+        - name: token
+          in: header
+          description: token
+          required: true
+          type: string
+      responses:
+        '200':
+          description: OK
+          schema:
+            type: object
+        '201':
+          description: Created
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+    put:
+      tags:
+        - category-controller
+      summary: updateCategory
+      operationId: updateCategoryUsingPUT
+      parameters:
+        - in: body
+          name: categoryDTO
+          description: categoryDTO
+          required: true
+          schema:
+            $ref: '#/definitions/CategoryDTO'
+        - name: token
+          in: header
+          description: token
+          required: true
+          type: string
+      responses:
+        '200':
+          description: OK
+          schema:
+            type: object
+        '201':
+          description: Created
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+  /category/{categoryIdentifier}:
+    get:
+      tags:
+        - category-controller
+      summary: findCategoryByIdentifier
+      operationId: findCategoryByIdentifierUsingGET
+      parameters:
+        - name: categoryIdentifier
+          in: header
+          description: categoryIdentifier
+          required: true
+          type: string
+        - name: token
+          in: header
+          description: token
+          required: true
+          type: string
+      responses:
+        '200':
+          description: OK
+          schema:
+            type: object
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+    delete:
+      tags:
+        - category-controller
+      summary: updateCategory
+      operationId: updateCategoryUsingDELETE
+      parameters:
+        - name: categoryIdentifier
+          in: path
+          description: categoryIdentifier
+          required: true
+          type: string
+        - name: token
+          in: header
+          description: token
+          required: true
+          type: string
+      responses:
+        '200':
+          description: OK
+          schema:
+            type: object
+        '204':
+          description: No Content
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+  /item:
+    post:
+      tags:
+        - item-controller
+      summary: insertItem
+      operationId: insertItemUsingPOST
+      parameters:
+        - in: body
+          name: itemDTO
+          description: itemDTO
+          required: true
+          schema:
+            $ref: '#/definitions/ItemDTO'
+        - name: token
+          in: header
+          description: token
+          required: true
+          type: string
+      responses:
+        '200':
+          description: OK
+          schema:
+            type: object
+        '201':
+          description: Created
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+  /item/public/{categoryIdentifier}:
+    get:
+      tags:
+        - item-controller
+      summary: findAllByCategoryIdentifier
+      operationId: findAllByCategoryIdentifierUsingGET
+      parameters:
+        - name: categoryIdentifier
+          in: path
+          description: categoryIdentifier
+          required: true
+          type: string
+        - name: token
+          in: header
+          description: token
+          required: true
+          type: string
+      responses:
+        '200':
+          description: OK
+          schema:
+            type: object
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+  /item/public/{menuIdentifier}:
+    get:
+      tags:
+        - item-controller
+      summary: findAllByMenuIdentifier
+      operationId: findAllByMenuIdentifierUsingGET
+      parameters:
+        - name: menuIdentifier
+          in: path
+          description: menuIdentifier
+          required: true
+          type: string
+        - name: token
+          in: header
+          description: token
+          required: true
+          type: string
+      responses:
+        '200':
+          description: OK
+          schema:
+            type: object
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+  /item/{itemIdentifier}:
+    get:
+      tags:
+        - item-controller
+      summary: findItemByIdentifier
+      operationId: findItemByIdentifierUsingGET
+      parameters:
+        - name: itemIdentifier
+          in: path
+          description: itemIdentifier
+          required: true
+          type: string
+        - name: token
+          in: header
+          description: token
+          required: true
+          type: string
+      responses:
+        '200':
+          description: OK
+          schema:
+            type: object
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+    put:
+      tags:
+        - item-controller
+      summary: updateItem
+      operationId: updateItemUsingPUT
+      parameters:
+        - in: body
+          name: itemDTO
+          description: itemDTO
+          required: true
+          schema:
+            $ref: '#/definitions/ItemDTO'
+        - name: itemIdentifier
+          in: path
+          description: itemIdentifier
+          required: true
+          type: string
+        - name: token
+          in: header
+          description: token
+          required: true
+          type: string
+      responses:
+        '200':
+          description: OK
+          schema:
+            type: object
+        '201':
+          description: Created
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+  /item/{menuIdentifier}:
+    delete:
+      tags:
+        - item-controller
+      summary: deleteItem
+      operationId: deleteItemUsingDELETE
+      parameters:
+        - in: body
+          name: itemDescriptionDTO
+          description: itemDescriptionDTO
+          required: true
+          schema:
+            $ref: '#/definitions/ItemDescriptionDTO'
+        - name: itemIdentifier
+          in: path
+          description: itemIdentifier
+          required: true
+          type: string
+        - name: token
+          in: header
+          description: token
+          required: true
+          type: string
+      responses:
+        '200':
+          description: OK
+          schema:
+            type: object
+        '204':
+          description: No Content
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+  /menu:
+    post:
+      tags:
+        - menu-controller
+      summary: insertMenu
+      operationId: insertMenuUsingPOST
+      parameters:
+        - name: email
+          in: query
+          required: false
+          type: string
+        - in: body
+          name: menuDTO
+          description: menuDTO
+          required: true
+          schema:
+            $ref: '#/definitions/MenuDTO'
+        - name: password
+          in: query
+          required: false
+          type: string
+        - name: token
+          in: header
+          description: token
+          required: true
+          type: string
+      responses:
+        '200':
+          description: OK
+          schema:
+            type: object
+        '201':
+          description: Created
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+  /menu/{menuIdentifier}:
+    get:
+      tags:
+        - menu-controller
+      summary: findByIdentifier
+      operationId: findByIdentifierUsingGET
+      parameters:
+        - name: email
+          in: query
+          required: false
+          type: string
+        - name: menuIdentifier
+          in: path
+          description: menuIdentifier
+          required: true
+          type: string
+        - name: password
+          in: query
+          required: false
+          type: string
+        - name: token
+          in: header
+          description: token
+          required: true
+          type: string
+      responses:
+        '200':
+          description: OK
+          schema:
+            type: object
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+    delete:
+      tags:
+        - menu-controller
+      summary: deleteMenu
+      operationId: deleteMenuUsingDELETE
+      parameters:
+        - name: email
+          in: query
+          required: false
+          type: string
+        - name: menuIdentifier
+          in: path
+          description: menuIdentifier
+          required: true
+          type: string
+        - name: password
+          in: query
+          required: false
+          type: string
+        - name: token
+          in: header
+          description: token
+          required: true
+          type: string
+      responses:
+        '200':
+          description: OK
+          schema:
+            type: object
+        '204':
+          description: No Content
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+  /order:
+    get:
+      tags:
+        - client-order-controller
+      summary: getAllOrders
+      operationId: getAllOrdersUsingGET
+      parameters:
+        - name: clientIdentifier
+          in: header
+          description: clientIdentifier
+          required: true
+          type: string
+        - name: token
+          in: header
+          description: token
+          required: true
+          type: string
+      responses:
+        '200':
+          description: OK
+          schema:
+            type: object
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+    post:
+      tags:
+        - client-order-controller
+      summary: saveOrder
+      operationId: saveOrderUsingPOST
+      parameters:
+        - in: body
+          name: order
+          description: order
+          required: true
+          schema:
+            $ref: '#/definitions/ClientOrder'
+        - name: token
+          in: header
+          description: token
+          required: true
+          type: string
+      responses:
+        '200':
+          description: OK
+          schema:
+            type: object
+        '201':
+          description: Created
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+  /order/{OrderId}:
+    get:
+      tags:
+        - client-order-controller
+      summary: getOrderById
+      operationId: getOrderByIdUsingGET
+      parameters:
+        - name: OrderId
+          in: path
+          description: OrderId
+          required: true
+          type: integer
+          format: int64
+        - name: token
+          in: header
+          description: token
+          required: true
+          type: string
+      responses:
+        '200':
+          description: OK
+          schema:
+            $ref: '#/definitions/ClientOrder'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+    put:
+      tags:
+        - client-order-controller
+      summary: updateOrder
+      operationId: updateOrderUsingPUT
+      parameters:
+        - in: body
+          name: clientOrder
+          description: clientOrder
+          required: true
+          schema:
+            $ref: '#/definitions/ClientOrder'
+        - name: OrderId
+          in: path
+          description: OrderId
+          required: true
+          type: integer
+          format: int64
+        - name: token
+          in: header
+          description: token
+          required: true
+          type: string
+      responses:
+        '200':
+          description: OK
+        '201':
+          description: Created
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+    delete:
+      tags:
+        - client-order-controller
+      summary: removeOrder
+      operationId: removeOrderUsingDELETE
+      parameters:
+        - name: OrderId
+          in: path
+          description: OrderId
+          required: true
+          type: integer
+          format: int64
+        - name: token
+          in: header
+          description: token
+          required: true
+          type: string
+      responses:
+        '200':
+          description: OK
+        '204':
+          description: No Content
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+  /{addresIdentifier}:
+    post:
+      tags:
+        - address-controller
+      summary: updateCategory
+      operationId: updateCategoryUsingPOST
+      parameters:
+        - in: body
+          name: addressDTO
+          description: addressDTO
+          required: true
+          schema:
+            $ref: '#/definitions/AddressDTO'
+        - name: token
+          in: header
+          description: token
+          required: true
+          type: string
+      responses:
+        '200':
+          description: OK
+          schema:
+            type: object
+        '201':
+          description: Created
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+definitions:
+  AddressClientDTO:
+    type: object
+    properties:
+      city:
+        type: string
+      details:
+        type: string
+      neighborhood:
+        type: string
+      number:
+        type: string
+      publicPlace:
+        type: string
+      state:
+        type: string
+      zipCode:
+        type: string
+    title: AddressClientDTO
+  AddressDTO:
+    type: object
+    properties:
+      city:
+        type: string
+      clientIdentifier:
+        type: string
+      details:
+        type: string
+      neighborhood:
+        type: string
+      number:
+        type: string
+      publicPlace:
+        type: string
+      restarauntIdentifier:
+        type: string
+      state:
+        type: string
+      zipCode:
+        type: string
+    title: AddressDTO
+  CategoryDTO:
+    type: object
+    properties:
+      details:
+        type: string
+      menuIdentifier:
+        type: string
+    title: CategoryDTO
+  Client:
+    type: object
+    properties:
+      adressIdentifier:
+        type: string
+      cellphone:
+        type: string
+      date:
+        type: string
+      email:
+        type: string
+      id:
+        type: integer
+        format: int64
+      name:
+        type: string
+      orderClient:
+        type: array
+        items:
+          $ref: '#/definitions/ClientOrder'
+      password:
+        type: string
+      socialsSecurity:
+        type: string
+      userIdentifier:
+        type: string
+    title: Client
+  ClientDTO:
+    type: object
+    properties:
+      addressDTO:
+        $ref: '#/definitions/AddressClientDTO'
+      cellphone:
+        type: string
+      date:
+        type: string
+      email:
+        type: string
+      name:
+        type: string
+      password:
+        type: string
+      socialsSecurity:
+        type: string
+    title: ClientDTO
+  ClientOrder:
+    type: object
+    properties:
+      client:
+        $ref: '#/definitions/Client'
+      clientOrderIdentifier:
+        type: string
+      comment:
+        type: string
+      id:
+        type: integer
+        format: int64
+      name:
+        type: string
+      status:
+        type: string
+        enum:
+          - ANDAMENTO
+          - Entregue
+          - FINALIZADO
+          - PROCESSANDO
+      value:
+        type: string
+    title: ClientOrder
+  ItemDTO:
+    type: object
+    properties:
+      categoryIdentifier:
+        type: string
+      description:
+        type: string
+      name:
+        type: string
+      value:
+        type: number
+        format: double
+    title: ItemDTO
+  ItemDescriptionDTO:
+    type: object
+    properties:
+      description:
+        type: string
+      detailsCategory:
+        type: string
+      name:
+        type: string
+    title: ItemDescriptionDTO
+  MenuDTO:
+    type: object
+    title: MenuDTO
