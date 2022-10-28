@@ -22,5 +22,7 @@ INSERT INTO public.restaurant (adress_restaurant, cellphone, date, manager_ident
 INSERT INTO public.menu (menuidentifier, restaurant_identifier) VALUES('2632b1bc-142e-401c-a1b4-0365b8240546', '8492df54-cf7f-4e03-a7e2-214d09a7c46a');
 
 INSERT INTO public.category (categoryidentifier, details, menu_identifier) VALUES('d69baea9-600d-43fb-bb6e-e9ed0b06a1a3', 'Pizza', '2632b1bc-142e-401c-a1b4-0365b8240546');
+INSERT INTO public.category (categoryidentifier, details, menu_identifier) VALUES('b9fb8b33-03cb-4076-924d-5fef046ca9aa', 'Hambuguer', '2632b1bc-142e-401c-a1b4-0365b8240546');
 
 INSERT INTO public.item (category_identifier, description, item_identifier, name, value) VALUES('d69baea9-600d-43fb-bb6e-e9ed0b06a1a3', 'Molho de tomate, mussarela, lombo canadense fatiado, milho, bacon e alho tostado.', 'c87a212f-13c2-414d-a141-41105d1927ab', 'Sertaneja', '34,99');
+INSERT INTO public.item (category_identifier, description, item_identifier, name, value) VALUES('b9fb8b33-03cb-4076-924d-5fef046ca9aa', 'bacon bife de hambúrguer, presunto, queijo mussarela, ovo frito, tomate, alface, hambúrguer, maionese, catchup', '95699ce4-b52f-46e7-acf9-2f3c6186b530', 'X Tudo', '14,99');
