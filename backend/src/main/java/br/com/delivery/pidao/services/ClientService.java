@@ -15,6 +15,9 @@ import br.com.delivery.pidao.dao.*;
 import br.com.delivery.pidao.entities.dto.*;
 import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
+import validator.ValidatorEmail;
+import validator.ValidatorPassword;
+import validator.ValidatorTaxNumber;
 import br.com.delivery.pidao.entities.*;
 import br.com.delivery.pidao.enums.*;
 import br.com.delivery.pidao.repositories.*;
@@ -57,8 +60,30 @@ public class ClientService {
         return false;
     }
 
+    public boolean validateEmailAndPasswordAndTaxNumber(String email, String password, String taxNumber){
+
+        boolean validatorEmail = new ValidatorEmail().emailIsValid(email);
+        boolean validatorPassword = new ValidatorPassword().passwordIsValid(password);
+        boolean validatorTaxNumber = new ValidatorTaxNumber().taxNumberIsValid(taxNumber);
+
+        if(validatorEmail == true){
+            if(validatorPassword == true){
+                if(validatorTaxNumber == true){
+                    return true;
+                }else{
+                    throw new  RuntimeException("CPF/CNPJ ínvalido");
+                }
+            }else{
+                throw new  RuntimeException("Senha ínvalida");
+            }    
+        }else{
+            throw new  RuntimeException("Email ínvalido");
+        } 
+    }
+
     public ClientDTO createUserClient(ClientDTO clientDTO){
         this.validateUserExistreate(clientDTO.toUserDTO());
+        this.validateEmailAndPasswordAndTaxNumber(clientDTO.getEmail(),clientDTO.getPassword(), clientDTO.getSocialsSecurity());
 
         Client newClient = clientDTO.dtoToEntity();
         Client client = clientRepository.save(newClient);
