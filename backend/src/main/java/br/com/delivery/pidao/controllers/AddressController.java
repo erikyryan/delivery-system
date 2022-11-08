@@ -17,6 +17,7 @@ import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
 
 @RestController
+@AllArgsConstructor
 public class AddressController {
 
     AdressService adressService;

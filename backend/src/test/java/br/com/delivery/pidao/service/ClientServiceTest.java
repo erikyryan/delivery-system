@@ -69,13 +69,13 @@ public class ClientServiceTest {
         clientDTO.setPassword("JoseKSGDFD@1723!2345");
         clientDTO.setSocialsSecurity("731.485.580-30");
 
-        when(clientService.validateEmailAndPasswordAndTaxNumber(clientDTO.getEmail(), clientDTO.getPassword(), clientDTO.getSocialsSecurity())).thenReturn(true);
-        when(clientRepository.save(clientDTO.dtoToEntity())).thenReturn(clientDTO.dtoToEntity());
-        when(clientDTO.getAddressDTO().dtoAndClientIdentifierToAdressDTO(anyString())).thenReturn(addressDTO);
-        when(adressService.addAdress(addressDTO)).thenReturn(addressDTO);
-        when(managerRepository.findByEmail(anyString())).thenReturn(any());
-        when(clientRepository.findByEmail(anyString())).thenReturn(any());
-        when(deliveryRepository.findByEmail(anyString())).thenReturn(any());
+//        when(clientService.validateEmailAndPasswordAndTaxNumber(clientDTO.getEmail(), clientDTO.getPassword(), clientDTO.getSocialsSecurity())).thenReturn(true);
+//        when(clientRepository.save(clientDTO.dtoToEntity())).thenReturn(clientDTO.dtoToEntity());
+//        when(clientDTO.getAddressDTO().dtoAndClientIdentifierToAdressDTO(anyString())).thenReturn(addressDTO);
+//        when(adressService.addAdress(addressDTO)).thenReturn(addressDTO);
+//        when(managerRepository.findByEmail(anyString())).thenReturn(any());
+//        when(clientRepository.findByEmail(anyString())).thenReturn(any());
+//        when(deliveryRepository.findByEmail(anyString())).thenReturn(any());
 
         Assert.assertEquals(clientService.createUserClient(clientDTO),clientDTO);
 
@@ -89,10 +89,10 @@ public class ClientServiceTest {
         managerDTO.setPassword("JoseKSGDFD@1723!2345");
         managerDTO.setSocialsSecurity("731.485.580-30");
 
-        when(clientService.validateEmailAndPasswordAndTaxNumber(managerDTO.getEmail(), managerDTO.getPassword(), managerDTO.getSocialsSecurity())).thenReturn(true);
-        when(managerDTO.getAddressDTO().dtoAndRestaurantIdentifierToAdressDTO(anyString())).thenReturn(addressDTO);
-        when(adressService.addAdress(addressDTO)).thenReturn(addressDTO);
-        when(managerRepository.findByEmail(anyString())).thenReturn(any());
+//        when(clientService.validateEmailAndPasswordAndTaxNumber(managerDTO.getEmail(), managerDTO.getPassword(), managerDTO.getSocialsSecurity())).thenReturn(true);
+//        when(managerDTO.getAddressDTO().dtoAndRestaurantIdentifierToAdressDTO(anyString())).thenReturn(addressDTO);
+//        when(adressService.addAdress(addressDTO)).thenReturn(addressDTO);
+//        when(managerRepository.findByEmail(anyString())).thenReturn(any());
 
         Assert.assertEquals(clientService.createUserManager(managerDTO),managerDTO);
     }
@@ -104,11 +104,11 @@ public class ClientServiceTest {
         managerDTO.setEmail("joseraimundo@gmail.com");
         managerDTO.setPassword("JoseKSGDFD@1723!2345");
         managerDTO.setSocialsSecurity("731.485.580-30");
-
-        when(clientService.validateEmailAndPasswordAndTaxNumber(managerDTO.getEmail(), managerDTO.getPassword(), managerDTO.getSocialsSecurity())).thenReturn(true);
-        when(managerDTO.getAddressDTO().dtoAndRestaurantIdentifierToAdressDTO(anyString())).thenReturn(addressDTO);
-        when(adressService.addAdress(addressDTO)).thenReturn(addressDTO);
-        when(managerRepository.findByEmail(anyString())).thenReturn(any());
+//
+//        when(clientService.validateEmailAndPasswordAndTaxNumber(managerDTO.getEmail(), managerDTO.getPassword(), managerDTO.getSocialsSecurity())).thenReturn(true);
+//        when(managerDTO.getAddressDTO().dtoAndRestaurantIdentifierToAdressDTO(anyString())).thenReturn(addressDTO);
+//        when(adressService.addAdress(addressDTO)).thenReturn(addressDTO);
+//        when(managerRepository.findByEmail(anyString())).thenReturn(any());
 
         Assert.assertEquals(clientService.createUserManager(managerDTO),managerDTO);
     }
