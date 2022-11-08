@@ -60,22 +60,18 @@ public class ClientService {
         return false;
     }
 
-    public boolean validateEmailAndPasswordAndTaxNumber(String email, String password, String taxNumber){
+    public boolean validateEmailAndTaxNumber(String email, String taxNumber){
 
         boolean validatorEmail = new ValidatorEmail().emailIsValid(email);
-        boolean validatorPassword = new ValidatorPassword().passwordIsValid(password);
+        //boolean validatorPassword = new ValidatorPassword().passwordIsValid(password);
         boolean validatorTaxNumber = new ValidatorTaxNumber().taxNumberIsValid(taxNumber);
 
         if(validatorEmail == true){
-            if(validatorPassword == true){
-                if(validatorTaxNumber == true){
-                    return true;
-                }else{
-                    throw new  RuntimeException("CPF/CNPJ ínvalido");
-                }
+            if(validatorTaxNumber == true){
+                return true;
             }else{
-                throw new  RuntimeException("Senha ínvalida");
-            }    
+                throw new  RuntimeException("CPF/CNPJ ínvalido");
+            }
         }else{
             throw new  RuntimeException("Email ínvalido");
         } 
@@ -83,7 +79,7 @@ public class ClientService {
 
     public ClientDTO createUserClient(ClientDTO clientDTO){
         this.validateUserExistreate(clientDTO.toUserDTO());
-        this.validateEmailAndPasswordAndTaxNumber(clientDTO.getEmail(),clientDTO.getPassword(), clientDTO.getSocialsSecurity());
+        this.validateEmailAndTaxNumber(clientDTO.getEmail(), clientDTO.getSocialsSecurity());
 
         Client newClient = clientDTO.dtoToEntity();
         Client client = clientRepository.save(newClient);
