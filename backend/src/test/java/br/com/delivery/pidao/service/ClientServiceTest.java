@@ -97,4 +97,20 @@ public class ClientServiceTest {
         Assert.assertEquals(clientService.createUserManager(managerDTO),managerDTO);
     }
 
+    @Test
+    public void shouldAddAdressThenReturnAManagerDTO(){
+        ManagerDTO managerDTO = new ManagerDTO();
+        AddressDTO addressDTO = new AddressDTO();
+        managerDTO.setEmail("joseraimundo@gmail.com");
+        managerDTO.setPassword("JoseKSGDFD@1723!2345");
+        managerDTO.setSocialsSecurity("731.485.580-30");
+
+        when(clientService.validateEmailAndPasswordAndTaxNumber(managerDTO.getEmail(), managerDTO.getPassword(), managerDTO.getSocialsSecurity())).thenReturn(true);
+        when(managerDTO.getAddressDTO().dtoAndRestaurantIdentifierToAdressDTO(anyString())).thenReturn(addressDTO);
+        when(adressService.addAdress(addressDTO)).thenReturn(addressDTO);
+        when(managerRepository.findByEmail(anyString())).thenReturn(any());
+
+        Assert.assertEquals(clientService.createUserManager(managerDTO),managerDTO);
+    }
+
 }
