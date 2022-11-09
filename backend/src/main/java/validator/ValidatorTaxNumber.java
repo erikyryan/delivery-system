@@ -7,7 +7,7 @@ public class ValidatorTaxNumber {
     public boolean taxNumberIsValid(String taxNumber){
 
         boolean isTaxNumberValid = false;
-        taxNumber.replace("-", "").replace(".", "").replace("/", "");
+       taxNumber = taxNumber.replace("-", "").replace(".", "").replace("/", "");
 
         if(taxNumber != null && taxNumber.length() == 11){
             String regex = "[0-9]{3}\\.?[0-9]{3}\\.?[0-9]{3}\\-?[0-9]{2}";
