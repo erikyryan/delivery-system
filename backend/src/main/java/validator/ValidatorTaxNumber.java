@@ -9,7 +9,7 @@ public class ValidatorTaxNumber {
         boolean isTaxNumberValid = false;
         //taxNumber.replace("-", "").replace(".", "").replace("/", "");
 
-        if(taxNumber != null && taxNumber.length() == 11){
+        if(taxNumber != null && taxNumber.length() == 14){
             String regex = "[0-9]{3}\\.?[0-9]{3}\\.?[0-9]{3}\\-?[0-9]{2}";
             Pattern pattern = Pattern.compile(regex);
             java.util.regex.Matcher matcher = pattern.matcher(taxNumber);
@@ -18,7 +18,7 @@ public class ValidatorTaxNumber {
                 isTaxNumberValid = true;
             }
 
-        }else if(taxNumber != null && taxNumber.length() == 14){
+        }else if(taxNumber != null && taxNumber.length() == 18){
             String regex = "[0-9]{2}\\.?[0-9]{3}\\.?[0-9]{3}\\//?[0-9]{4}\\-?[0-9]{2}";
             Pattern pattern = Pattern.compile(regex);
             Matcher matcher = pattern.matcher(taxNumber);

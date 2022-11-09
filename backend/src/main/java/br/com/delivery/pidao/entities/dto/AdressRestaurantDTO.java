@@ -1,8 +1,10 @@
 package br.com.delivery.pidao.entities.dto;
 
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 
 @Getter
+@AllArgsConstructor
 public class AdressRestaurantDTO {
     
     private String publicPlace;
