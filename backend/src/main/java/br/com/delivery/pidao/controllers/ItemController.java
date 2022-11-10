@@ -5,13 +5,13 @@ import br.com.delivery.pidao.entities.dto.ItemDescriptionDTO;
 import br.com.delivery.pidao.entities.dto.UserDTO;
 import br.com.delivery.pidao.services.ItemService;
 import br.com.delivery.pidao.services.SessionService;
-import lombok.RequiredArgsConstructor;
+import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 
 @RestController
-@RequiredArgsConstructor
+@AllArgsConstructor
 @RequestMapping("/item")
 public class ItemController {
 
