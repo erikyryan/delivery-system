@@ -1,81 +1,72 @@
 package br.com.delivery.pidao.controllers;
 
-import br.com.delivery.pidao.entities.ClientOrder;
-import br.com.delivery.pidao.repositories.ClientOrderRepository;
+import br.com.delivery.pidao.entities.dto.OrderDTO;
 import br.com.delivery.pidao.services.ClientOrderService;
 import br.com.delivery.pidao.services.SessionService;
-import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
+import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.server.ResponseStatusException;
-
-import java.util.List;
 
 @RestController
-@RequiredArgsConstructor
+@AllArgsConstructor
 @RequestMapping("/order")
 public class ClientOrderController {
-    private ClientOrderRepository clientOrderRepository;
 
     private SessionService sessionService;
 
     private ClientOrderService clientOrderService;
 
     @PostMapping
-    public ResponseEntity<?> saveOrder(@RequestHeader String token, @RequestBody ClientOrder order){
-        sessionService.validateToken(token);
-        clientOrderRepository.save(order);
-        return ResponseEntity.status(HttpStatus.CREATED).build();
-
+    public ResponseEntity<?> saveOrder(@RequestBody OrderDTO orderDTO, @RequestHeader("token") final String token) {
+        try {
+            sessionService.validateToken(token);
+            return ResponseEntity.ok(clientOrderService.addClientOrder(orderDTO));
+        } catch (Exception ex) {
+            return ResponseEntity.badRequest().body(ex.getMessage());
+        }
     }
 
     @GetMapping
-    public ResponseEntity<?> getAllOrders(@RequestHeader String token, @RequestHeader String clientIdentifier){
+    public ResponseEntity<?> getAllOrders(@PathVariable String clientIdentifier, @RequestHeader("token") final String token) {
 
         try {
-            //sessionService.validateToken(token);
+            sessionService.validateToken(token);
             return ResponseEntity.ok(clientOrderService.findAllByClientIdentifier(clientIdentifier));
-        } catch (Exception e) {
-            return ResponseEntity.badRequest().body(e.getMessage());
+        } catch (Exception ex) {
+            return ResponseEntity.badRequest().body(ex.getMessage());
         }
-
-
 
     }
 
     @GetMapping("/{OrderId}")
-    public ClientOrder getOrderById(@PathVariable Long OrderId,@RequestHeader String token){
-        sessionService.validateToken(token);
-        return clientOrderRepository
-                .findById(OrderId)
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Pedido não encontrado! :("));
+    public ResponseEntity<?> getOrderByIdentifier(@PathVariable String orderIdentifier, @RequestHeader String token) {
+        try {
+            sessionService.validateToken(token);
+            return ResponseEntity.ok(clientOrderService.getClientOrderByClientIdentifier(orderIdentifier));
+        } catch (Exception ex) {
+            return ResponseEntity.badRequest().body((ex.getMessage()));
+        }
     }
 
     @DeleteMapping("/{OrderId}")
-    public void removeOrder(@PathVariable Long OrderId, @RequestHeader String token){
-        sessionService.validateToken(token);
-        clientOrderRepository
-                .findById(OrderId)
-                .map( order -> {
-                    clientOrderRepository.delete(order);
-                    return Void.TYPE;
-                })
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Pedido não encontrado! :("));
+    public ResponseEntity<?> removeOrder(@PathVariable String orderIdentifier, @RequestHeader String token) {
+        try {
+            sessionService.validateToken(token);
+            clientOrderService.removeClientOrder(orderIdentifier);
+            return ResponseEntity.ok().build();
+        } catch(Exception ex) {
+            return ResponseEntity.badRequest().body(ex.getMessage());
+        }
     }
 
     @PutMapping("{OrderId}")
-    public void updateOrder(@PathVariable Long OrderId,@RequestHeader String token, @RequestBody ClientOrder clientOrder){
-        sessionService.validateToken(token);
-        clientOrderRepository
-                .findById(OrderId)
-                .map(order -> {
-                    order.setName(clientOrder.getName());
-                    order.setValue(clientOrder.getValue());
-                    order.setStatus(clientOrder.getStatus());
-                    order.setComment(clientOrder.getComment());
-                    return clientOrderRepository.save(order);
-                }).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Pedido não encontrado! :("));
+    public ResponseEntity<?> updateOrder(@PathVariable String orderIdentifier, @RequestHeader String token, @RequestBody OrderDTO orderDTO){
+        try {
+            sessionService.validateToken(token);
+            return ResponseEntity.ok(clientOrderService.updateClientOrder(orderDTO, orderIdentifier));
+        } catch (Exception ex) {
+            return ResponseEntity.badRequest().body(ex.getMessage());
+        }
     }
 
 }

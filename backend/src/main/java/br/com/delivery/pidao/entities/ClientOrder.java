@@ -25,8 +25,7 @@ public class ClientOrder implements Serializable {
     private OrderStatus status;
     private String comment;
 
-    @ManyToOne
-    private Client client;
+    private String clientIdentifier;
 
     public OrderDTO orderToDto() {
 
@@ -39,5 +38,4 @@ public class ClientOrder implements Serializable {
 
         return orderDTO;
     }
-
 }

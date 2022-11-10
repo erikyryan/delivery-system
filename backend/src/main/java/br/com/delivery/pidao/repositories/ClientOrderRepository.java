@@ -12,6 +12,7 @@ import java.util.Optional;
 @Repository
 public interface ClientOrderRepository extends JpaRepository<ClientOrder, Long> {
 
-    @Query("SELECT o FROM ClientOrder o JOIN o.client c WHERE c.userIdentifier = :clientIdentifier")
     Optional<List<ClientOrder>> findAllByClientIdentifier(String clientIdentifier);
+
+    Optional<ClientOrder> findByClientOrderIdentifier(String clientIdentifier);
 }

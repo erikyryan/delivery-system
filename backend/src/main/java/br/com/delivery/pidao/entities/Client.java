@@ -8,6 +8,7 @@ import lombok.Setter;
 
 import javax.persistence.*;
 import java.util.List;
+import java.util.UUID;
 
 @Data
 @Entity
@@ -19,8 +20,9 @@ public class Client extends User {
 
     private String adressIdentifier;
 
-    @OneToMany
-    private List<ClientOrder> OrderClient;
+    private String clientOrderIdentifier;
+
+    private String clientIdentifier = UUID.randomUUID().toString();
 
 //    @OneToMany
 //    private List<Rating> rating;
