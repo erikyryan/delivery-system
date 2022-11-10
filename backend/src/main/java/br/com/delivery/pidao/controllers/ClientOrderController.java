@@ -26,7 +26,7 @@ public class ClientOrderController {
         }
     }
 
-    @GetMapping
+    @GetMapping("/client/{clientIdentifier}")
     public ResponseEntity<?> getAllOrders(@PathVariable String clientIdentifier, @RequestHeader("token") final String token) {
 
         try {
@@ -38,7 +38,7 @@ public class ClientOrderController {
 
     }
 
-    @GetMapping("/{OrderId}")
+    @GetMapping("/{orderIdentifier}")
     public ResponseEntity<?> getOrderByIdentifier(@PathVariable String orderIdentifier, @RequestHeader String token) {
         try {
             sessionService.validateToken(token);
@@ -48,7 +48,7 @@ public class ClientOrderController {
         }
     }
 
-    @DeleteMapping("/{OrderId}")
+    @DeleteMapping("/{orderIdentifier}")
     public ResponseEntity<?> removeOrder(@PathVariable String orderIdentifier, @RequestHeader String token) {
         try {
             sessionService.validateToken(token);
@@ -59,7 +59,7 @@ public class ClientOrderController {
         }
     }
 
-    @PutMapping("{OrderId}")
+    @PutMapping("{orderIdentifier}")
     public ResponseEntity<?> updateOrder(@PathVariable String orderIdentifier, @RequestHeader String token, @RequestBody OrderDTO orderDTO){
         try {
             sessionService.validateToken(token);
