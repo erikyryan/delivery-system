@@ -99,6 +99,7 @@ public class ClientService {
 
     public ManagerDTO createUserManager(ManagerDTO managerDTO){
         this.validateUserExistreate(managerDTO.toUserDTO());
+        this.validateEmailAndTaxNumber(managerDTO.getEmail(), managerDTO.getSocialsSecurity());
 
         Manager newManager = managerDTO.dtoToEntity();
         Manager manager = managerRepository.save(newManager);
