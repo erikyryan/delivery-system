@@ -132,6 +132,29 @@ public class ClientServiceTest {
             Assert.assertEquals(e.getMessage(),"Email já Existente");
         }
     }
+    
+    @Test
+	public void shouldWhenClientIsSavedThenExpectMessage() {
+		ClientDTO clientDTO = new ClientDTO();
+		String email = "joseraimundo@gmail.com";
+		AdressRestaurantDTO adressRestaurantDTO = new AdressRestaurantDTO("publicPlace", "number", "zipCode",
+				"neighborhood", "state", "city", "details");
+		clientDTO.setAddressDTO(adressRestaurantDTO);
+		clientDTO.setEmail(email);
+		clientDTO.setPassword("JoseKSGDFD@1723!2345");
+		clientDTO.setSocialsSecurity("731.485.580-30");
 
+		AddressDTO addressDTO = adressRestaurantDTO.dtoAndRestaurantIdentifierToAdressDTO(UUID.randomUUID().toString());
+
+		when(adressService.addAdress(addressDTO)).thenReturn(addressDTO);
+		when(clientRepository.findByEmail(email)).thenReturn(Optional.of(clientDTO.dtoToEntity()));
+		when(clientRepository.save(clientDTO.dtoToEntity())).thenReturn(clientDTO.dtoToEntity());
+
+		try {
+			clientService.createUserClient(clientDTO);
+		} catch (Exception e) {
+			Assert.assertEquals(e.getMessage(), "Email já Existente");
+		}
+	}
 
 }
