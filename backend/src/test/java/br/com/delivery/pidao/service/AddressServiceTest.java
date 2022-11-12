@@ -11,8 +11,6 @@ import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
 
-import static org.mockito.Mockito.when;
-
 @RunWith(MockitoJUnitRunner.Silent.class)
 public class AddressServiceTest {
 
@@ -29,7 +27,6 @@ public class AddressServiceTest {
     @Test
     public void shouldAddAdressThenReturnAAddressDTO(){
         AddressDTO addressDTO = new AddressDTO();
-        Address address = new Address();
 
         Assert.assertEquals(adressService.addAdress(addressDTO),addressDTO);
     }
