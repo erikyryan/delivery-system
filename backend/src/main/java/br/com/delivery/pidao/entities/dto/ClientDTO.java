@@ -22,6 +22,9 @@ public class ClientDTO {
     private String cellphone;
     private AddressClientDTO addressDTO;
 
+    public ClientDTO(){
+        
+    }
 
     public UserDTO toUserDTO(){
         UserDTO user = new UserDTO(this.email, this.password);

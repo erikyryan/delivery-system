@@ -17,6 +17,8 @@ public class AddressClientDTO {
     private String city;
     private String details;
 
+    public AddressClientDTO(){}
+
     public AddressDTO dtoAndClientIdentifierToAdressDTO(String clientIdentifier){
         AddressDTO address = new AddressDTO();
         address.setPublicPlace(publicPlace);
