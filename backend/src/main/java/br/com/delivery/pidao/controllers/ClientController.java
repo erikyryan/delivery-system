@@ -1,7 +1,5 @@
 package br.com.delivery.pidao.controllers;
 
-import lombok.NoArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -9,12 +7,9 @@ import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.microsoft.azure.documentdb.User;
-
 import br.com.delivery.pidao.entities.dto.*;
 import br.com.delivery.pidao.services.*;
 import lombok.AllArgsConstructor;
-import lombok.RequiredArgsConstructor;
 
 @RestController
 @RequestMapping("/Client")
@@ -23,7 +18,7 @@ public class ClientController {
 
     private ClientService clientService;
 
-    private  AdressService adressService;
+    private AddressService addressService;
 
     private UserService userService;
 

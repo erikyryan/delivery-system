@@ -6,7 +6,7 @@ import br.com.delivery.pidao.entities.dto.AddressDTO;
 import br.com.delivery.pidao.entities.dto.ClientDTO;
 import br.com.delivery.pidao.entities.dto.ManagerDTO;
 import br.com.delivery.pidao.entities.dto.UserDTO;
-import br.com.delivery.pidao.repositories.AdressRepository;
+import br.com.delivery.pidao.repositories.AddressRepository;
 import br.com.delivery.pidao.repositories.ClientRepository;
 import br.com.delivery.pidao.repositories.DeliveryRepository;
 import br.com.delivery.pidao.repositories.ManagerRepository;
@@ -31,9 +31,9 @@ public class ClientService {
 
     private SessionService sessionService;
 
-    private AdressService adressService;
+    private AddressService addressService;
 
-    private AdressRepository adressRepository;
+    private AddressRepository addressRepository;
 
 
     public boolean validateUserExistreate(UserDTO userDTO){
@@ -79,7 +79,7 @@ public class ClientService {
         Client newClient = clientDTO.dtoToEntity();
         Client client = clientRepository.save(newClient);
         AddressDTO addressDTO = clientDTO.getAddressDTO().dtoAndClientIdentifierToAdressDTO(client.getUserIdentifier());
-        adressService.addAdress(addressDTO);
+        addressService.addAdress(addressDTO);
 
 
         return clientDTO;
@@ -87,7 +87,7 @@ public class ClientService {
 
     public AddressDTO addAdress(AddressDTO addressDTO){
         Address newAdress = addressDTO.dtoToEntity();
-        adressRepository.save(newAdress);
+        addressRepository.save(newAdress);
 
         return addressDTO;
     }
@@ -99,7 +99,7 @@ public class ClientService {
         Manager newManager = managerDTO.dtoToEntity();
         Manager manager = managerRepository.save(newManager);
         AddressDTO addressDTO = managerDTO.getAddressDTO().dtoAndRestaurantIdentifierToAdressDTO(manager.getUserIdentifier());
-        adressService.addAdress(addressDTO);
+        addressService.addAdress(addressDTO);
 
         return managerDTO;
     }

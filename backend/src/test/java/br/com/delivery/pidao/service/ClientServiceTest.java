@@ -2,11 +2,11 @@ package br.com.delivery.pidao.service;
 
 import br.com.delivery.pidao.dao.UserDAO;
 import br.com.delivery.pidao.entities.dto.*;
-import br.com.delivery.pidao.repositories.AdressRepository;
+import br.com.delivery.pidao.repositories.AddressRepository;
 import br.com.delivery.pidao.repositories.ClientRepository;
 import br.com.delivery.pidao.repositories.DeliveryRepository;
 import br.com.delivery.pidao.repositories.ManagerRepository;
-import br.com.delivery.pidao.services.AdressService;
+import br.com.delivery.pidao.services.AddressService;
 import br.com.delivery.pidao.services.ClientService;
 import br.com.delivery.pidao.services.SessionService;
 import org.junit.Assert;
@@ -42,15 +42,15 @@ public class ClientServiceTest {
     private SessionService sessionService;
 
     @Mock
-    private AdressService adressService;
+    private AddressService addressService;
 
     @Mock
-    private AdressRepository adressRepository;
+    private AddressRepository addressRepository;
 
     @Before
     public void setUp(){
         clientService = new ClientService(userDAO,clientRepository,managerRepository,
-                deliveryRepository,sessionService,adressService,adressRepository);
+                deliveryRepository,sessionService, addressService, addressRepository);
     }
 
     @Test
@@ -65,7 +65,7 @@ public class ClientServiceTest {
         AddressDTO addressDTO = addressClientDTO.dtoAndClientIdentifierToAdressDTO(UUID.randomUUID().toString());
 
         when(clientRepository.save(clientDTO.dtoToEntity())).thenReturn(clientDTO.dtoToEntity());
-        when(adressService.addAdress(addressDTO)).thenReturn(addressDTO);
+        when(addressService.addAdress(addressDTO)).thenReturn(addressDTO);
         when(clientRepository.save(clientDTO.dtoToEntity())).thenReturn(clientDTO.dtoToEntity());
 
         Assert.assertEquals(clientService.createUserClient(clientDTO),clientDTO);
@@ -82,7 +82,7 @@ public class ClientServiceTest {
 
         AddressDTO addressDTO = adressRestaurantDTO.dtoAndRestaurantIdentifierToAdressDTO(UUID.randomUUID().toString());
 
-        when(adressService.addAdress(addressDTO)).thenReturn(addressDTO);
+        when(addressService.addAdress(addressDTO)).thenReturn(addressDTO);
         when(managerRepository.save(managerDTO.dtoToEntity())).thenReturn(managerDTO.dtoToEntity());
 
         Assert.assertEquals(clientService.createUserManager(managerDTO),managerDTO);
@@ -99,7 +99,7 @@ public class ClientServiceTest {
 
         AddressDTO addressDTO = adressRestaurantDTO.dtoAndRestaurantIdentifierToAdressDTO(UUID.randomUUID().toString());
 
-        when(adressService.addAdress(addressDTO)).thenReturn(addressDTO);
+        when(addressService.addAdress(addressDTO)).thenReturn(addressDTO);
         when(managerRepository.save(managerDTO.dtoToEntity())).thenReturn(managerDTO.dtoToEntity());
 
         try{
@@ -122,7 +122,7 @@ public class ClientServiceTest {
 
         AddressDTO addressDTO = adressRestaurantDTO.dtoAndRestaurantIdentifierToAdressDTO(UUID.randomUUID().toString());
 
-        when(adressService.addAdress(addressDTO)).thenReturn(addressDTO);
+        when(addressService.addAdress(addressDTO)).thenReturn(addressDTO);
         when(managerRepository.findByEmail(email)).thenReturn(Optional.of(managerDTO.dtoToEntity()));
         when(managerRepository.save(managerDTO.dtoToEntity())).thenReturn(managerDTO.dtoToEntity());
 
