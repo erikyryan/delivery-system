@@ -66,7 +66,7 @@ public class UserService {
         return user;
     }
 
-    public Optional<Manager> isManager(UserDTO userDTO) {
-        return userDAO.isManager(userDTO);
+    public Optional<Manager> isManager(String identifier) {
+        return userDAO.isManager(identifier);
     }
 }

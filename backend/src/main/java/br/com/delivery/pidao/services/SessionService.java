@@ -25,12 +25,15 @@ public class SessionService {
 
     private ClientRepository clientRepository;
 
-    public void validateToken(String token) {
+    public String validateToken(String token) {
         LoginSession session = this.findSessionByToken(token);
         Date expirationDate = session.getExpirationDate();
         if (new Date().after(expirationDate)) {
             throw new RuntimeException("Sessão expirou!");
         }
+
+        return session.getUserIdentifier();
+
     }
 
     public String generateSession(User userS) {

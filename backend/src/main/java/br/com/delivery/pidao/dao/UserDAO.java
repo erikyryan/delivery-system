@@ -26,8 +26,8 @@ public class UserDAO {
 
     private final DeliveryRepository deliveryRepository;
 
-    public Optional<Manager> isManager(UserDTO userDTO){
-        return managerRepository.findByEmailAndPassword(userDTO.getEmail(), userDTO.getPassword());
+    public Optional<Manager> isManager(String identifier){
+        return managerRepository.findByUserIdentifier(identifier);
     }
 
     public Optional<Client> isClient(UserDTO userDTO){

@@ -1,26 +1,21 @@
 package br.com.delivery.pidao.services;
 
-import java.lang.StackWalker.Option;
-import java.util.Optional;
-
-import javax.swing.InternalFrameFocusTraversalPolicy;
-
-import lombok.NoArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Lazy;
-import org.springframework.stereotype.Component;
-import org.springframework.stereotype.Service;
-
-import br.com.delivery.pidao.dao.*;
-import br.com.delivery.pidao.entities.dto.*;
-import lombok.AllArgsConstructor;
-import lombok.RequiredArgsConstructor;
-import validator.ValidatorEmail;
-import validator.ValidatorPassword;
-import validator.ValidatorTaxNumber;
+import br.com.delivery.pidao.dao.UserDAO;
 import br.com.delivery.pidao.entities.*;
-import br.com.delivery.pidao.enums.*;
-import br.com.delivery.pidao.repositories.*;
+import br.com.delivery.pidao.entities.dto.AddressDTO;
+import br.com.delivery.pidao.entities.dto.ClientDTO;
+import br.com.delivery.pidao.entities.dto.ManagerDTO;
+import br.com.delivery.pidao.entities.dto.UserDTO;
+import br.com.delivery.pidao.repositories.AdressRepository;
+import br.com.delivery.pidao.repositories.ClientRepository;
+import br.com.delivery.pidao.repositories.DeliveryRepository;
+import br.com.delivery.pidao.repositories.ManagerRepository;
+import lombok.AllArgsConstructor;
+import org.springframework.stereotype.Service;
+import validator.ValidatorEmail;
+import validator.ValidatorTaxNumber;
+
+import java.util.Optional;
 
 @Service
 @AllArgsConstructor

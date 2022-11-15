@@ -22,4 +22,7 @@ public class Menu implements Serializable {
 
     private String restaurantIdentifier;
 
+    public Menu(String restaurantIdentifier) {
+        this.restaurantIdentifier = restaurantIdentifier;
+    }
 }

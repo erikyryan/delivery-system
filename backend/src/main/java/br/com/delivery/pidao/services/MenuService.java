@@ -1,13 +1,10 @@
 package br.com.delivery.pidao.services;
 
-import br.com.delivery.pidao.entities.Item;
 import br.com.delivery.pidao.entities.Menu;
 import br.com.delivery.pidao.entities.Restaurant;
-import br.com.delivery.pidao.entities.dto.MenuDTO;
 import br.com.delivery.pidao.exceptions.MenuNotFound;
 import br.com.delivery.pidao.repositories.MenuRepository;
 import lombok.AllArgsConstructor;
-import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
@@ -20,8 +17,8 @@ public class MenuService {
 
     private RestaurantService restaurantService;
 
-    public Menu addMenu(final MenuDTO menuDTO) {
-        Menu newMenu = menuDTO.dtoToEntity();
+    public Menu addMenu(final String restaurantIdentifier) {
+        Menu newMenu = new Menu(restaurantIdentifier);
         menuRepository.save(newMenu);
         return newMenu;
     }
