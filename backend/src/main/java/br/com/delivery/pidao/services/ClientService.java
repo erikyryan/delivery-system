@@ -78,14 +78,14 @@ public class ClientService {
 
         Client newClient = clientDTO.dtoToEntity();
         Client client = clientRepository.save(newClient);
-        AddressDTO addressDTO = clientDTO.getAddressDTO().dtoAndClientIdentifierToAdressDTO(client.getUserIdentifier());
-        addressService.addAdress(addressDTO);
+        AddressDTO addressDTO = clientDTO.getAddressDTO().dtoAndClientIdentifierToAddressDTO(client.getUserIdentifier());
+        addressService.addAddress(addressDTO);
 
 
         return clientDTO;
     }
 
-    public AddressDTO addAdress(AddressDTO addressDTO){
+    public AddressDTO addAddress(AddressDTO addressDTO){
         Address newAdress = addressDTO.dtoToEntity();
         addressRepository.save(newAdress);
 
@@ -98,8 +98,8 @@ public class ClientService {
 
         Manager newManager = managerDTO.dtoToEntity();
         Manager manager = managerRepository.save(newManager);
-        AddressDTO addressDTO = managerDTO.getAddressDTO().dtoAndRestaurantIdentifierToAdressDTO(manager.getUserIdentifier());
-        addressService.addAdress(addressDTO);
+        AddressDTO addressDTO = managerDTO.getAddressDTO().dtoAndRestaurantIdentifierToAddressDTO(manager.getUserIdentifier());
+        addressService.addAddress(addressDTO);
 
         return managerDTO;
     }

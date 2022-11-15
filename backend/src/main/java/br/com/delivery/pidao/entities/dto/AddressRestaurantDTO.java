@@ -5,7 +5,7 @@ import lombok.Getter;
 
 @Getter
 @AllArgsConstructor
-public class AdressRestaurantDTO {
+public class AddressRestaurantDTO {
     
     private String publicPlace;
     private String number;
@@ -15,7 +15,7 @@ public class AdressRestaurantDTO {
     private String city;
     private String details;
 
-    public AddressDTO dtoAndRestaurantIdentifierToAdressDTO(String restaurantIdentifier){
+    public AddressDTO dtoAndRestaurantIdentifierToAddressDTO(String restaurantIdentifier){
         AddressDTO address = new AddressDTO();
         address.setPublicPlace(publicPlace);
         address.setNumber(number);

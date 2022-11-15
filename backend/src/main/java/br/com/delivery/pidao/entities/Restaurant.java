@@ -4,7 +4,6 @@ import lombok.Data;
 
 import javax.persistence.*;
 import java.io.Serializable;
-import java.util.List;
 import java.util.UUID;
 
 @Data
@@ -15,7 +14,7 @@ public class Restaurant implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String adressRestaurant;
+    private String addressRestaurant;
 
     private String restaurantIdentifier = UUID.randomUUID().toString();
 

@@ -1,7 +1,6 @@
 package br.com.delivery.pidao.entities.dto;
 
 import br.com.delivery.pidao.entities.Manager;
-import br.com.delivery.pidao.entities.Restaurant;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -17,7 +16,7 @@ public class ManagerDTO {
     private String cellphone;
     private String restaurantIdentifier;
     private String department;
-    private AdressRestaurantDTO addressDTO;
+    private AddressRestaurantDTO addressDTO;
 
     public UserDTO toUserDTO(){
         UserDTO user = new UserDTO(this.email, this.password);

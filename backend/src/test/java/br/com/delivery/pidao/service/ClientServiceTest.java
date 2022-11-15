@@ -62,10 +62,10 @@ public class ClientServiceTest {
         clientDTO.setPassword("JoseKSGDFD@1723!2345");
         clientDTO.setSocialsSecurity("731.485.580-30");
 
-        AddressDTO addressDTO = addressClientDTO.dtoAndClientIdentifierToAdressDTO(UUID.randomUUID().toString());
+        AddressDTO addressDTO = addressClientDTO.dtoAndClientIdentifierToAddressDTO(UUID.randomUUID().toString());
 
         when(clientRepository.save(clientDTO.dtoToEntity())).thenReturn(clientDTO.dtoToEntity());
-        when(addressService.addAdress(addressDTO)).thenReturn(addressDTO);
+        when(addressService.addAddress(addressDTO)).thenReturn(addressDTO);
         when(clientRepository.save(clientDTO.dtoToEntity())).thenReturn(clientDTO.dtoToEntity());
 
         Assert.assertEquals(clientService.createUserClient(clientDTO),clientDTO);
@@ -74,15 +74,15 @@ public class ClientServiceTest {
     @Test
     public void shouldCreateUserManagerThenReturnAManagerDTO(){
         ManagerDTO managerDTO = new ManagerDTO();
-        AdressRestaurantDTO adressRestaurantDTO = new AdressRestaurantDTO("publicPlace","number","zipCode","neighborhood","state","city","details");
-        managerDTO.setAddressDTO(adressRestaurantDTO);
+        AddressRestaurantDTO addressRestaurantDTO = new AddressRestaurantDTO("publicPlace","number","zipCode","neighborhood","state","city","details");
+        managerDTO.setAddressDTO(addressRestaurantDTO);
         managerDTO.setEmail("joseraimundo@gmail.com");
         managerDTO.setPassword("JoseKSGDFD@1723!2345");
         managerDTO.setSocialsSecurity("731485.580-30");
 
-        AddressDTO addressDTO = adressRestaurantDTO.dtoAndRestaurantIdentifierToAdressDTO(UUID.randomUUID().toString());
+        AddressDTO addressDTO = addressRestaurantDTO.dtoAndRestaurantIdentifierToAddressDTO(UUID.randomUUID().toString());
 
-        when(addressService.addAdress(addressDTO)).thenReturn(addressDTO);
+        when(addressService.addAddress(addressDTO)).thenReturn(addressDTO);
         when(managerRepository.save(managerDTO.dtoToEntity())).thenReturn(managerDTO.dtoToEntity());
 
         Assert.assertEquals(clientService.createUserManager(managerDTO),managerDTO);
@@ -91,15 +91,15 @@ public class ClientServiceTest {
     @Test
     public void shouldWhenManagerEmailIsInvalidThenExpectException(){
         ManagerDTO managerDTO = new ManagerDTO();
-        AdressRestaurantDTO adressRestaurantDTO = new AdressRestaurantDTO("publicPlace","number","zipCode","neighborhood","state","city","details");
-        managerDTO.setAddressDTO(adressRestaurantDTO);
+        AddressRestaurantDTO addressRestaurantDTO = new AddressRestaurantDTO("publicPlace","number","zipCode","neighborhood","state","city","details");
+        managerDTO.setAddressDTO(addressRestaurantDTO);
         managerDTO.setEmail("joseraimundo@gmail.com");
         managerDTO.setPassword("JoseKSGDFD@1723!2345");
         managerDTO.setSocialsSecurity("731.485.580-30");
 
-        AddressDTO addressDTO = adressRestaurantDTO.dtoAndRestaurantIdentifierToAdressDTO(UUID.randomUUID().toString());
+        AddressDTO addressDTO = addressRestaurantDTO.dtoAndRestaurantIdentifierToAddressDTO(UUID.randomUUID().toString());
 
-        when(addressService.addAdress(addressDTO)).thenReturn(addressDTO);
+        when(addressService.addAddress(addressDTO)).thenReturn(addressDTO);
         when(managerRepository.save(managerDTO.dtoToEntity())).thenReturn(managerDTO.dtoToEntity());
 
         try{
@@ -114,15 +114,15 @@ public class ClientServiceTest {
     public void shouldWhenManagerEmailIsSavedThenExpectException(){
         ManagerDTO managerDTO = new ManagerDTO();
         String email = "joseraimundo@gmail.com";
-        AdressRestaurantDTO adressRestaurantDTO = new AdressRestaurantDTO("publicPlace","number","zipCode","neighborhood","state","city","details");
-        managerDTO.setAddressDTO(adressRestaurantDTO);
+        AddressRestaurantDTO addressRestaurantDTO = new AddressRestaurantDTO("publicPlace","number","zipCode","neighborhood","state","city","details");
+        managerDTO.setAddressDTO(addressRestaurantDTO);
         managerDTO.setEmail(email);
         managerDTO.setPassword("JoseKSGDFD@1723!2345");
         managerDTO.setSocialsSecurity("731.485.580-30");
 
-        AddressDTO addressDTO = adressRestaurantDTO.dtoAndRestaurantIdentifierToAdressDTO(UUID.randomUUID().toString());
+        AddressDTO addressDTO = addressRestaurantDTO.dtoAndRestaurantIdentifierToAddressDTO(UUID.randomUUID().toString());
 
-        when(addressService.addAdress(addressDTO)).thenReturn(addressDTO);
+        when(addressService.addAddress(addressDTO)).thenReturn(addressDTO);
         when(managerRepository.findByEmail(email)).thenReturn(Optional.of(managerDTO.dtoToEntity()));
         when(managerRepository.save(managerDTO.dtoToEntity())).thenReturn(managerDTO.dtoToEntity());
 

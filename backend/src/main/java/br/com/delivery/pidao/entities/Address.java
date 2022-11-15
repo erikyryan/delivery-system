@@ -15,7 +15,7 @@ public class Address implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    private String adressIdentifier = UUID.randomUUID().toString();
+    private String addressIdentifier = UUID.randomUUID().toString();
 
     private String publicPlace;
     private String number;

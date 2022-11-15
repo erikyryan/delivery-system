@@ -15,7 +15,7 @@ public class AddressService {
 
     AddressRepository addressRepository;
 
-    public AddressDTO addAdress(final AddressDTO adressDTO){
+    public AddressDTO addAddress(final AddressDTO adressDTO){
         Address newAdress = adressDTO.dtoToEntity();
         addressRepository.save(newAdress);
         return adressDTO;
@@ -23,7 +23,7 @@ public class AddressService {
     }
 
     public Address findByIdentifier(String adressIdentifier) {
-        Optional<Address> adress = addressRepository.findByAdressIdentifier(adressIdentifier);
+        Optional<Address> adress = addressRepository.findByAddressIdentifier(adressIdentifier);
         if(adress.isPresent()){
             return adress.get();
         }
@@ -32,7 +32,7 @@ public class AddressService {
     }
 
     public Address isPresent(String adressIdentifier){
-        Optional<Address> adress = addressRepository.findByAdressIdentifier(adressIdentifier);
+        Optional<Address> adress = addressRepository.findByAddressIdentifier(adressIdentifier);
         return adress.isPresent() ? adress.get() : null;
     }
 

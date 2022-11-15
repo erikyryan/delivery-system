@@ -10,5 +10,5 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface AddressRepository extends JpaRepository<Address, Long> {
 
-    Optional<Address> findByAdressIdentifier(String adressIdentifier);
+    Optional<Address> findByAddressIdentifier(String adressIdentifier);
 }
