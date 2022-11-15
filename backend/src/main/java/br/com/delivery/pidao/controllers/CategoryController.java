@@ -6,6 +6,7 @@ import br.com.delivery.pidao.services.CategoryService;
 import br.com.delivery.pidao.services.ItemService;
 import br.com.delivery.pidao.services.SessionService;
 import br.com.delivery.pidao.services.UserService;
+import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -13,7 +14,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/category")
-@RequiredArgsConstructor
+@AllArgsConstructor
 public class CategoryController {
 
     private CategoryService categoryService;
