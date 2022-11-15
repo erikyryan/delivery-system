@@ -77,8 +77,8 @@ public class ItemService {
         }
     }
 
-    public Restaurant getRestaurantIfTheUserIsAManagerFromUserDTO(UserDTO userDTO) throws IOException {
-        Optional<Manager> manager = userService.isManager(userDTO);
+    public Restaurant getRestaurantIfTheUserIsAManagerFromUserDTO(String userIdentifier) throws IOException {
+        Optional<Manager> manager = userService.isManager(userIdentifier);
 
         if (manager.isPresent()) {
             Optional<Restaurant> managerRestaurant = restaurantRepository.findByRestaurantIdentifier(manager.get().getRestaurantIdentifier());

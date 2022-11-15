@@ -19,7 +19,7 @@ public class AddressController {
     SessionService sessionService;
 
     @PostMapping("/addAddress")
-    public ResponseEntity<?> insertAdress(@RequestBody AddressDTO adressDTO){
+    public ResponseEntity<?> insertAddress(@RequestBody AddressDTO adressDTO){
         try{
             return ResponseEntity.ok(addressService.addAdress(adressDTO));
         }catch (Exception e){

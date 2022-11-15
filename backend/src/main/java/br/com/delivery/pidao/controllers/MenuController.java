@@ -3,12 +3,13 @@ package br.com.delivery.pidao.controllers;
 import br.com.delivery.pidao.services.MenuService;
 import br.com.delivery.pidao.services.SessionService;
 import br.com.delivery.pidao.services.UserService;
+import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequiredArgsConstructor
+@AllArgsConstructor
 @RequestMapping("/menu")
 public class MenuController {
 
