@@ -11,15 +11,11 @@ import java.io.Serializable;
 
 @Data
 @Entity
-public class Delivery extends User implements Serializable {
+public class Delivery implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     private OrderStatus Status;
-
-    //Arquitetar melhor o relacinamento de endereço com entregador e cliente
-    //@ManyToOne
-    //List<Adress> AdressCLient;
 }

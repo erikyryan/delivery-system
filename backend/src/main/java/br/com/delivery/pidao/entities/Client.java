@@ -7,24 +7,24 @@ import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.List;
+import java.util.UUID;
 import java.util.UUID;
 
 @Data
 @Entity
-public class Client extends User {
+public class Client implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String adressIdentifier;
+    private User user;
 
-    private String clientOrderIdentifier;
+    @OneToMany
+    private List<ClientOrder> OrderClient;
 
-    private String clientIdentifier = UUID.randomUUID().toString();
-
-//    @OneToMany
-//    private List<Rating> rating;
+//    private String clientIdentifier = UUID.randomUUID().toString();
 
 }
