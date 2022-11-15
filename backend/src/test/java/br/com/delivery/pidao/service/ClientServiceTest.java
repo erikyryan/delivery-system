@@ -1,6 +1,8 @@
 package br.com.delivery.pidao.service;
 
 import br.com.delivery.pidao.dao.UserDAO;
+import br.com.delivery.pidao.entities.Address;
+import br.com.delivery.pidao.entities.Client;
 import br.com.delivery.pidao.entities.dto.*;
 import br.com.delivery.pidao.repositories.AdressRepository;
 import br.com.delivery.pidao.repositories.ClientRepository;
@@ -60,16 +62,16 @@ public class ClientServiceTest {
         clientDTO.setAddressDTO(addressClientDTO);
         clientDTO.setEmail("joseraimundo@gmail.com");
         clientDTO.setPassword("JoseKSGDFD@1723!2345");
-        clientDTO.setSocialsSecurity("731.485.580-30");
+        clientDTO.setSocialsSecurity("731485.580-30");
+        Client client = clientDTO.dtoToEntity();
+        AddressDTO addressDTO = new AddressDTO();
 
-        AddressDTO addressDTO = addressClientDTO.dtoAndClientIdentifierToAdressDTO(UUID.randomUUID().toString());
-
-        when(clientRepository.save(clientDTO.dtoToEntity())).thenReturn(clientDTO.dtoToEntity());
         when(adressService.addAdress(addressDTO)).thenReturn(addressDTO);
-        when(clientRepository.save(clientDTO.dtoToEntity())).thenReturn(clientDTO.dtoToEntity());
+        when(clientRepository.save(client)).thenReturn(client);
 
         Assert.assertEquals(clientService.createUserClient(clientDTO),clientDTO);
     }
+
 
     @Test
     public void shouldCreateUserManagerThenReturnAManagerDTO(){
@@ -79,8 +81,8 @@ public class ClientServiceTest {
         managerDTO.setEmail("joseraimundo@gmail.com");
         managerDTO.setPassword("JoseKSGDFD@1723!2345");
         managerDTO.setSocialsSecurity("731485.580-30");
-
-        AddressDTO addressDTO = adressRestaurantDTO.dtoAndRestaurantIdentifierToAdressDTO(UUID.randomUUID().toString());
+        AddressDTO addressDTO = adressRestaurantDTO
+                .dtoAndRestaurantIdentifierToAdressDTO(UUID.randomUUID().toString());
 
         when(adressService.addAdress(addressDTO)).thenReturn(addressDTO);
         when(managerRepository.save(managerDTO.dtoToEntity())).thenReturn(managerDTO.dtoToEntity());
@@ -111,7 +113,7 @@ public class ClientServiceTest {
     }
 
     @Test
-    public void shouldWhenManagerEmailIsSavedThenExpectException(){
+    public void shouldWhenManagerEmailIsSavedThenExpectMessage(){
         ManagerDTO managerDTO = new ManagerDTO();
         String email = "joseraimundo@gmail.com";
         AdressRestaurantDTO adressRestaurantDTO = new AdressRestaurantDTO("publicPlace","number","zipCode","neighborhood","state","city","details");
@@ -132,6 +134,29 @@ public class ClientServiceTest {
             Assert.assertEquals(e.getMessage(),"Email já Existente");
         }
     }
+    
+    @Test
+	public void shouldWhenClientIsSavedThenExpectMessage() {
+		ClientDTO clientDTO = new ClientDTO();
+		String email = "joseraimundo@gmail.com";
+        AddressClientDTO addressClientDTO = new AddressClientDTO("publicPlace", "number", "zipCode",
+				"neighborhood", "state", "city", "details");
+		clientDTO.setAddressDTO(addressClientDTO);
+		clientDTO.setEmail(email);
+		clientDTO.setPassword("JoseKSGDFD@1723!2345");
+		clientDTO.setSocialsSecurity("731.485.580-30");
 
+		AddressDTO addressDTO = addressClientDTO.dtoAndClientIdentifierToAdressDTO(UUID.randomUUID().toString());
+
+		when(adressService.addAdress(addressDTO)).thenReturn(addressDTO);
+		when(clientRepository.findByEmail(email)).thenReturn(Optional.of(clientDTO.dtoToEntity()));
+		when(clientRepository.save(clientDTO.dtoToEntity())).thenReturn(clientDTO.dtoToEntity());
+
+		try {
+			clientService.createUserClient(clientDTO);
+		} catch (Exception e) {
+			Assert.assertEquals(e.getMessage(), "Email já Existente");
+		}
+	}
 
 }

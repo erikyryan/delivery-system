@@ -61,7 +61,7 @@ public class ClientOrderController {
 
     @PutMapping("{orderIdentifier}")
     public ResponseEntity<?> updateOrder(@PathVariable String orderIdentifier, @RequestHeader String token, @RequestBody OrderDTO orderDTO){
-        try {
+        try { 
             sessionService.validateToken(token);
             return ResponseEntity.ok(clientOrderService.updateClientOrder(orderDTO, orderIdentifier));
         } catch (Exception ex) {
