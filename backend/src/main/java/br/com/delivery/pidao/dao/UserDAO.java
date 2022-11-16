@@ -11,6 +11,7 @@ import br.com.delivery.pidao.repositories.ManagerRepository;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
+import org.springframework.expression.AccessException;
 import org.springframework.stereotype.Component;
 
 import java.util.Optional;
@@ -26,7 +27,7 @@ public class UserDAO {
 
     private final DeliveryRepository deliveryRepository;
 
-    public Optional<Manager> isManager(String identifier){
+    public Optional<Manager> isManager(String identifier) throws AccessException {
         return managerRepository.findByUserIdentifier(identifier);
     }
 

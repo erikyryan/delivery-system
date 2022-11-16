@@ -10,6 +10,7 @@ import br.com.delivery.pidao.repositories.ItemRepository;
 import br.com.delivery.pidao.repositories.RestaurantRepository;
 import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
+import org.springframework.expression.AccessException;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
@@ -77,17 +78,17 @@ public class ItemService {
         }
     }
 
-    public Restaurant getRestaurantIfTheUserIsAManagerFromUserDTO(String userIdentifier) throws IOException {
-        Optional<Manager> manager = userService.isManager(userIdentifier);
+    public Restaurant getRestaurantIfTheUserIsAManagerFromUserDTO(String userIdentifier) throws AccessException {
+        Manager manager = userService.isManager(userIdentifier);
 
-        if (manager.isPresent()) {
-            Optional<Restaurant> managerRestaurant = restaurantRepository.findByRestaurantIdentifier(manager.get().getRestaurantIdentifier());
+        if (!Objects.equals(manager,null)) {
+            Optional<Restaurant> managerRestaurant = restaurantRepository.findByRestaurantIdentifier(manager.getRestaurantIdentifier());
             if (managerRestaurant.isPresent()) {
                 return managerRestaurant.get();
             }
             throw new RestaurantNotFound("Restaurante não encontrado");
         }
-        throw new IOException("Acesso não autorizado");
+        throw new AccessException("Acesso não autorizado");
     }
 
     public List<ItemDTO> getItensFromMenuIdentifier(String menuIdentifier) {
