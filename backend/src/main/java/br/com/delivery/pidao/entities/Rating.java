@@ -9,6 +9,7 @@ import lombok.RequiredArgsConstructor;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.UUID;
 
 @Data
 @Entity
@@ -16,15 +17,11 @@ import java.io.Serializable;
 public class Rating implements Serializable {
 
     @Id
-    private Long id;
-
-//    @ManyToOne
-//    private Item item;
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "id", updatable = false, unique = true, nullable = false)
+    private UUID uuid;
 
     @Nullable
     private Long rating;
-
-//    @ManyToOne
-//    private Cl ient client;
 
 }

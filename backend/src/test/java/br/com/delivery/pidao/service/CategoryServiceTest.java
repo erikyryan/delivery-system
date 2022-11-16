@@ -38,12 +38,13 @@ public class CategoryServiceTest {
 
     @Test 
     public void shouldCreateCategoryIfMenuIdentifierIsValidThenReturnIdentifierCategory(){
+        UUID uuid = UUID.randomUUID();
         CategoryDTO categoryDTO = new CategoryDTO();
         categoryDTO.setDetails("Doces");
-        categoryDTO.setMenuIdentifier("123");
+        categoryDTO.setMenuIdentifier(uuid.toString());
 
         Menu menu = new Menu();
-        menu.setMenuIdentifier("123");
+        menu.setUuid(uuid);
 
         Category category = new Category();
         category.setMenuIdentifier(categoryDTO.getMenuIdentifier());
@@ -64,23 +65,23 @@ public class CategoryServiceTest {
     @Test
     public void shouldFindCategoryByIdentifierThenReturnCategory(){
         Category category = new Category();
-        category.setCategoryIdentifier(UUID.randomUUID().toString());
+        category.setUuid(UUID.randomUUID());
         category.setDetails("Doce");
         category.setMenuIdentifier(UUID.randomUUID().toString());
 
         
-       when(categoryRepository.findByCategoryIdentifier(category.getCategoryIdentifier()))
+       when(categoryRepository.findByUuid(category.getUuid()))
                 .thenReturn(Optional.of(category));
 
-        Assert.assertEquals(category.getMenuIdentifier(),categoryService.findByIdentifier(category.getCategoryIdentifier()).getMenuIdentifier());
+        Assert.assertEquals(category.getMenuIdentifier(),categoryService.findByIdentifier(category.getUuid().toString()).getMenuIdentifier());
     } 
 
     @Test 
     public void shouldDeleteCategoryByIdentifierThenReturnTrue(){
         Category category = new Category();
-        category.setCategoryIdentifier(UUID.randomUUID().toString());
+        category.setUuid(UUID.randomUUID());
 
-        when(categoryRepository.findByCategoryIdentifier(category.getCategoryIdentifier()))
+        when(categoryRepository.findByUuid(category.getUuid()))
                 .thenReturn(Optional.of(category));
 
         

@@ -1,7 +1,6 @@
 package br.com.delivery.pidao.services;
 
 
-import br.com.delivery.pidao.dao.UserDAO;
 import br.com.delivery.pidao.entities.*;
 import br.com.delivery.pidao.entities.dto.*;
 import br.com.delivery.pidao.exceptions.ItemNotFound;
@@ -9,14 +8,10 @@ import br.com.delivery.pidao.exceptions.RestaurantNotFound;
 import br.com.delivery.pidao.repositories.ItemRepository;
 import br.com.delivery.pidao.repositories.RestaurantRepository;
 import lombok.AllArgsConstructor;
-import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
-import java.util.Optional;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -45,7 +40,8 @@ public class ItemService {
     }
 
     public ItemDTO updateItem(final ItemDTO itemDTO, String itemIdentifier){
-        Optional<Item> item = itemRepository.findByItemIdentifier(itemIdentifier);
+        UUID uuid = UUID.fromString(itemIdentifier);
+        Optional<Item> item = itemRepository.findByUuid(uuid);
         if(item.isPresent()){
             Item newItem = item.get();
 
@@ -67,7 +63,8 @@ public class ItemService {
 
 
     public Boolean deleteItem(String itemIdentifier){
-        Optional<Item> item = itemRepository.findByItemIdentifier(itemIdentifier);
+        UUID uuid = UUID.fromString(itemIdentifier);
+        Optional<Item> item = itemRepository.findByUuid(uuid);
 
         if(item.isPresent()){
             itemRepository.delete(item.get());
@@ -81,7 +78,8 @@ public class ItemService {
         Optional<Manager> manager = userService.isManager(userIdentifier);
 
         if (manager.isPresent()) {
-            Optional<Restaurant> managerRestaurant = restaurantRepository.findByRestaurantIdentifier(manager.get().getRestaurantIdentifier());
+            UUID uuid = UUID.fromString(manager.get().getRestaurantIdentifier());
+            Optional<Restaurant> managerRestaurant = restaurantRepository.findByUuid(uuid);
             if (managerRestaurant.isPresent()) {
                 return managerRestaurant.get();
             }
@@ -96,7 +94,7 @@ public class ItemService {
         List<Category> categories = categoryService.findByMenuIdentifier(menuIdentifier);
 
         List<ItemDTO> itemsDTO = new ArrayList<>();
-        List<List<Item>> itemsListsFromCategories = categories.stream().map(category ->  findByCategoryIdentifier(category.getCategoryIdentifier()) ).collect(Collectors.toList());
+        List<List<Item>> itemsListsFromCategories = categories.stream().map(category ->  findByCategoryIdentifier(category.getUuid().toString()) ).collect(Collectors.toList());
         for(List<Item> itemList : itemsListsFromCategories){
             List<ItemDTO> items = itemList.stream().map(item -> item.entityToDTO()).collect(Collectors.toList());
             itemsDTO.addAll(items);
@@ -121,7 +119,8 @@ public class ItemService {
     }
 
     public  Item getItemByIdentifier(String itemIdentifier){
-        Optional<Item> item = itemRepository.findByItemIdentifier(itemIdentifier);
+        UUID uuid = UUID.fromString(itemIdentifier);
+        Optional<Item> item = itemRepository.findByUuid(uuid);
         if(item.isPresent()){
             return item.get();
         }

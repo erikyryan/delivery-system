@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 @Service
 @AllArgsConstructor
@@ -23,20 +24,22 @@ public class CategoryService {
 
     public String addCategory(CategoryDTO categoryDTO) {
         Menu menu = menuService.findMenuByIdentifier(categoryDTO.getMenuIdentifier());
-        Optional<Category> category = categoryRepository.findByDetailsAndMenuIdentifier(categoryDTO.getDetails(), menu.getMenuIdentifier());
+        Optional<Category> category = categoryRepository.findByDetailsAndMenuIdentifier(categoryDTO.getDetails(), menu.getUuid().toString());
 
         if (category.isPresent()) {
             throw new IllegalArgumentException("Categoria já existente");
         }
 
-        Category categorySaved = categoryRepository.save(new Category(categoryDTO.getDetails(),menu.getMenuIdentifier()));
-        return categorySaved.getCategoryIdentifier();
+        Category newCategory = new Category(categoryDTO.getDetails(),menu.getUuid().toString());
+
+        Category categorySaved = categoryRepository.save(newCategory);
+        return categorySaved.getUuid().toString();
     }
 
     public String updateCategory(CategoryDTO categoryDTO) {
         Menu menu = menuService.findMenuByIdentifier(categoryDTO.getMenuIdentifier());
 
-        Optional<Category> category = categoryRepository.findByDetailsAndMenuIdentifier(categoryDTO.getDetails(), menu.getMenuIdentifier());
+        Optional<Category> category = categoryRepository.findByDetailsAndMenuIdentifier(categoryDTO.getDetails(), menu.getUuid().toString());
 
         if (!category.isPresent()) {
             throw new CategoryNotFound("Categoria não existente");
@@ -48,11 +51,12 @@ public class CategoryService {
 
         category.get().setDetails(categoryDTO.getDetails());
         categoryRepository.save(category.get());
-        return category.get().getCategoryIdentifier();
+        return category.get().getUuid().toString();
     }
 
     public CategoryDTO findByIdentifier(String categoryIdentifier) {
-        Optional<Category> category = categoryRepository.findByCategoryIdentifier(categoryIdentifier);
+        UUID uuid = UUID.fromString(categoryIdentifier);
+        Optional<Category> category = categoryRepository.findByUuid(uuid);
         if (!category.isPresent()) {
             throw new CategoryNotFound("Categoria não existente");
         }
@@ -63,7 +67,8 @@ public class CategoryService {
     }
 
     public Boolean deleteCategory(String categoryIdentifier) {
-        Optional<Category> category = categoryRepository.findByCategoryIdentifier(categoryIdentifier);
+        UUID uuid = UUID.fromString(categoryIdentifier);
+        Optional<Category> category = categoryRepository.findByUuid(uuid);
         if (!category.isPresent()) {
             throw new CategoryNotFound("Categoria não existente");
         }
@@ -73,7 +78,8 @@ public class CategoryService {
     }
 
     Category getCategoryByIdentifier(String categoryIdentifier){
-        Optional<Category> category = categoryRepository.findByCategoryIdentifier(categoryIdentifier);
+        UUID uuid = UUID.fromString(categoryIdentifier);
+        Optional<Category> category = categoryRepository.findByUuid(uuid);
 
         if (category.isPresent()) {
             return category.get();

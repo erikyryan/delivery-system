@@ -10,16 +10,12 @@ import java.util.UUID;
 public class Client extends User {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "id", updatable = false, unique = true, nullable = false)
+    private UUID uuid;
 
     private String addressIdentifier;
 
     private String clientOrderIdentifier;
-
-    private String clientIdentifier = UUID.randomUUID().toString();
-
-//    @OneToMany
-//    private List<Rating> rating;
 
 }

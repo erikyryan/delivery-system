@@ -1,16 +1,15 @@
 package br.com.delivery.pidao.services;
 
 import br.com.delivery.pidao.entities.ClientOrder;
-import br.com.delivery.pidao.entities.dto.ClientDTO;
 import br.com.delivery.pidao.entities.dto.OrderDTO;
 import br.com.delivery.pidao.repositories.ClientOrderRepository;
 import lombok.AllArgsConstructor;
-import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Service
@@ -33,12 +32,12 @@ public class ClientOrderService {
 
     public String addClientOrder(OrderDTO orderDTO) {
         ClientOrder clientOrder = clientOrderRepository.save(orderDTO.dtoToEntity());
-
-        return  clientOrder.getClientOrderIdentifier();
+        return  clientOrder.getUuid().toString();
     }
 
     public OrderDTO getClientOrderByClientIdentifier(String clientIdentifier) {
-        Optional<ClientOrder> clientOrder = clientOrderRepository.findByClientOrderIdentifier(clientIdentifier);
+        UUID uuid = UUID.fromString(clientIdentifier);
+        Optional<ClientOrder> clientOrder = clientOrderRepository.findByUuid(uuid);
 
         if (clientOrder.isPresent()) {
             return clientOrder.get().orderToDto();
@@ -48,7 +47,8 @@ public class ClientOrderService {
     }
 
     public Boolean removeClientOrder(String clientIdentifier) {
-        Optional<ClientOrder> clientOrder = clientOrderRepository.findByClientOrderIdentifier(clientIdentifier);
+        UUID uuid = UUID.fromString(clientIdentifier);
+        Optional<ClientOrder> clientOrder = clientOrderRepository.findByUuid(uuid);
 
         if (clientOrder.isPresent()) {
             clientOrderRepository.delete(clientOrder.get());
@@ -59,7 +59,8 @@ public class ClientOrderService {
     }
 
     public OrderDTO updateClientOrder(final OrderDTO orderDTO, String orderIdentifier) {
-        Optional<ClientOrder> clientOrder = clientOrderRepository.findByClientOrderIdentifier(orderIdentifier);
+        UUID uuid = UUID.fromString(orderIdentifier);
+        Optional<ClientOrder> clientOrder = clientOrderRepository.findByUuid(uuid);
 
         if (clientOrder.isPresent()) {
             ClientOrder clientOrder1 = clientOrder.get();

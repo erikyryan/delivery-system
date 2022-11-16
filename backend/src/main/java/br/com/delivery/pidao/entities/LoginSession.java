@@ -1,5 +1,7 @@
 package br.com.delivery.pidao.entities;
 
+import lombok.Getter;
+
 import javax.persistence.*;
 import java.time.Duration;
 import java.time.LocalDateTime;
@@ -9,13 +11,14 @@ import java.util.Date;
 import java.util.UUID;
 
 @Entity
+@Getter
 @Table(name = "loginsession")
 public class LoginSession {
 
     @Id
-    @GeneratedValue(strategy= GenerationType.IDENTITY)
-    @Column(name = "id", unique = true)
-    private Long id;
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "id", updatable = false, unique = true, nullable = false)
+    private UUID uuid;
 
     @Column(name = "useridentifier")
     private String userIdentifier;
@@ -34,7 +37,7 @@ public class LoginSession {
 
     //TODO: implementar o login session para os tipos devidos de usuarios
     public LoginSession(User user) {
-        this.userIdentifier = user.getUserIdentifier();
+        this.userIdentifier = user.getUserIdentifier().toString();
         this.token = UUID.randomUUID().toString();
         this.loginDate = new Date();
         this.expirationDate = Date.from(LocalDateTime.now().plus(Duration.of(10, ChronoUnit.MINUTES)).atZone(ZoneId.systemDefault()).toInstant());

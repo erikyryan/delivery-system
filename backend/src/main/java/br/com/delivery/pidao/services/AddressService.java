@@ -8,6 +8,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
+import java.util.UUID;
 
 @Service
 @AllArgsConstructor
@@ -23,7 +24,8 @@ public class AddressService {
     }
 
     public Address findByIdentifier(String adressIdentifier) {
-        Optional<Address> adress = addressRepository.findByAddressIdentifier(adressIdentifier);
+        UUID uuid = UUID.fromString(adressIdentifier);
+        Optional<Address> adress = addressRepository.findByUuid(uuid);
         if(adress.isPresent()){
             return adress.get();
         }
@@ -32,7 +34,8 @@ public class AddressService {
     }
 
     public Address isPresent(String adressIdentifier){
-        Optional<Address> adress = addressRepository.findByAddressIdentifier(adressIdentifier);
+        UUID uuid = UUID.fromString(adressIdentifier);
+        Optional<Address> adress = addressRepository.findByUuid(uuid);
         return adress.isPresent() ? adress.get() : null;
     }
 

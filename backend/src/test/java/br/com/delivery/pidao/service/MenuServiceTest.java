@@ -2,22 +2,20 @@ package br.com.delivery.pidao.service;
 
 import br.com.delivery.pidao.entities.Menu;
 import br.com.delivery.pidao.entities.Restaurant;
-import br.com.delivery.pidao.entities.dto.MenuDTO;
 import br.com.delivery.pidao.repositories.MenuRepository;
-import br.com.delivery.pidao.repositories.RestaurantRepository;
 import br.com.delivery.pidao.services.MenuService;
 import br.com.delivery.pidao.services.RestaurantService;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mockito.ArgumentMatchers;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
 
 import java.util.Optional;
 import java.util.UUID;
 
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.when;
 
@@ -49,43 +47,43 @@ public class MenuServiceTest {
     @Test
     public void shouldFindMenuByIdentifierThenReturnMenu(){
         Menu menu = new Menu();
-        menu.setMenuIdentifier(UUID.randomUUID().toString());
+        menu.setUuid(UUID.randomUUID());
 
-        when(menuRepository.findByMenuIdentifier(anyString()))
+        when(menuRepository.findByUuid(any()))
                 .thenReturn(Optional.of(menu));
 
-        Assert.assertEquals(menu,menuService.findMenuByIdentifier(menu.getMenuIdentifier()));
+        Assert.assertEquals(menu,menuService.findMenuByIdentifier(menu.getUuid().toString()));
     }
 
     @Test
     public void shouldDeleteMenuByIdentifierThenReturnTrue(){
         Menu menu = new Menu();
-        menu.setMenuIdentifier(UUID.randomUUID().toString());
+        menu.setUuid(UUID.randomUUID());
 
-        when(menuRepository.findByMenuIdentifier(anyString()))
+        when(menuRepository.findByUuid(any()))
                 .thenReturn(Optional.of(menu));
 
-        Assert.assertEquals(true,menuService.deleteMenu(menu.getMenuIdentifier()));
+        Assert.assertEquals(true,menuService.deleteMenu(menu.getUuid().toString()));
     }
 
     @Test
     public void shouldGetRestaurantByIdentifierThenReturnRestaurant(){
         Menu menu = new Menu();
-        menu.setMenuIdentifier(UUID.randomUUID().toString());
+        menu.setUuid(UUID.randomUUID());
 
         Restaurant restaurant = new Restaurant();
-        restaurant.setRestaurantIdentifier(UUID.randomUUID().toString());
+        restaurant.setUuid(UUID.randomUUID());
 
-        menu.setRestaurantIdentifier(restaurant.getRestaurantIdentifier());
+        menu.setRestaurantIdentifier(restaurant.getUuid().toString());
 
-        when(menuRepository.findByMenuIdentifier(anyString()))
+        when(menuRepository.findByUuid(any()))
                 .thenReturn(Optional.of(menu));
 
 
-        when(restaurantService.findByRestaurantIdentifier(restaurant.getRestaurantIdentifier()))
+        when(restaurantService.findByRestaurantIdentifier(restaurant.getUuid().toString()))
                 .thenReturn(restaurant);
 
-        Assert.assertEquals(restaurant,menuService.getRestaurantFromIdentifier(menu.getMenuIdentifier()));
+        Assert.assertEquals(restaurant,menuService.getRestaurantFromIdentifier(menu.getUuid().toString()));
     }
 
 }

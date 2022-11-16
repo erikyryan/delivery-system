@@ -9,11 +9,10 @@ import br.com.delivery.pidao.repositories.ClientRepository;
 import br.com.delivery.pidao.repositories.DeliveryRepository;
 import br.com.delivery.pidao.repositories.ManagerRepository;
 import lombok.AllArgsConstructor;
-import lombok.NoArgsConstructor;
-import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
 import java.util.Optional;
+import java.util.UUID;
 
 
 @Component
@@ -27,7 +26,8 @@ public class UserDAO {
     private final DeliveryRepository deliveryRepository;
 
     public Optional<Manager> isManager(String identifier){
-        return managerRepository.findByUserIdentifier(identifier);
+        UUID uuid = UUID.fromString(identifier);
+        return managerRepository.findByUuid(uuid);
     }
 
     public Optional<Client> isClient(UserDTO userDTO){

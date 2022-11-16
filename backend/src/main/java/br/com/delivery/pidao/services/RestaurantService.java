@@ -7,6 +7,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
+import java.util.UUID;
 
 @Service
 @AllArgsConstructor
@@ -15,8 +16,8 @@ public class RestaurantService {
     private RestaurantRepository restaurantRepository;
 
     public Restaurant findByRestaurantIdentifier(String restaurantIdentifier) {
-
-        Optional<Restaurant> restaurant = restaurantRepository.findByRestaurantIdentifier(restaurantIdentifier);
+        UUID uuid = UUID.fromString(restaurantIdentifier);
+        Optional<Restaurant> restaurant = restaurantRepository.findByUuid(uuid);
 
         if(restaurant.isPresent()){
             return restaurant.get();

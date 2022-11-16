@@ -8,6 +8,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
+import java.util.UUID;
 
 @Service
 @AllArgsConstructor
@@ -24,7 +25,8 @@ public class MenuService {
     }
 
     public Menu findMenuByIdentifier(String menuIdentifier){
-        Optional<Menu> menu = menuRepository.findByMenuIdentifier(menuIdentifier);
+        UUID uuid = UUID.fromString(menuIdentifier);
+        Optional<Menu> menu = menuRepository.findByUuid(uuid);
         if(menu.isPresent()){
             return menu.get();
         }
@@ -32,7 +34,8 @@ public class MenuService {
     }
 
     public Restaurant getRestaurantFromIdentifier(String menuIdentifier){
-        Optional<Menu> menu = menuRepository.findByMenuIdentifier(menuIdentifier);
+        UUID uuid = UUID.fromString(menuIdentifier);
+        Optional<Menu> menu = menuRepository.findByUuid(uuid);
         if(menu.isPresent()) {
             return restaurantService.findByRestaurantIdentifier(menu.get().getRestaurantIdentifier());
         }
@@ -41,7 +44,8 @@ public class MenuService {
     }
 
     public Boolean deleteMenu(String menuIdentifier) {
-        Optional<Menu> menu = menuRepository.findByMenuIdentifier(menuIdentifier);
+        UUID uuid = UUID.fromString(menuIdentifier);
+        Optional<Menu> menu = menuRepository.findByUuid(uuid);
 
         if(menu.isPresent()){
             menuRepository.delete(menu.get());

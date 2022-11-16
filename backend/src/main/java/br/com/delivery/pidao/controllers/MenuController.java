@@ -24,7 +24,7 @@ public class MenuController {
         try {
             String userIdentifier = sessionService.validateToken(token);
             userService.isManager(userIdentifier);
-            return ResponseEntity.ok(menuService.addMenu(restaurantIdentifier).getMenuIdentifier());
+            return ResponseEntity.ok(menuService.addMenu(restaurantIdentifier).getUuid().toString());
         } catch (Exception e) {
             return ResponseEntity.badRequest().body(e.getMessage());
         }

@@ -15,10 +15,9 @@ import java.util.UUID;
 public class ClientOrder implements Serializable {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
-
-    private String clientOrderIdentifier = UUID.randomUUID().toString();
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "id", updatable = false, unique = true, nullable = false)
+    private UUID uuid;
 
     private String name;
     private String value;

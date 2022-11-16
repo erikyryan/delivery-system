@@ -5,9 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.Inheritance;
-import javax.persistence.InheritanceType;
-import javax.persistence.MappedSuperclass;
+import javax.persistence.*;
 import java.util.UUID;
 
 @Data
@@ -17,13 +15,13 @@ import java.util.UUID;
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 public class User {
 
+    private UUID userIdentifier;
+
     @NotNull
     private String email;
 
     @NotNull
     private String password;
-
-    private String userIdentifier = UUID.randomUUID().toString();
 
     private String date;
 

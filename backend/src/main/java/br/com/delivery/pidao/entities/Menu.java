@@ -14,11 +14,9 @@ import java.util.UUID;
 public class Menu implements Serializable {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
-
-    @Column(name = "menuidentifier")
-    private String menuIdentifier = UUID.randomUUID().toString();
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "id", updatable = false, unique = true, nullable = false)
+    private UUID uuid;
 
     private String restaurantIdentifier;
 

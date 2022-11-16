@@ -12,8 +12,8 @@ import br.com.delivery.pidao.repositories.DeliveryRepository;
 import br.com.delivery.pidao.repositories.ManagerRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
-import validator.ValidatorEmail;
-import validator.ValidatorTaxNumber;
+import br.com.delivery.pidao.util.validator.ValidatorEmail;
+import br.com.delivery.pidao.util.validator.ValidatorTaxNumber;
 
 import java.util.Optional;
 
@@ -78,7 +78,7 @@ public class ClientService {
 
         Client newClient = clientDTO.dtoToEntity();
         Client client = clientRepository.save(newClient);
-        AddressDTO addressDTO = clientDTO.getAddressDTO().dtoAndClientIdentifierToAddressDTO(client.getUserIdentifier());
+        AddressDTO addressDTO = clientDTO.getAddressDTO().dtoAndClientIdentifierToAddressDTO(client.getUuid().toString());
         addressService.addAddress(addressDTO);
 
 
@@ -98,7 +98,7 @@ public class ClientService {
 
         Manager newManager = managerDTO.dtoToEntity();
         Manager manager = managerRepository.save(newManager);
-        AddressDTO addressDTO = managerDTO.getAddressDTO().dtoAndRestaurantIdentifierToAddressDTO(manager.getUserIdentifier());
+        AddressDTO addressDTO = managerDTO.getAddressDTO().dtoAndRestaurantIdentifierToAddressDTO(manager.getUuid().toString());
         addressService.addAddress(addressDTO);
 
         return managerDTO;

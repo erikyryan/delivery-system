@@ -9,7 +9,6 @@ import br.com.delivery.pidao.repositories.ClientRepository;
 import br.com.delivery.pidao.repositories.ManagerRepository;
 import br.com.delivery.pidao.repositories.SessionRepository;
 import lombok.AllArgsConstructor;
-import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
@@ -37,7 +36,7 @@ public class SessionService {
     }
 
     public String generateSession(User userS) {
-        Optional<LoginSession> session = loginSessionRepository.findByUserIdentifierAndLogoutDateNull(userS.getUserIdentifier());
+        Optional<LoginSession> session = loginSessionRepository.findByUserIdentifierAndLogoutDateNull(userS.getUserIdentifier().toString());
         if (session.isPresent()) {
             session.get().finish();
         }
@@ -59,7 +58,7 @@ public class SessionService {
 
     public User findUser(String token) {
         LoginSession session = this.findSessionByToken(token);
-        Optional<Manager> manager = managerRepository.findByUserIdentifier(session.getUserIdentifier());
+        Optional<Manager> manager = managerRepository.findByUuid(session.getUuid());
         if(!manager.isPresent()){
             Optional<Client> client = clientRepository.findByUserIdentifier(session.getUserIdentifier());
             if(!client.isPresent()){
@@ -73,7 +72,7 @@ public class SessionService {
 
     public UserDTO findUserDTOByToken(String token) {
         LoginSession session = this.findSessionByToken(token);
-        Optional<Manager> manager = managerRepository.findByUserIdentifier(session.getUserIdentifier());
+        Optional<Manager> manager = managerRepository.findByUuid(session.getUuid());
         if(!manager.isPresent()){
             Optional<Client> client = clientRepository.findByUserIdentifier(session.getUserIdentifier());
             if(!client.isPresent()){

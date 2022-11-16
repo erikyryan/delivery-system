@@ -15,11 +15,9 @@ import java.util.UUID;
 public class Category implements Serializable {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
-
-    @Column(name = "categoryidentifier")
-    private String categoryIdentifier = UUID.randomUUID().toString();
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "id", updatable = false, unique = true, nullable = false)
+    private UUID uuid;
 
     @NotNull
     private String details;

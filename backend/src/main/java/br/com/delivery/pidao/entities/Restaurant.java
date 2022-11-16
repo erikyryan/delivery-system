@@ -11,12 +11,11 @@ import java.util.UUID;
 public class Restaurant implements Serializable {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "id", updatable = false, unique = true, nullable = false)
+    private UUID uuid;
 
     private String addressRestaurant;
-
-    private String restaurantIdentifier = UUID.randomUUID().toString();
 
     private String menuIdentifier;
 

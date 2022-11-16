@@ -7,6 +7,7 @@ import org.springframework.stereotype.Repository;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 @Repository
 public interface CategoryRepository extends JpaRepository<Category, Long> {
@@ -15,7 +16,7 @@ public interface CategoryRepository extends JpaRepository<Category, Long> {
 
     Optional<Category> findByDetails(String details);
 
-    Optional<Category> findByCategoryIdentifier(String categoryIdentifier);
+    Optional<Category> findByUuid(UUID uuid);
 
     List<Category> findByMenuIdentifier(String menuIdentifier);
 }
