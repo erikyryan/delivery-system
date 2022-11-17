@@ -19,8 +19,6 @@ import java.util.UUID;
 @Entity
 @NoArgsConstructor
 @AllArgsConstructor
-@RequiredArgsConstructor
-@IdClass(Item.class)
 public class Item implements Serializable {
 
     @Id
@@ -38,7 +36,6 @@ public class Item implements Serializable {
     @NotNull
     private Double value;
 
-    @Nullable
     private String description;
 
     private String categoryIdentifier;

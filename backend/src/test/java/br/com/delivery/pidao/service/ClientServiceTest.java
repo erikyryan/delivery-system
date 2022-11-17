@@ -1,6 +1,7 @@
 package br.com.delivery.pidao.service;
 
 import br.com.delivery.pidao.dao.UserDAO;
+import br.com.delivery.pidao.entities.Client;
 import br.com.delivery.pidao.entities.dto.*;
 import br.com.delivery.pidao.repositories.AddressRepository;
 import br.com.delivery.pidao.repositories.ClientRepository;
@@ -16,10 +17,15 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
+import validator.ValidatorEmail;
+import validator.ValidatorTaxNumber;
 
 import java.util.Optional;
 import java.util.UUID;
 
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 @RunWith(MockitoJUnitRunner.Silent.class)
@@ -61,13 +67,13 @@ public class ClientServiceTest {
         clientDTO.setAddressDTO(addressClientDTO);
         clientDTO.setEmail("joseraimundo@gmail.com");
         clientDTO.setPassword("JoseKSGDFD@1723!2345");
-        clientDTO.setSocialsSecurity("731.485.580-30");
-
+        clientDTO.setSocialsSecurity("731485.580-30");
         AddressDTO addressDTO = addressClientDTO.dtoAndClientIdentifierToAddressDTO(UUID.randomUUID().toString());
+        Client client = clientDTO.dtoToEntity();
+        client.setUserIdentifier(UUID.randomUUID().toString());
 
-        when(clientRepository.save(clientDTO.dtoToEntity())).thenReturn(clientDTO.dtoToEntity());
         when(addressService.addAddress(addressDTO)).thenReturn(addressDTO);
-        when(clientRepository.save(clientDTO.dtoToEntity())).thenReturn(clientDTO.dtoToEntity());
+        when(clientRepository.save(any(Client.class))).thenReturn(client);
 
         Assert.assertEquals(clientService.createUserClient(clientDTO),clientDTO);
     }

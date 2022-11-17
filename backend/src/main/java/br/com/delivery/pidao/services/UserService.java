@@ -10,6 +10,7 @@ import br.com.delivery.pidao.repositories.ClientRepository;
 import br.com.delivery.pidao.repositories.ManagerRepository;
 import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
+import org.springframework.expression.AccessException;
 import org.springframework.stereotype.Service;
 
 import java.util.Objects;
@@ -66,7 +67,11 @@ public class UserService {
         return user;
     }
 
-    public Optional<Manager> isManager(String identifier) {
-        return userDAO.isManager(identifier);
+    public Manager isManager(String identifier) throws AccessException {
+        Optional<Manager> manager = userDAO.isManager(identifier);
+        if(!manager.isPresent()){
+            throw new AccessException("Acesso não autorizado");
+        }
+        return manager.get();
     }
 }
