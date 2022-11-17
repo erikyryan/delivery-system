@@ -12,6 +12,7 @@ import br.com.delivery.pidao.services.SessionService;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
@@ -47,7 +48,7 @@ public class ClientServiceTest {
     @Mock
     private AddressRepository addressRepository;
 
-    @Before
+    @BeforeEach
     public void setUp(){
         clientService = new ClientService(userDAO,clientRepository,managerRepository,
                 deliveryRepository,sessionService, addressService, addressRepository);
