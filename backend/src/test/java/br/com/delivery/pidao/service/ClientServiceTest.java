@@ -60,7 +60,7 @@ public class ClientServiceTest {
     }
 
     @Test
-    public void shouldCreateUserClientThenReturnAClientDTO(){
+    public void shouldCreateUserClientWithSocialSecurityWrongThenReturnAException(){
         ClientDTO clientDTO = new ClientDTO();
         AddressClientDTO addressClientDTO = new AddressClientDTO("publicPlace","number","zipCode","neighborhood","state","city","details");
         clientDTO.setAddressDTO(addressClientDTO);
@@ -74,7 +74,7 @@ public class ClientServiceTest {
         when(addressService.addAddress(addressDTO)).thenReturn(addressDTO);
         when(clientRepository.save(any(Client.class))).thenReturn(client);
 
-        Assert.assertEquals(clientService.createUserClient(clientDTO),clientDTO);
+        Assert.assertThrows(RuntimeException.class,() -> clientService.createUserClient(clientDTO));
     }
 
     @Test
@@ -99,7 +99,7 @@ public class ClientServiceTest {
         ManagerDTO managerDTO = new ManagerDTO();
         AddressRestaurantDTO addressRestaurantDTO = new AddressRestaurantDTO("publicPlace","number","zipCode","neighborhood","state","city","details");
         managerDTO.setAddressDTO(addressRestaurantDTO);
-        managerDTO.setEmail("joseraimundo@gmail.com");
+        managerDTO.setEmail("joseraimundogmail.com");
         managerDTO.setPassword("JoseKSGDFD@1723!2345");
         managerDTO.setSocialsSecurity("731.485.580-30");
 
