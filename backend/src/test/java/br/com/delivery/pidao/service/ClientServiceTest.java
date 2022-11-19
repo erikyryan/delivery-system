@@ -78,13 +78,31 @@ public class ClientServiceTest {
     }
 
     @Test
+    public void shouldCreateUserClientThenReturnClientDTO(){
+        ClientDTO clientDTO = new ClientDTO();
+        AddressClientDTO addressClientDTO = new AddressClientDTO("publicPlace","number","zipCode","neighborhood","state","city","details");
+        clientDTO.setAddressDTO(addressClientDTO);
+        clientDTO.setEmail("joseraimundo@gmail.com");
+        clientDTO.setPassword("JoseKSGDFD@1723!2345");
+        clientDTO.setSocialsSecurity("731.485.580-30");
+        AddressDTO addressDTO = addressClientDTO.dtoAndClientIdentifierToAddressDTO(UUID.randomUUID().toString());
+        Client client = clientDTO.dtoToEntity();
+        client.setUserIdentifier(UUID.randomUUID().toString());
+
+        when(addressService.addAddress(addressDTO)).thenReturn(addressDTO);
+        when(clientRepository.save(any(Client.class))).thenReturn(client);
+
+        Assert.assertEquals(clientService.createUserClient(clientDTO),clientDTO);
+    }
+
+    @Test
     public void shouldCreateUserManagerThenReturnAManagerDTO(){
         ManagerDTO managerDTO = new ManagerDTO();
         AddressRestaurantDTO addressRestaurantDTO = new AddressRestaurantDTO("publicPlace","number","zipCode","neighborhood","state","city","details");
         managerDTO.setAddressDTO(addressRestaurantDTO);
         managerDTO.setEmail("joseraimundo@gmail.com");
         managerDTO.setPassword("JoseKSGDFD@1723!2345");
-        managerDTO.setSocialsSecurity("731485.580-30");
+        managerDTO.setSocialsSecurity("731.485.580-30");
 
         AddressDTO addressDTO = addressRestaurantDTO.dtoAndRestaurantIdentifierToAddressDTO(UUID.randomUUID().toString());
 
@@ -138,6 +156,5 @@ public class ClientServiceTest {
             Assert.assertEquals(e.getMessage(),"Email já Existente");
         }
     }
-
 
 }
