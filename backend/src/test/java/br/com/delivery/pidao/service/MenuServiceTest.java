@@ -10,6 +10,7 @@ import br.com.delivery.pidao.services.RestaurantService;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.runner.RunWith;
 import org.mockito.ArgumentMatchers;
 import org.mockito.Mock;
@@ -32,7 +33,7 @@ public class MenuServiceTest {
     @Mock
     private MenuRepository menuRepository;
 
-    @Before
+    @BeforeEach
     public void setUp(){
         menuService = new MenuService(menuRepository,restaurantService);
     }
