@@ -17,7 +17,7 @@ public class ClientOrderController {
     private ClientOrderService clientOrderService;
 
     @PostMapping
-    public ResponseEntity<?> saveOrder(@RequestBody OrderDTO orderDTO, @RequestHeader("token") final String token) {
+    public ResponseEntity<?> saveOrder(@RequestBody final OrderDTO orderDTO, @RequestHeader("token") final String token) {
         try {
             sessionService.validateToken(token);
             return ResponseEntity.ok(clientOrderService.addClientOrder(orderDTO));
@@ -27,7 +27,7 @@ public class ClientOrderController {
     }
 
     @GetMapping("/client/{clientIdentifier}")
-    public ResponseEntity<?> getAllOrders(@PathVariable String clientIdentifier, @RequestHeader("token") final String token) {
+    public ResponseEntity<?> getAllOrders(@PathVariable final String clientIdentifier, @RequestHeader("token") final String token) {
 
         try {
             sessionService.validateToken(token);
@@ -39,7 +39,7 @@ public class ClientOrderController {
     }
 
     @GetMapping("/{orderIdentifier}")
-    public ResponseEntity<?> getOrderByIdentifier(@PathVariable String orderIdentifier, @RequestHeader String token) {
+    public ResponseEntity<?> getOrderByIdentifier(@PathVariable final String orderIdentifier, @RequestHeader final String token) {
         try {
             sessionService.validateToken(token);
             return ResponseEntity.ok(clientOrderService.getClientOrderByClientIdentifier(orderIdentifier));
@@ -49,7 +49,7 @@ public class ClientOrderController {
     }
 
     @DeleteMapping("/{orderIdentifier}")
-    public ResponseEntity<?> removeOrder(@PathVariable String orderIdentifier, @RequestHeader String token) {
+    public ResponseEntity<?> removeOrder(@PathVariable final String orderIdentifier, @RequestHeader final String token) {
         try {
             sessionService.validateToken(token);
             clientOrderService.removeClientOrder(orderIdentifier);
@@ -60,7 +60,7 @@ public class ClientOrderController {
     }
 
     @PutMapping("{orderIdentifier}")
-    public ResponseEntity<?> updateOrder(@PathVariable String orderIdentifier, @RequestHeader String token, @RequestBody OrderDTO orderDTO){
+    public ResponseEntity<?> updateOrder(@PathVariable final String orderIdentifier, @RequestHeader final String token, @RequestBody final OrderDTO orderDTO){
         try {
             sessionService.validateToken(token);
             return ResponseEntity.ok(clientOrderService.updateClientOrder(orderDTO, orderIdentifier));
