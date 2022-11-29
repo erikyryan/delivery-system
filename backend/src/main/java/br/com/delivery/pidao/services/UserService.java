@@ -107,4 +107,9 @@ public class UserService {
 
         return UsersDTO;
     }
+
+    public Boolean isManager(UsersDTO userDTO){
+        return userDAO.isManager(userDTO);
+    }
+
 }

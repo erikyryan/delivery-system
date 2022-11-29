@@ -24,7 +24,7 @@ import java.util.UUID;
 public class Item implements Serializable {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private long Id;
 
     private String itemIdentifier = UUID.randomUUID().toString();

@@ -7,6 +7,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
+import java.util.UUID;
 
 @Service
 @AllArgsConstructor
@@ -14,15 +15,24 @@ public class RestaurantService {
 
     private RestaurantRepository restaurantRepository;
 
-    public Restaurant findByRestaurantIdentifier(String restaurantIdentifier) {
+    public String findByRestaurantIdentifier(String restaurantIdentifier) {
 
         Optional<Restaurant> restaurant = restaurantRepository.findByRestaurantIdentifier(restaurantIdentifier);
 
         if(restaurant.isPresent()){
-            return restaurant.get();
+            throw new RestaurantNotFound("Restaurante não existente");
         }
 
-        throw new RestaurantNotFound("Restaurante não existente");
+        return restaurant.get().getRestaurantIdentifier();
+    }
 
+    public String findMenuByIdentifier(String menuIdentifier) {
+        Optional<UUID> menu = restaurantRepository.findMenuByMenuUuid(menuIdentifier);
+
+        if(!menu.isPresent() || menu.isEmpty()){
+            throw new RuntimeException("Menu não encontrado");
+        }
+
+        return menu.get().toString();
     }
 }

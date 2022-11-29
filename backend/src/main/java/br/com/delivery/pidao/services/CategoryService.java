@@ -2,7 +2,6 @@ package br.com.delivery.pidao.services;
 
 
 import br.com.delivery.pidao.entities.Category;
-import br.com.delivery.pidao.entities.Menu;
 import br.com.delivery.pidao.entities.dto.CategoryDTO;
 import br.com.delivery.pidao.exceptions.CategoryNotFound;
 import br.com.delivery.pidao.repositories.CategoryRepository;
@@ -16,26 +15,26 @@ import java.util.Optional;
 @AllArgsConstructor
 public class CategoryService {
 
-    private MenuService menuService;
+    private RestaurantService restaurantService;
 
     private CategoryRepository categoryRepository;
 
     public String addCategory(CategoryDTO categoryDTO) {
-        Menu menu = menuService.findMenuByIdentifier(categoryDTO.getMenuIdentifier());
-        Optional<Category> category = categoryRepository.findByDetailsAndMenuIdentifier(categoryDTO.getDetails(), menu.getMenuIdentifier());
+        String menu = restaurantService.findMenuByIdentifier(categoryDTO.getMenuIdentifier());
+        Optional<Category> category = categoryRepository.findByDetailsAndMenuIdentifier(categoryDTO.getDetails(), menu);
 
         if (category.isPresent()) {
             throw new IllegalArgumentException("Categoria já existente");
         }
 
-        Category categorySaved = categoryRepository.save(new Category(categoryDTO.getDetails(),menu.getMenuIdentifier()));
+        Category categorySaved = categoryRepository.save(new Category(categoryDTO.getDetails(),menu));
         return categorySaved.getCategoryIdentifier();
     }
 
     public String updateCategory(CategoryDTO categoryDTO) {
-        Menu menu = menuService.findMenuByIdentifier(categoryDTO.getMenuIdentifier());
+        String menu = restaurantService.findMenuByIdentifier(categoryDTO.getMenuIdentifier());
 
-        Optional<Category> category = categoryRepository.findByDetailsAndMenuIdentifier(categoryDTO.getDetails(), menu.getMenuIdentifier());
+        Optional<Category> category = categoryRepository.findByDetailsAndMenuIdentifier(categoryDTO.getDetails(), menu);
 
         if (!category.isPresent()) {
             throw new CategoryNotFound("Categoria não existente");

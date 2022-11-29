@@ -15,7 +15,7 @@ import java.util.UUID;
 public class Category implements Serializable {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
 
     @Column(name = "categoryidentifier")
@@ -25,6 +25,8 @@ public class Category implements Serializable {
     private String details;
 
     private String menuIdentifier;
+
+    private UUID menuUuid;
 
     public Category(String details,String menuIdentifier){
         this.details = details;

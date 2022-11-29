@@ -12,7 +12,7 @@ import java.util.UUID;
 public class Address implements Serializable {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
 
     private String adressIdentifier = UUID.randomUUID().toString();

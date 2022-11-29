@@ -21,8 +21,8 @@ public class Users implements Serializable {
     private String userIdentifier = UUID.randomUUID().toString();
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private UUID uuid;
 
 
     @NotNull
@@ -46,9 +46,9 @@ public class Users implements Serializable {
     private Boolean isAdmin;
 
     @OneToOne
-    private Customer customer;
+    private Transaction transaction;
 
-    @JoinColumn(name = "restauranteIdentifier")
-    private String restauranteIdentifier;
+    @OneToOne
+    private Restaurant restaurant;
 
 }

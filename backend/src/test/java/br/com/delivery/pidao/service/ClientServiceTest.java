@@ -1,24 +1,7 @@
 package br.com.delivery.pidao.service;
 
-import br.com.delivery.pidao.dao.UserDAO;
-import br.com.delivery.pidao.entities.Address;
-import br.com.delivery.pidao.entities.Customer;
-import br.com.delivery.pidao.entities.dto.*;
-import br.com.delivery.pidao.repositories.AdressRepository;
-import br.com.delivery.pidao.repositories.UsersRepository;
-import br.com.delivery.pidao.services.AdressService;
-import br.com.delivery.pidao.services.SessionService;
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
-
-import java.util.Optional;
-import java.util.UUID;
-
-import static org.mockito.Mockito.when;
 
 @RunWith(MockitoJUnitRunner.Silent.class)
 public class ClientServiceTest {

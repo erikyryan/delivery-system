@@ -2,16 +2,9 @@ package br.com.delivery.pidao.services;
 
 
 import br.com.delivery.pidao.entities.Address;
-import br.com.delivery.pidao.entities.Category;
-import br.com.delivery.pidao.entities.Menu;
 import br.com.delivery.pidao.entities.dto.AddressDTO;
-import br.com.delivery.pidao.entities.dto.CategoryDTO;
-import br.com.delivery.pidao.exceptions.CategoryNotFound;
 import br.com.delivery.pidao.repositories.AdressRepository;
-import br.com.delivery.pidao.repositories.CategoryRepository;
-import br.com.delivery.pidao.repositories.MenuRepository;
 import lombok.AllArgsConstructor;
-import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
