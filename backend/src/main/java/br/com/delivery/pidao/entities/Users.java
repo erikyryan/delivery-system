@@ -6,11 +6,7 @@ import br.com.delivery.pidao.enums.UserTypeEnum;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
+import javax.persistence.*;
 
 import java.io.Serializable;
 import java.util.UUID;
@@ -27,6 +23,8 @@ public class Users implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+
     @NotNull
     private String email;
 
@@ -43,9 +41,12 @@ public class Users implements Serializable {
 
     private String adressIdentifier;
 
-    private UserTypeEnum type; 
+    private UserTypeEnum type;
 
     private Boolean isAdmin;
+
+    @OneToOne
+    private Customer customer;
 
     @JoinColumn(name = "restauranteIdentifier")
     private String restauranteIdentifier;

@@ -8,8 +8,6 @@ import br.com.delivery.pidao.repositories.UsersRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import com.microsoft.azure.documentdb.User;
-
 import java.util.Date;
 import java.util.Optional;
 
@@ -52,7 +50,7 @@ public class SessionService {
 
     public Users findUsers(String token) {
         LoginSession session = this.findSessionByToken(token);
-        Optional<Users> Users = UsersRepository.findByUsersdentifier(session.getUserIdentifier());
+        Optional<Users> Users = UsersRepository.findByUserIdentifier(session.getUserIdentifier());
         if(!Users.isPresent()){
             throw new RuntimeException("Users não encontrado!");
         }else{}
@@ -62,7 +60,7 @@ public class SessionService {
 
     public UsersDTO findUsersDTOByToken(String token) {
         LoginSession session = this.findSessionByToken(token);
-        Optional<Users> Users = UsersRepository.findByUsersdentifier(session.getUserIdentifier());
+        Optional<Users> Users = UsersRepository.findByUserIdentifier(session.getUserIdentifier());
         if(!Users.isPresent()){
             throw new RuntimeException("Users não encontrado!");
         }else{}

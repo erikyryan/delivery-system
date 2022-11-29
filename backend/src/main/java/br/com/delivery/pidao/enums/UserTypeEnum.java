@@ -8,7 +8,6 @@ public enum UserTypeEnum {
 
     int code;
 
-
     UserTypeEnum(int i) {
         code = i;
     }

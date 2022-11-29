@@ -17,7 +17,7 @@ public interface UsersRepository extends JpaRepository<Users,Long>{
 
     Optional<Users> findByEmail(String email);
 
-    Optional<Users> findByUsersdentifier(String Usersdentifier);
+    Optional<Users> findByUserIdentifier(String UserIdentifier);
 
     Optional<Users> findByEmailAndType(String email, UserTypeEnum type);
 

@@ -1,16 +1,10 @@
 package br.com.delivery.pidao.dao;
 
-import br.com.delivery.pidao.entities.Customer;
-import br.com.delivery.pidao.entities.Delivery;
-import br.com.delivery.pidao.entities.Manager;
 import br.com.delivery.pidao.entities.Users;
 import br.com.delivery.pidao.entities.dto.UsersDTO;
 import br.com.delivery.pidao.enums.UserTypeEnum;
 import br.com.delivery.pidao.repositories.UsersRepository;
 import lombok.AllArgsConstructor;
-import lombok.NoArgsConstructor;
-import lombok.RequiredArgsConstructor;
-
 import org.springframework.stereotype.Component;
 
 import java.util.Optional;
