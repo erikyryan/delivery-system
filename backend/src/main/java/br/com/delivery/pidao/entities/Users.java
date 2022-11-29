@@ -5,6 +5,7 @@ import com.sun.istack.NotNull;
 import br.com.delivery.pidao.enums.UserTypeEnum;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 
@@ -14,9 +15,8 @@ import java.util.UUID;
 @Data
 @Entity
 @AllArgsConstructor
+@NoArgsConstructor
 public class Users implements Serializable {
-
-    public Users() {}
 
     private String userIdentifier = UUID.randomUUID().toString();
 

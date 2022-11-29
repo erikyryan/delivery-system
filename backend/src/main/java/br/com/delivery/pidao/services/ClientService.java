@@ -25,23 +25,16 @@ import br.com.delivery.pidao.repositories.*;
 @Service
 @AllArgsConstructor
 public class ClientService {
-    
-    private final UserDAO userDAO;
 
-    private UsersRepository usersRepository;
+    private final UserDAO userDAO;
 
     private SessionService sessionService;
 
     private AdressService adressService;
 
-    private AdressRepository adressRepository;
-
 
     public void validateUserExist(UsersDTO userDTO){
-        Optional<Users> users = usersRepository.findByEmail(userDTO.getEmail());
-        if(!users.isEmpty()){
-            throw new RuntimeException("Email já Existente");
-        }else{}
+        userDAO.valitadeUserEmail(userDTO.getEmail());
     }
 
     public boolean validateEmailAndTaxNumber(String email, String taxNumber){
@@ -67,7 +60,7 @@ public class ClientService {
         userCustomer.setIsAdmin(false);
         
         userCustomer = userDTO.dtoToEntity();
-        Users customer = usersRepository.save(userCustomer);
+        Users customer = userDAO.save(userCustomer);
 
         AddressDTO addressDTO = userDTO.getAddressDTO().dtoAndCustomerIdentifierToAdressDTO(customer.getUserIdentifier());
         adressService.addAdress(addressDTO);
@@ -84,7 +77,7 @@ public class ClientService {
         userManager.setIsAdmin(false);
         
         userManager = userDTO.dtoToEntity();
-        Users manager = usersRepository.save(userManager);
+        Users manager = userDAO.save(userManager);
 
         AddressDTO addressDTO = userDTO.getAddressDTO().dtoAndCustomerIdentifierToAdressDTO(manager.getUserIdentifier());
         adressService.addAdress(addressDTO);
@@ -92,21 +85,12 @@ public class ClientService {
         return userDTO;
     }
 
-    public AddressDTO addAdress(AddressDTO addressDTO){
-        Address newAdress = addressDTO.dtoToEntity();
-        adressRepository.save(newAdress);
-
-        return addressDTO;
-    }
-
-
-
-   public LoginSession logoutUser(String token) {
+    public LoginSession logoutUser(String token) {
        try {
            LoginSession session = sessionService.logout(token);
            return session;
        } catch (Exception e) {
            throw new RuntimeException(e.getMessage());
        }
-   }
+    }
 }

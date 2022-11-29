@@ -1,6 +1,7 @@
 package br.com.delivery.pidao.services;
 
 
+import br.com.delivery.pidao.dao.UserDAO;
 import br.com.delivery.pidao.entities.*;
 import br.com.delivery.pidao.entities.dto.*;
 import br.com.delivery.pidao.enums.UserTypeEnum;
@@ -18,14 +19,11 @@ import java.util.Optional;
 @AllArgsConstructor
 public class UserService {
 
-    private UsersRepository UsersRepository;
+    private UserDAO userDAO;
 
     private SessionService loginSessionService;
 
     private AdressService adressService;
-
-    private AdressRepository adressRepository;
-
 
     public String login(UsersDTO UsersDTO) {
         Users currentUsers = validateLogin(UsersDTO);
@@ -42,28 +40,25 @@ public class UserService {
     }
 
     private Users validateLogin(UsersDTO UsersS) {
-        Optional<Users> Users = UsersRepository.findByEmail(UsersS.getEmail());
-        if(!Users.isPresent()){
-            throw new RuntimeException("Usuario não encontrado.");
+        Users user = userDAO.findByEmail(UsersS.getEmail());
+
+        if(!Objects.equals(UsersS.getPassword(), user.getPassword())){
+            throw new RuntimeException("Senha inválida!");
         }else{
-            if(!Objects.equals(UsersS.getPassword(), Users.get().getPassword())){
-                throw new RuntimeException("Senha inválida!");
-            }else{
-                return Users.get();
-            }
+            return user;
         }
     }
 
     public Users findByToken(String token) {
-        Users Users = this.loginSessionService.findUsers(token);
-        return Users;
+        Users user = this.loginSessionService.findUsers(token);
+        return user;
     }
 
     public void validateUsersExist(UsersDTO UsersDTO){
-        Optional<Users> Users = UsersRepository.findByEmail(UsersDTO.getEmail());
-        if(!Users.isEmpty()){
+        Users user = userDAO.findByEmail(UsersDTO.getEmail());
+        if(!Objects.equals(user.getEmail(),null)){
             throw new RuntimeException("Email já Existente");
-        }else{}
+        }
     }
 
     public boolean validateEmailAndTaxNumber(String email, String taxNumber){
@@ -89,19 +84,12 @@ public class UserService {
         UsersCustomer.setIsAdmin(false);
         
         UsersCustomer = UsersDTO.dtoToEntity();
-        Users customer = UsersRepository.save(UsersCustomer);
+        Users customer = userDAO.save(UsersCustomer);
 
         AddressDTO addressDTO = UsersDTO.getAddressDTO().dtoAndCustomerIdentifierToAdressDTO(customer.getUserIdentifier());
         adressService.addAdress(addressDTO);
 
         return UsersDTO;
-    }
-
-    public AddressDTO addAdress(AddressDTO addressDTO){
-        Address newAdress = addressDTO.dtoToEntity();
-        adressRepository.save(newAdress);
-
-        return addressDTO;
     }
 
     public UsersDTO createUsersManager(UsersDTO UsersDTO){
@@ -112,7 +100,7 @@ public class UserService {
         UsersManager.setIsAdmin(true);
         
         UsersManager = UsersDTO.dtoToEntity();
-        Users manager = UsersRepository.save(UsersManager);
+        Users manager = userDAO.save(UsersManager);
 
         AddressDTO addressDTO = UsersDTO.getAddressDTO().dtoAndRestaurantIdentifierToAdressDTO(manager.getUserIdentifier());
         adressService.addAdress(addressDTO);
