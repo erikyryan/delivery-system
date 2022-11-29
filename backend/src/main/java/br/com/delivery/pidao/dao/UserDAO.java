@@ -1,16 +1,16 @@
 package br.com.delivery.pidao.dao;
 
-import br.com.delivery.pidao.entities.Client;
+import br.com.delivery.pidao.entities.Customer;
 import br.com.delivery.pidao.entities.Delivery;
 import br.com.delivery.pidao.entities.Manager;
-import br.com.delivery.pidao.entities.dto.UserDTO;
+import br.com.delivery.pidao.entities.Users;
+import br.com.delivery.pidao.entities.dto.UsersDTO;
 import br.com.delivery.pidao.enums.UserTypeEnum;
-import br.com.delivery.pidao.repositories.ClientRepository;
-import br.com.delivery.pidao.repositories.DeliveryRepository;
-import br.com.delivery.pidao.repositories.ManagerRepository;
+import br.com.delivery.pidao.repositories.UsersRepository;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
+
 import org.springframework.stereotype.Component;
 
 import java.util.Optional;
@@ -20,70 +20,37 @@ import java.util.Optional;
 @AllArgsConstructor
 public class UserDAO {
 
-    private final ManagerRepository managerRepository;
+   private UsersRepository usersRepository;
 
-    private final ClientRepository clientRepository;
-
-    private final DeliveryRepository deliveryRepository;
-
-    public Optional<Manager> isManager(UserDTO userDTO){
-        return managerRepository.findByEmailAndPassword(userDTO.getEmail(), userDTO.getPassword());
+    public boolean isManager(UsersDTO userDTO){
+        Optional<Users> user = usersRepository.findByEmailAndType(userDTO.getEmail(), userDTO.getTypeUser());
+        Users userManager = user.get();
+        return userManager.getType() == UserTypeEnum.MANAGER ? true : false;
     }
 
-    public Optional<Client> isClient(UserDTO userDTO){
-        return clientRepository.findByEmailAndPassword(userDTO.getEmail(), userDTO.getPassword());
+    public boolean isCustomer(UsersDTO userDTO){
+        Optional<Users> user = usersRepository.findByEmailAndType(userDTO.getEmail(), userDTO.getTypeUser());
+        Users userCustomer = user.get();
+        return userCustomer.getType() == UserTypeEnum.CUSTOMER ? true : false;
     }
 
-    public boolean isDeliveryman(UserDTO userDTO){
-        Optional<Delivery> deliveryman = deliveryRepository.findByEmailAndPassword(userDTO.getEmail(), userDTO.getPassword());
-        if(deliveryman.isPresent()){
-            return true;
-        }
-        return false;
+    public boolean isDeliveryman(UsersDTO userDTO){
+        Optional<Users> user = usersRepository.findByEmailAndType(userDTO.getEmail(), userDTO.getTypeUser());
+        Users userDeliveryman = user.get();
+        return userDeliveryman.getType() == UserTypeEnum.DELIVERYMAN ? true : false;
     }
 
-    public Optional<Client> isPresent(String socialSecurity){
-        return clientRepository.findBySocialsSecurity(socialSecurity);
+    public Optional<Users> isPresent(String socialSecurity){
+        return usersRepository.findBySocialsSecurity(socialSecurity);
     }
 
     public Object valitadeUserEmail(String email){
-        Optional <Client> userClient = clientRepository.findByEmail(email);
-        if(userClient.isPresent()){
-            return userClient;
+        Optional<Users> user = usersRepository.findByEmail(email);
+        if(user.isPresent()){
+            return user;
         }
-
-        Optional <Manager> userManageer = managerRepository.findByEmail(email);
-        if(userManageer.isPresent()){
-            return userManageer;
-        }
-
-        Optional <Delivery> userDelivery = deliveryRepository.findByEmail(email);
-        if(userDelivery.isPresent()){
-            return userDelivery;
-        }
-
         return null;
     }
-
-    public UserTypeEnum typeUser(String email){
-        Optional <Client> userClient = clientRepository.findByEmail(email);
-        if(userClient.isPresent()){
-            return UserTypeEnum.CUSTOMER;
-        }
-
-        Optional <Manager> userManageer = managerRepository.findByEmail(email);
-        if(userManageer.isPresent()){
-            return UserTypeEnum.MANAGER;
-        }
-
-        Optional <Delivery> userDelivery = deliveryRepository.findByEmail(email);
-        if(userDelivery.isPresent()){
-            return UserTypeEnum.DELIVERYMAN;
-        }
-        
-        return null;
-    }
-
 }
 
 

@@ -17,5 +17,7 @@ public class Delivery implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    private Users users;
+
     private OrderStatus Status;
 }

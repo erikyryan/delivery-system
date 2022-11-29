@@ -33,7 +33,7 @@ public class LoginSession {
     private Date logoutDate;
 
     //TODO: implementar o login session para os tipos devidos de usuarios
-    public LoginSession(User user) {
+    public LoginSession(Users user) {
         this.userIdentifier = user.getUserIdentifier();
         this.token = UUID.randomUUID().toString();
         this.loginDate = new Date();

@@ -5,27 +5,33 @@ import com.sun.istack.NotNull;
 import br.com.delivery.pidao.enums.UserTypeEnum;
 import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.NoArgsConstructor;
 
 import javax.persistence.Entity;
-import javax.persistence.IdClass;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 
+import java.io.Serializable;
 import java.util.UUID;
 
 @Data
-@NoArgsConstructor
-@AllArgsConstructor
 @Entity
-@IdClass(User.class)
-public class User {
+@AllArgsConstructor
+public class Users implements Serializable {
 
+    public Users() {}
+
+    private String userIdentifier = UUID.randomUUID().toString();
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
     @NotNull
     private String email;
 
     @NotNull
     private String password;
-
-    private String userIdentifier = UUID.randomUUID().toString();
 
     private String date;
 
@@ -40,5 +46,8 @@ public class User {
     private UserTypeEnum type; 
 
     private Boolean isAdmin;
+
+    @JoinColumn(name = "restauranteIdentifier")
+    private String restauranteIdentifier;
 
 }

@@ -10,21 +10,18 @@ import javax.persistence.*;
 import java.io.Serializable;
 import java.util.List;
 import java.util.UUID;
-import java.util.UUID;
 
 @Data
 @Entity
-public class Client implements Serializable {
+public class Customer implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private User user;
+    private Users users;
 
     @OneToMany
     private List<ClientOrder> OrderClient;
-
-//    private String clientIdentifier = UUID.randomUUID().toString();
 
 }

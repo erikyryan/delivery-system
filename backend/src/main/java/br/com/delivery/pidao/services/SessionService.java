@@ -1,16 +1,14 @@
 package br.com.delivery.pidao.services;
 
-import br.com.delivery.pidao.entities.Client;
 import br.com.delivery.pidao.entities.LoginSession;
-import br.com.delivery.pidao.entities.Manager;
-import br.com.delivery.pidao.entities.User;
-import br.com.delivery.pidao.entities.dto.UserDTO;
-import br.com.delivery.pidao.repositories.ClientRepository;
-import br.com.delivery.pidao.repositories.ManagerRepository;
+import br.com.delivery.pidao.entities.Users;
+import br.com.delivery.pidao.entities.dto.UsersDTO;
 import br.com.delivery.pidao.repositories.SessionRepository;
+import br.com.delivery.pidao.repositories.UsersRepository;
 import lombok.AllArgsConstructor;
-import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+
+import com.microsoft.azure.documentdb.User;
 
 import java.util.Date;
 import java.util.Optional;
@@ -21,9 +19,7 @@ public class SessionService {
 
     private SessionRepository loginSessionRepository;
 
-    private ManagerRepository managerRepository;
-
-    private ClientRepository clientRepository;
+    private UsersRepository UsersRepository;
 
     public void validateToken(String token) {
         LoginSession session = this.findSessionByToken(token);
@@ -33,16 +29,16 @@ public class SessionService {
         }
     }
 
-    public String generateSession(User userS) {
-        Optional<LoginSession> session = loginSessionRepository.findByUserIdentifierAndLogoutDateNull(userS.getUserIdentifier());
+    public String generateSession(Users UsersS) {
+        Optional<LoginSession> session = loginSessionRepository.findByUserIdentifierAndLogoutDateNull(UsersS.getUserIdentifier());
         if (session.isPresent()) {
             session.get().finish();
         }
 
-        LoginSession userSession = new LoginSession(userS);
-        loginSessionRepository.save(userSession);
+        LoginSession UsersSession = new LoginSession(UsersS);
+        loginSessionRepository.save(UsersSession);
 
-        return userSession.getToken();
+        return UsersSession.getToken();
     }
 
     public LoginSession findSessionByToken(String token) {
@@ -54,32 +50,25 @@ public class SessionService {
         }
     }
 
-    public User findUser(String token) {
+    public Users findUsers(String token) {
         LoginSession session = this.findSessionByToken(token);
-        Optional<Manager> manager = managerRepository.findByUserIdentifier(session.getUserIdentifier());
-        if(!manager.isPresent()){
-            Optional<Client> client = clientRepository.findByUserIdentifier(session.getUserIdentifier());
-            if(!client.isPresent()){
-                throw new RuntimeException("User não encontrado!");
-            }
-            return client.get();
-        }
+        Optional<Users> Users = UsersRepository.findByUsersdentifier(session.getUserIdentifier());
+        if(!Users.isPresent()){
+            throw new RuntimeException("Users não encontrado!");
+        }else{}
 
-        return manager.get();
+        return Users.get();
     }
 
-    public UserDTO findUserDTOByToken(String token) {
+    public UsersDTO findUsersDTOByToken(String token) {
         LoginSession session = this.findSessionByToken(token);
-        Optional<Manager> manager = managerRepository.findByUserIdentifier(session.getUserIdentifier());
-        if(!manager.isPresent()){
-            Optional<Client> client = clientRepository.findByUserIdentifier(session.getUserIdentifier());
-            if(!client.isPresent()){
-                throw new RuntimeException("User não encontrado!");
-            }
-            return new UserDTO(client.get().getEmail(),client.get().getPassword());
-        }
+        Optional<Users> Users = UsersRepository.findByUsersdentifier(session.getUserIdentifier());
+        if(!Users.isPresent()){
+            throw new RuntimeException("Users não encontrado!");
+        }else{}
 
-        return new UserDTO(manager.get().getEmail(),manager.get().getPassword());
+        return new UsersDTO();
+        //UsersDTO(Users.get().getEmail(),Users.get().getPassword());
     }
 
     public LoginSession logout(String token) {

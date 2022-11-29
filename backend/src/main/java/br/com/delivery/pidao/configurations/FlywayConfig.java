@@ -18,7 +18,7 @@ public class FlywayConfig {
 //    private String password;
 
     public FlywayConfig () {
-        Flyway.configure().baselineOnMigrate(true).dataSource("jdbc:postgresql://localhost:5432/postgres","postgres","12345").load().migrate();
+        Flyway.configure().baselineOnMigrate(true).dataSource("jdbc:postgresql://localhost:5432/postgres","postgres","maria123").load().migrate();
     }
 
 }

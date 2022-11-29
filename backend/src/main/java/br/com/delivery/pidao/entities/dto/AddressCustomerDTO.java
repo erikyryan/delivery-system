@@ -7,7 +7,7 @@ import lombok.Setter;
 
 @Getter
 @AllArgsConstructor
-public class AddressClientDTO {
+public class AddressCustomerDTO {
 
     private String publicPlace;
     private String number;
@@ -17,9 +17,9 @@ public class AddressClientDTO {
     private String city;
     private String details;
 
-    public AddressClientDTO(){}
+    public AddressCustomerDTO(){}
 
-    public AddressDTO dtoAndClientIdentifierToAdressDTO(String clientIdentifier){
+    public AddressDTO dtoAndCustomerIdentifierToAdressDTO(String customerIdentifier){
         AddressDTO address = new AddressDTO();
         address.setPublicPlace(publicPlace);
         address.setNumber(number);
@@ -28,7 +28,7 @@ public class AddressClientDTO {
         address.setState(state);
         address.setCity(city);
         address.setDetails(details);
-        address.setClientIdentifier(clientIdentifier);
+        address.setCustomerIdentifier(customerIdentifier);
 
         return address;
     }

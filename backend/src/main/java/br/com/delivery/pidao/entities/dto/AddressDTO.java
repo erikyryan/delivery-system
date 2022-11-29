@@ -19,7 +19,7 @@ public class AddressDTO {
     private String city;
     private String details;
 
-    private String clientIdentifier;
+    private String customerIdentifier;
 
     private String restarauntIdentifier;
 
@@ -32,10 +32,38 @@ public class AddressDTO {
        address.setState(state);
        address.setCity(city);
        address.setDetails(details);
-       address.setClientIdentifier(clientIdentifier);
+       address.setClientIdentifier(customerIdentifier);
        address.setRestarauntIdentifier(restarauntIdentifier);
 
        return address;
+    }
+
+    public AddressDTO dtoAndCustomerIdentifierToAdressDTO(String customerIdentifier){
+        AddressDTO address = new AddressDTO();
+        address.setPublicPlace(publicPlace);
+        address.setNumber(number);
+        address.setZipCode(zipCode);
+        address.setNeighborhood(neighborhood);
+        address.setState(state);
+        address.setCity(city);
+        address.setDetails(details);
+        address.setCustomerIdentifier(customerIdentifier);
+
+        return address;
+    }
+
+    public AddressDTO dtoAndRestaurantIdentifierToAdressDTO(String restaurantIdentifier){
+        AddressDTO address = new AddressDTO();
+        address.setPublicPlace(publicPlace);
+        address.setNumber(number);
+        address.setZipCode(zipCode);
+        address.setNeighborhood(neighborhood);
+        address.setState(state);
+        address.setCity(city);
+        address.setDetails(details);
+        address.setRestarauntIdentifier(restaurantIdentifier);
+
+        return address;
     }
 
 

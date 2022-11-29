@@ -2,7 +2,7 @@ package br.com.delivery.pidao.controllers;
 
 import br.com.delivery.pidao.entities.dto.ItemDTO;
 import br.com.delivery.pidao.entities.dto.ItemDescriptionDTO;
-import br.com.delivery.pidao.entities.dto.UserDTO;
+import br.com.delivery.pidao.entities.dto.UsersDTO;
 import br.com.delivery.pidao.services.ItemService;
 import br.com.delivery.pidao.services.SessionService;
 import lombok.AllArgsConstructor;
@@ -23,7 +23,7 @@ public class ItemController {
     public ResponseEntity<?> insertItem(@RequestBody ItemDTO itemDTO,@RequestHeader("token") final String token){
         try{
             sessionService.validateToken(token);
-            UserDTO userDTO = sessionService.findUserDTOByToken(token);
+            UsersDTO userDTO = sessionService.findUsersDTOByToken(token);
             itemService.getRestaurantIfTheUserIsAManagerFromUserDTO(userDTO);
             return ResponseEntity.ok(itemService.addItem(itemDTO));
         }catch (Exception e){
@@ -36,7 +36,7 @@ public class ItemController {
     public ResponseEntity<?> updateItem(@PathVariable String itemIdentifier, @RequestHeader("token") String token, @RequestBody ItemDTO itemDTO){
         try{
             sessionService.validateToken(token);
-            UserDTO userDTO = sessionService.findUserDTOByToken(token);
+            UsersDTO userDTO = sessionService.findUsersDTOByToken(token);
             itemService.getRestaurantIfTheUserIsAManagerFromUserDTO(userDTO);
             return ResponseEntity.ok(itemService.updateItem(itemDTO,itemIdentifier));
         }catch (Exception e){
@@ -48,7 +48,7 @@ public class ItemController {
     public ResponseEntity<?> deleteItem(@PathVariable String itemIdentifier,@RequestHeader("token") final String token, @RequestBody ItemDescriptionDTO itemDescriptionDTO){
         try{
             sessionService.validateToken(token);
-            UserDTO userDTO = sessionService.findUserDTOByToken(token);
+            UsersDTO userDTO = sessionService.findUsersDTOByToken(token);
             itemService.getRestaurantIfTheUserIsAManagerFromUserDTO(userDTO);
             itemService.deleteItem(itemIdentifier);
             return ResponseEntity.ok().build();

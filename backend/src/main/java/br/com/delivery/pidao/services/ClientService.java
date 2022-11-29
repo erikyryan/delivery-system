@@ -28,11 +28,7 @@ public class ClientService {
     
     private final UserDAO userDAO;
 
-    private ClientRepository clientRepository;
-
-    private final ManagerRepository managerRepository;
-
-    private final DeliveryRepository deliveryRepository;
+    private UsersRepository usersRepository;
 
     private SessionService sessionService;
 
@@ -41,31 +37,16 @@ public class ClientService {
     private AdressRepository adressRepository;
 
 
-    public boolean validateUserExistreate(UserDTO userDTO){
-        Optional<Manager> manager = managerRepository.findByEmail(userDTO.getEmail());
-        if(!manager.isEmpty()){
+    public void validateUserExist(UsersDTO userDTO){
+        Optional<Users> users = usersRepository.findByEmail(userDTO.getEmail());
+        if(!users.isEmpty()){
             throw new RuntimeException("Email já Existente");
-        }
-        
-        Optional<Client> client = clientRepository.findByEmail(userDTO.getEmail());
-        if(!client.isEmpty()){
-            throw new  RuntimeException("Email já Existente");
-        }
-
-        Optional<Delivery> delivery = deliveryRepository.findByEmail(userDTO.getEmail());
-        if(!delivery.isEmpty()){
-            throw new  RuntimeException("Email já Existente");
-        }
-        
-        return false;
+        }else{}
     }
 
     public boolean validateEmailAndTaxNumber(String email, String taxNumber){
-
         boolean validatorEmail = new ValidatorEmail().emailIsValid(email);
-        //boolean validatorPassword = new ValidatorPassword().passwordIsValid(password);
         boolean validatorTaxNumber = new ValidatorTaxNumber().taxNumberIsValid(taxNumber);
-
         if(validatorEmail == true){
             if(validatorTaxNumber == true){
                 return true;
@@ -77,17 +58,38 @@ public class ClientService {
         } 
     }
 
-    public ClientDTO createUserClient(ClientDTO clientDTO){
-        this.validateUserExistreate(clientDTO.toUserDTO());
-        this.validateEmailAndTaxNumber(clientDTO.getEmail(), clientDTO.getSocialsSecurity());
+    public UsersDTO createUserCustomer(UsersDTO userDTO){
+        this.validateUserExist(userDTO);
+        this.validateEmailAndTaxNumber(userDTO.getEmail(), userDTO.getSocialSecurity());
 
-        Client newClient = clientDTO.dtoToEntity();
-        Client client = clientRepository.save(newClient);
-        AddressDTO addressDTO = clientDTO.getAddressDTO().dtoAndClientIdentifierToAdressDTO(client.getUserIdentifier());
+        Users userCustomer = new Users();
+        userCustomer.setType(UserTypeEnum.CUSTOMER);
+        userCustomer.setIsAdmin(false);
+        
+        userCustomer = userDTO.dtoToEntity();
+        Users customer = usersRepository.save(userCustomer);
+
+        AddressDTO addressDTO = userDTO.getAddressDTO().dtoAndCustomerIdentifierToAdressDTO(customer.getUserIdentifier());
         adressService.addAdress(addressDTO);
 
+        return userDTO;
+    }
+    
+    public UsersDTO createUserManager(UsersDTO userDTO){
+        this.validateUserExist(userDTO);
+        this.validateEmailAndTaxNumber(userDTO.getEmail(), userDTO.getSocialSecurity());
 
-        return clientDTO;
+        Users userManager = new Users();
+        userManager.setType(UserTypeEnum.CUSTOMER);
+        userManager.setIsAdmin(false);
+        
+        userManager = userDTO.dtoToEntity();
+        Users manager = usersRepository.save(userManager);
+
+        AddressDTO addressDTO = userDTO.getAddressDTO().dtoAndCustomerIdentifierToAdressDTO(manager.getUserIdentifier());
+        adressService.addAdress(addressDTO);
+
+        return userDTO;
     }
 
     public AddressDTO addAdress(AddressDTO addressDTO){
@@ -97,17 +99,7 @@ public class ClientService {
         return addressDTO;
     }
 
-    public ManagerDTO createUserManager(ManagerDTO managerDTO){
-        this.validateUserExistreate(managerDTO.toUserDTO());
-        this.validateEmailAndTaxNumber(managerDTO.getEmail(), managerDTO.getSocialsSecurity());
 
-        Manager newManager = managerDTO.dtoToEntity();
-        Manager manager = managerRepository.save(newManager);
-        AddressDTO addressDTO = managerDTO.getAddressDTO().dtoAndRestaurantIdentifierToAdressDTO(manager.getUserIdentifier());
-        adressService.addAdress(addressDTO);
-
-        return managerDTO;
-    }
 
    public LoginSession logoutUser(String token) {
        try {

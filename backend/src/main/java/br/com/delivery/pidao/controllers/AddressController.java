@@ -37,7 +37,7 @@ public class AddressController {
     public ResponseEntity<?> updateAddress(@RequestHeader final String token,@RequestBody AddressDTO addressDTO){
         try {
             sessionService.validateToken(token);
-            UserDTO userDTO = sessionService.findUserDTOByToken(token);
+            UsersDTO userDTO = sessionService.findUsersDTOByToken(token);
             adressService.findByIdentifier(token);
             return ResponseEntity.ok(adressService);
         }catch (Exception e ){

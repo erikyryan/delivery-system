@@ -1,15 +1,14 @@
 package br.com.delivery.pidao.services;
 
-import br.com.delivery.pidao.dao.UserDAO;
-import br.com.delivery.pidao.entities.Client;
-import br.com.delivery.pidao.entities.LoginSession;
-import br.com.delivery.pidao.entities.Manager;
-import br.com.delivery.pidao.entities.User;
-import br.com.delivery.pidao.entities.dto.UserDTO;
-import br.com.delivery.pidao.repositories.ClientRepository;
-import br.com.delivery.pidao.repositories.ManagerRepository;
+
+import br.com.delivery.pidao.entities.*;
+import br.com.delivery.pidao.entities.dto.*;
+import br.com.delivery.pidao.enums.UserTypeEnum;
+import br.com.delivery.pidao.repositories.AdressRepository;
+import br.com.delivery.pidao.repositories.UsersRepository;
 import lombok.AllArgsConstructor;
-import lombok.RequiredArgsConstructor;
+import validator.*;
+
 import org.springframework.stereotype.Service;
 
 import java.util.Objects;
@@ -19,17 +18,18 @@ import java.util.Optional;
 @AllArgsConstructor
 public class UserService {
 
-    private ManagerRepository managerRepository;
-
-    private ClientRepository clientRepository;
+    private UsersRepository UsersRepository;
 
     private SessionService loginSessionService;
 
-    private UserDAO userDAO;
+    private AdressService adressService;
 
-    public String login(UserDTO userDTO) {
-        User currentUser = validateLogin(userDTO);
-        return loginSessionService.generateSession(currentUser);
+    private AdressRepository adressRepository;
+
+
+    public String login(UsersDTO UsersDTO) {
+        Users currentUsers = validateLogin(UsersDTO);
+        return loginSessionService.generateSession(currentUsers);
     }
 
     public LoginSession logout(String token) {
@@ -41,32 +41,82 @@ public class UserService {
         }
     }
 
-    private User validateLogin(UserDTO userS) {
-        Optional<Manager> manager = managerRepository.findByEmail(userS.getEmail());
-        if (!manager.isPresent()) {
-            Optional<Client> client = clientRepository.findByEmail(userS.getEmail());
-            if(!client.isPresent()) {
-                throw new RuntimeException("Usuário não foi encontrado.");
-            }
-            if(!Objects.equals(client.get().getPassword(),userS.getPassword())){
+    private Users validateLogin(UsersDTO UsersS) {
+        Optional<Users> Users = UsersRepository.findByEmail(UsersS.getEmail());
+        if(!Users.isPresent()){
+            throw new RuntimeException("Usuario não encontrado.");
+        }else{
+            if(!Objects.equals(UsersS.getPassword(), Users.get().getPassword())){
                 throw new RuntimeException("Senha inválida!");
+            }else{
+                return Users.get();
             }
-            return client.get();
         }
-
-        if(!Objects.equals(manager.get().getPassword(),userS.getPassword())){
-            throw new RuntimeException("Senha inválida!");
-        }
-
-        return manager.get();
     }
 
-    public User findByToken(String token) {
-        User user = this.loginSessionService.findUser(token);
-        return user;
+    public Users findByToken(String token) {
+        Users Users = this.loginSessionService.findUsers(token);
+        return Users;
     }
 
-    public Optional<Manager> isManager(UserDTO userDTO) {
-        return userDAO.isManager(userDTO);
+    public void validateUsersExist(UsersDTO UsersDTO){
+        Optional<Users> Users = UsersRepository.findByEmail(UsersDTO.getEmail());
+        if(!Users.isEmpty()){
+            throw new RuntimeException("Email já Existente");
+        }else{}
+    }
+
+    public boolean validateEmailAndTaxNumber(String email, String taxNumber){
+        boolean validatorEmail = new ValidatorEmail().emailIsValid(email);
+        boolean validatorTaxNumber = new ValidatorTaxNumber().taxNumberIsValid(taxNumber);
+        if(validatorEmail == true){
+            if(validatorTaxNumber == true){
+                return true;
+            }else{
+                throw new  RuntimeException("CPF/CNPJ ínvalido");
+            }
+        }else{
+            throw new  RuntimeException("Email ínvalido");
+        } 
+    }
+
+    public UsersDTO createUsersCustomer(UsersDTO UsersDTO){
+        //this.validateUsersExist(UsersDTO);
+        this.validateEmailAndTaxNumber(UsersDTO.getEmail(), UsersDTO.getSocialSecurity());
+
+        Users UsersCustomer = new Users();
+        UsersCustomer.setType(UserTypeEnum.CUSTOMER);
+        UsersCustomer.setIsAdmin(false);
+        
+        UsersCustomer = UsersDTO.dtoToEntity();
+        Users customer = UsersRepository.save(UsersCustomer);
+
+        AddressDTO addressDTO = UsersDTO.getAddressDTO().dtoAndCustomerIdentifierToAdressDTO(customer.getUserIdentifier());
+        adressService.addAdress(addressDTO);
+
+        return UsersDTO;
+    }
+
+    public AddressDTO addAdress(AddressDTO addressDTO){
+        Address newAdress = addressDTO.dtoToEntity();
+        adressRepository.save(newAdress);
+
+        return addressDTO;
+    }
+
+    public UsersDTO createUsersManager(UsersDTO UsersDTO){
+        this.validateEmailAndTaxNumber( UsersDTO.getEmail(), UsersDTO.getSocialSecurity());
+
+        Users UsersManager = new Users();
+        UsersManager.setType(UserTypeEnum.MANAGER);
+        UsersManager.setIsAdmin(true);
+        
+        UsersManager = UsersDTO.dtoToEntity();
+        Users manager = UsersRepository.save(UsersManager);
+
+        AddressDTO addressDTO = UsersDTO.getAddressDTO().dtoAndRestaurantIdentifierToAdressDTO(manager.getUserIdentifier());
+        adressService.addAdress(addressDTO);
+
+        return UsersDTO;
     }
 }

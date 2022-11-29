@@ -1,7 +1,5 @@
 package br.com.delivery.pidao.controllers;
 
-import lombok.NoArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -9,44 +7,39 @@ import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.microsoft.azure.documentdb.User;
 
 import br.com.delivery.pidao.entities.dto.*;
 import br.com.delivery.pidao.services.*;
 import lombok.AllArgsConstructor;
-import lombok.RequiredArgsConstructor;
 
 @RestController
-@RequestMapping("/Client")
+@RequestMapping("/User")
 @AllArgsConstructor
-public class ClientController {
+public class UserController {
 
-    private ClientService clientService;
-
-    private  AdressService adressService;
 
     private UserService userService;
 
-    @PostMapping("/addClient")
-    public ResponseEntity<?> insertClient(@RequestBody ClientDTO clientDTO){
+    @PostMapping("/addCustomer")
+    public ResponseEntity<?> insertCustomer(@RequestBody UsersDTO userDTO){
         try{
-            return ResponseEntity.ok(clientService.createUserClient(clientDTO));
+            return ResponseEntity.ok(userService.createUsersCustomer(userDTO));
         }catch (Exception e){
             return ResponseEntity.badRequest().body(e.getMessage());
         }
     }
 
     @PostMapping("/addManager")
-    public ResponseEntity<?> insertManager(@RequestBody ManagerDTO managerDTO){
+    public ResponseEntity<?> insertManager(@RequestBody UsersDTO userDTO){
         try{
-            return ResponseEntity.ok(clientService.createUserManager(managerDTO));
+            return ResponseEntity.ok(userService.createUsersManager(userDTO));
         }catch (Exception e){
             return ResponseEntity.badRequest().body(e.getMessage());
         }
     }
 
     @PostMapping("/loginUser")
-    public ResponseEntity<?> login(@RequestBody UserDTO userDTO) {
+    public ResponseEntity<?> login(@RequestBody UsersDTO userDTO) {
     	String token = this.userService.login(userDTO);
     	return ResponseEntity.ok(token);
     }
@@ -54,7 +47,7 @@ public class ClientController {
    
     @PostMapping("/logoutUser")
     public ResponseEntity<?> logout(@RequestHeader("token") final String token){
-    	this.clientService.logoutUser(token);	
+    	this.userService.logout(token);
     	return ResponseEntity.ok("");
     }
 }

@@ -4,10 +4,12 @@ package br.com.delivery.pidao.services;
 import br.com.delivery.pidao.dao.UserDAO;
 import br.com.delivery.pidao.entities.*;
 import br.com.delivery.pidao.entities.dto.*;
+import br.com.delivery.pidao.enums.UserTypeEnum;
 import br.com.delivery.pidao.exceptions.ItemNotFound;
 import br.com.delivery.pidao.exceptions.RestaurantNotFound;
 import br.com.delivery.pidao.repositories.ItemRepository;
 import br.com.delivery.pidao.repositories.RestaurantRepository;
+import br.com.delivery.pidao.repositories.UsersRepository;
 import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -23,7 +25,7 @@ import java.util.stream.Collectors;
 @AllArgsConstructor
 public class ItemService {
 
-    private UserService userService;
+    private UsersRepository usersRepository;
 
     private MenuService menuService;
 
@@ -77,11 +79,11 @@ public class ItemService {
         }
     }
 
-    public Restaurant getRestaurantIfTheUserIsAManagerFromUserDTO(UserDTO userDTO) throws IOException {
-        Optional<Manager> manager = userService.isManager(userDTO);
+    public Restaurant getRestaurantIfTheUserIsAManagerFromUserDTO(UsersDTO userDTO) throws IOException {
+        Optional<Users> usermanager = usersRepository.findByEmailAndType(userDTO.getEmail(), UserTypeEnum.MANAGER);
 
-        if (manager.isPresent()) {
-            Optional<Restaurant> managerRestaurant = restaurantRepository.findByRestaurantIdentifier(manager.get().getRestaurantIdentifier());
+        if (usermanager.isPresent()) {
+            Optional<Restaurant> managerRestaurant = restaurantRepository.findByRestaurantIdentifier(usermanager.get().getRestauranteIdentifier());
             if (managerRestaurant.isPresent()) {
                 return managerRestaurant.get();
             }

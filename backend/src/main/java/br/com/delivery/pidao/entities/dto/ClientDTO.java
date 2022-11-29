@@ -5,7 +5,8 @@ import javax.security.auth.message.callback.PrivateKeyCallback;
 import br.com.delivery.pidao.*;
 
 import br.com.delivery.pidao.entities.Address;
-import br.com.delivery.pidao.entities.Client;
+import br.com.delivery.pidao.entities.Customer;
+import br.com.delivery.pidao.entities.Users;
 import lombok.Getter;
 import lombok.Setter;
 import validator.ValidatorEmail;
@@ -14,31 +15,14 @@ import validator.ValidatorEmail;
 @Setter
 public class ClientDTO {
 
-    private String email;
-    private String password;
-    private String date;
-    private String name;
-    private String socialsSecurity;
-    private String cellphone;
-    private AddressClientDTO addressDTO;
+    private Users users;
 
-    public ClientDTO(){
-        
-    }
+    public ClientDTO(){}
 
-    public UserDTO toUserDTO(){
-        UserDTO user = new UserDTO(this.email, this.password);
-        return user;
-    }
 
-    public Client dtoToEntity(){
-        Client client = new Client();
-        client.setName(name);
-        client.setEmail(email);
-        client.setPassword(password);
-        client.setSocialsSecurity(socialsSecurity);
-        client.setCellphone(cellphone);
-        client.setDate(date);
-        return client;
+    public Customer dtoToEntity(){
+        Customer customer = new Customer();
+        customer.getUsers();
+        return customer;
     }
 }

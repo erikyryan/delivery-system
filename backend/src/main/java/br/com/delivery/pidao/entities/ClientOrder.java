@@ -25,6 +25,9 @@ public class ClientOrder implements Serializable {
     private OrderStatus status;
     private String comment;
 
+    @ManyToOne
+    private Users users;
+
     private String clientIdentifier;
 
     public OrderDTO orderToDto() {
