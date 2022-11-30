@@ -15,21 +15,18 @@ import java.util.UUID;
 public class Category implements Serializable {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private long id;
-
-    @Column(name = "categoryidentifier")
-    private String categoryIdentifier = UUID.randomUUID().toString();
+    private UUID uuid;
 
     @NotNull
     private String details;
 
-    private String menuIdentifier;
-
     private UUID menuUuid;
 
-    public Category(String details,String menuIdentifier){
+    @OneToMany
+    private List<Item> items;
+
+    public Category(String details,UUID menuUuid){
         this.details = details;
-        this.menuIdentifier = menuIdentifier;
+        this.menuUuid = menuUuid;
     }
 }

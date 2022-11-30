@@ -6,6 +6,8 @@ import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.UUID;
+
 
 @Data
 public class ItemDTO {
@@ -16,15 +18,13 @@ public class ItemDTO {
 
     private String description;
 
-    private String categoryIdentifier;
+    private String categoryUuid;
 
     public Item dtoToEntity(){
         Item item = new Item();
         item.setName(name);
         item.setValue(value);
         item.setDescription(description);
-        item.setCategoryIdentifier(categoryIdentifier);
         return item;
     }
-
 }

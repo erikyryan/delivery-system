@@ -26,13 +26,13 @@ public class RestaurantService {
         return restaurant.get().getRestaurantIdentifier();
     }
 
-    public String findMenuByIdentifier(String menuIdentifier) {
+    public UUID findMenuByIdentifier(String menuIdentifier) {
         Optional<UUID> menu = restaurantRepository.findMenuByMenuUuid(menuIdentifier);
 
         if(!menu.isPresent() || menu.isEmpty()){
             throw new RuntimeException("Menu não encontrado");
         }
 
-        return menu.get().toString();
+        return menu.get();
     }
 }

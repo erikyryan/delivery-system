@@ -8,6 +8,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.UUID;
+
 @Getter
 @Setter
 @AllArgsConstructor
@@ -18,11 +20,11 @@ public class CategoryDTO {
     private String details;
 
     @NotNull
-    private String menuIdentifier;
+    private String menuUuid;
 
     public Category dtoToEntity() {
         Category category = new Category();
-        category.setMenuIdentifier(menuIdentifier);
+        category.setMenuUuid(UUID.fromString(menuUuid));
         category.setDetails(details);
         return category;
     }

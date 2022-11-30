@@ -25,16 +25,9 @@ public class ClientOrder implements Serializable {
     private OrderStatus status;
     private String comment;
 
-    @ManyToOne
-    private Users users;
-
-    @ManyToOne
-    private Restaurant restaurant;
-
     private String clientIdentifier;
 
     public OrderDTO orderToDto() {
-
         OrderDTO orderDTO = new OrderDTO();
 
         orderDTO.setName(name);

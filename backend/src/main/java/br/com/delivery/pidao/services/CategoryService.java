@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 @Service
 @AllArgsConstructor
@@ -20,21 +21,21 @@ public class CategoryService {
     private CategoryRepository categoryRepository;
 
     public String addCategory(CategoryDTO categoryDTO) {
-        String menu = restaurantService.findMenuByIdentifier(categoryDTO.getMenuIdentifier());
-        Optional<Category> category = categoryRepository.findByDetailsAndMenuIdentifier(categoryDTO.getDetails(), menu);
+        UUID menu = restaurantService.findMenuByIdentifier(categoryDTO.getMenuUuid().toString());
+        Optional<Category> category = categoryRepository.findByDetailsAndAndMenuUuid(categoryDTO.getDetails(), menu);
 
         if (category.isPresent()) {
             throw new IllegalArgumentException("Categoria já existente");
         }
 
         Category categorySaved = categoryRepository.save(new Category(categoryDTO.getDetails(),menu));
-        return categorySaved.getCategoryIdentifier();
+        return categorySaved.getUuid().toString();
     }
 
     public String updateCategory(CategoryDTO categoryDTO) {
-        String menu = restaurantService.findMenuByIdentifier(categoryDTO.getMenuIdentifier());
+        UUID menu = restaurantService.findMenuByIdentifier(categoryDTO.getMenuUuid().toString());
 
-        Optional<Category> category = categoryRepository.findByDetailsAndMenuIdentifier(categoryDTO.getDetails(), menu);
+        Optional<Category> category = categoryRepository.findByDetailsAndAndMenuUuid(categoryDTO.getDetails(), menu);
 
         if (!category.isPresent()) {
             throw new CategoryNotFound("Categoria não existente");
@@ -46,22 +47,24 @@ public class CategoryService {
 
         category.get().setDetails(categoryDTO.getDetails());
         categoryRepository.save(category.get());
-        return category.get().getCategoryIdentifier();
+        return category.get().getUuid().toString();
     }
 
     public CategoryDTO findByIdentifier(String categoryIdentifier) {
-        Optional<Category> category = categoryRepository.findByCategoryIdentifier(categoryIdentifier);
+        UUID uuid = UUID.fromString(categoryIdentifier);
+        Optional<Category> category = categoryRepository.findByUuid(uuid);
         if (!category.isPresent()) {
             throw new CategoryNotFound("Categoria não existente");
         }
 
-        CategoryDTO categoryDTO = new CategoryDTO(category.get().getDetails(), category.get().getMenuIdentifier());
+        CategoryDTO categoryDTO = new CategoryDTO(category.get().getDetails(), category.get().getMenuUuid().toString());
 
         return categoryDTO;
     }
 
     public Boolean deleteCategory(String categoryIdentifier) {
-        Optional<Category> category = categoryRepository.findByCategoryIdentifier(categoryIdentifier);
+        UUID uuid = UUID.fromString(categoryIdentifier);
+        Optional<Category> category = categoryRepository.findByUuid(uuid);
         if (!category.isPresent()) {
             throw new CategoryNotFound("Categoria não existente");
         }
@@ -70,22 +73,14 @@ public class CategoryService {
         return true;
     }
 
-    Category getCategoryByIdentifier(String categoryIdentifier){
-        Optional<Category> category = categoryRepository.findByCategoryIdentifier(categoryIdentifier);
-
-        if (category.isPresent()) {
-            return category.get();
-        }
-        throw new CategoryNotFound("Categoria não existente!");
-    }
-
     public Category isPresent(String details){
         Optional<Category> category = categoryRepository.findByDetails(details);
         return category.isPresent() ? category.get() : null;
     }
 
     List<Category> findByMenuIdentifier(String menuIdentifier){
-        List<Category> categories = categoryRepository.findByMenuIdentifier(menuIdentifier);
+        UUID uuid = UUID.fromString(menuIdentifier);
+        List<Category> categories = categoryRepository.findByMenuUuid(uuid);
         if(!categories.isEmpty()){
             return categories;
         }

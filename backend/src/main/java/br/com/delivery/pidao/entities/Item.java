@@ -19,8 +19,6 @@ import java.util.UUID;
 @Entity
 @NoArgsConstructor
 @AllArgsConstructor
-@RequiredArgsConstructor
-@IdClass(Item.class)
 public class Item implements Serializable {
 
     @Id
@@ -32,23 +30,21 @@ public class Item implements Serializable {
     @NotNull
     private String name;
 
-//    @OneToMany
-//    private List<Rating> ratings;
-
     @NotNull
     private Double value;
 
     @Nullable
     private String description;
 
-    private String categoryIdentifier;
+    @ManyToOne
+    private Category category;
 
     public ItemDTO entityToDTO(){
         ItemDTO itemDTO = new ItemDTO();
         itemDTO.setValue(value);
         itemDTO.setDescription(description);
         itemDTO.setName(name);
-        itemDTO.setCategoryIdentifier(categoryIdentifier);
+        itemDTO.setCategoryUuid(category.getUuid().toString());
         return itemDTO;
     }
 

@@ -33,9 +33,6 @@ public class Restaurant implements Serializable {
 
     private String cellphone;
 
-    @OneToMany(targetEntity=ClientOrder.class)
-    private List<ClientOrder> clientOrder;
-
     @OneToOne
     private Transaction transaction;
 

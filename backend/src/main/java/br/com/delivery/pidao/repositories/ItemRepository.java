@@ -8,13 +8,14 @@ import org.springframework.stereotype.Repository;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 @Repository
 public interface ItemRepository extends JpaRepository<Item, Long> {
 
-    Optional<Item> findByNameAndDescriptionAndAndCategoryIdentifier(String name, String description, String details);
+    Optional<Item> findByNameAndDescriptionAndCategoryUuid(String name, String description, UUID uuid);
 
     Optional<Item> findByItemIdentifier(String itemIdentifier);
 
-    List<Item> findByCategoryIdentifier(String categoryIdentifier);
+    List<Item> findByCategoryUuid(UUID uuid);
 }

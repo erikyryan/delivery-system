@@ -15,10 +15,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
-import java.util.Optional;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -36,7 +33,8 @@ public class ItemService {
     private RestaurantRepository restaurantRepository;
 
     public ItemDTO addItem(final ItemDTO itemDTO){
-        Optional<Item> item = itemRepository.findByNameAndDescriptionAndAndCategoryIdentifier(itemDTO.getName(), itemDTO.getDescription(), itemDTO.getCategoryIdentifier());
+        UUID categoryUuid = UUID.fromString(itemDTO.getCategoryUuid());
+        Optional<Item> item = itemRepository.findByNameAndDescriptionAndCategoryUuid(itemDTO.getName(), itemDTO.getDescription(), categoryUuid);
         if(item.isPresent()){
             throw new IllegalArgumentException("Item já existente");
         }else{
@@ -98,7 +96,7 @@ public class ItemService {
         List<Category> categories = categoryService.findByMenuIdentifier(menuIdentifier);
 
         List<ItemDTO> itemsDTO = new ArrayList<>();
-        List<List<Item>> itemsListsFromCategories = categories.stream().map(category ->  findByCategoryIdentifier(category.getCategoryIdentifier()) ).collect(Collectors.toList());
+        List<List<Item>> itemsListsFromCategories = categories.stream().map(category ->  findByCategoryIdentifier(category.getUuid().toString()) ).collect(Collectors.toList());
         for(List<Item> itemList : itemsListsFromCategories){
             List<ItemDTO> items = itemList.stream().map(item -> item.entityToDTO()).collect(Collectors.toList());
             itemsDTO.addAll(items);
@@ -108,7 +106,8 @@ public class ItemService {
     }
 
     private List<Item> findByCategoryIdentifier(String categoryIdentifier){
-        List<Item> items = itemRepository.findByCategoryIdentifier(categoryIdentifier);
+        UUID categoryUuid = UUID.fromString(categoryIdentifier);
+        List<Item> items = itemRepository.findByCategoryUuid(categoryUuid);
         if(!items.isEmpty()){
             return items;
 

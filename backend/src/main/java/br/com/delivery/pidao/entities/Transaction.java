@@ -20,4 +20,8 @@ public class Transaction implements Serializable {
     @OneToOne
     private Restaurant restaurant;
 
+    @OneToOne
+    private ClientOrder clientOrder;
+
+
 }
