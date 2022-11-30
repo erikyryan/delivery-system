@@ -2,18 +2,17 @@ package br.com.delivery.pidao.services;
 
 
 import br.com.delivery.pidao.dao.UserDAO;
-import br.com.delivery.pidao.entities.*;
-import br.com.delivery.pidao.entities.dto.*;
+import br.com.delivery.pidao.entities.LoginSession;
+import br.com.delivery.pidao.entities.Users;
+import br.com.delivery.pidao.entities.dto.AddressDTO;
+import br.com.delivery.pidao.entities.dto.UsersDTO;
 import br.com.delivery.pidao.enums.UserTypeEnum;
-import br.com.delivery.pidao.repositories.AdressRepository;
-import br.com.delivery.pidao.repositories.UsersRepository;
+import br.com.delivery.pidao.util.validator.ValidatorEmail;
+import br.com.delivery.pidao.util.validator.ValidatorTaxNumber;
 import lombok.AllArgsConstructor;
-import validator.*;
-
 import org.springframework.stereotype.Service;
 
 import java.util.Objects;
-import java.util.Optional;
 
 @Service
 @AllArgsConstructor
@@ -86,8 +85,8 @@ public class UserService {
         UsersCustomer = UsersDTO.dtoToEntity();
         Users customer = userDAO.save(UsersCustomer);
 
-        AddressDTO addressDTO = UsersDTO.getAddressDTO().dtoAndCustomerIdentifierToAdressDTO(customer.getUserIdentifier());
-        adressService.addAdress(addressDTO);
+        AddressDTO addressDTO = UsersDTO.getAddressDTO().dtoAndCustomerIdentifierToAdressDTO(customer.getUuid().toString());
+        adressService.addAddress(addressDTO);
 
         return UsersDTO;
     }
@@ -102,8 +101,8 @@ public class UserService {
         UsersManager = UsersDTO.dtoToEntity();
         Users manager = userDAO.save(UsersManager);
 
-        AddressDTO addressDTO = UsersDTO.getAddressDTO().dtoAndRestaurantIdentifierToAdressDTO(manager.getUserIdentifier());
-        adressService.addAdress(addressDTO);
+        AddressDTO addressDTO = UsersDTO.getAddressDTO().dtoAndRestaurantIdentifierToAdressDTO(manager.getUuid().toString());
+        adressService.addAddress(addressDTO);
 
         return UsersDTO;
     }

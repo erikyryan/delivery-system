@@ -28,29 +28,8 @@ CREATE TABLE public.address (
 CREATE TABLE public.category (
                                  id bytea NOT NULL,
                                  details varchar(255) NULL,
-                                 menu_identifier varchar(255) NULL,
+                                 menu_uuid bytea NULL,
                                  CONSTRAINT category_pkey PRIMARY KEY (id)
-);
-
-
--- public.client definition
-
--- Drop table
-
--- DROP TABLE public.client;
-
-CREATE TABLE public.client (
-                               id bytea NOT NULL,
-                               cellphone varchar(255) NULL,
-                               "date" varchar(255) NULL,
-                               email varchar(255) NULL,
-                               "name" varchar(255) NULL,
-                               "password" varchar(255) NULL,
-                               socials_security varchar(255) NULL,
-                               user_identifier bytea NULL,
-                               address_identifier varchar(255) NULL,
-                               client_order_identifier varchar(255) NULL,
-                               CONSTRAINT client_pkey PRIMARY KEY (id)
 );
 
 
@@ -71,43 +50,6 @@ CREATE TABLE public.client_order (
 );
 
 
--- public.delivery definition
-
--- Drop table
-
--- DROP TABLE public.delivery;
-
-CREATE TABLE public.delivery (
-                                 id bytea NOT NULL,
-                                 cellphone varchar(255) NULL,
-                                 "date" varchar(255) NULL,
-                                 email varchar(255) NULL,
-                                 "name" varchar(255) NULL,
-                                 "password" varchar(255) NULL,
-                                 socials_security varchar(255) NULL,
-                                 user_identifier bytea NULL,
-                                 status int4 NULL,
-                                 CONSTRAINT delivery_pkey PRIMARY KEY (id)
-);
-
-
--- public.item definition
-
--- Drop table
-
--- DROP TABLE public.item;
-
-CREATE TABLE public.item (
-                             id bytea NOT NULL,
-                             category_identifier varchar(255) NOT NULL,
-                             description varchar(255) NOT NULL,
-                             "name" varchar(255) NOT NULL,
-                             value float8 NOT NULL,
-                             CONSTRAINT item_pkey PRIMARY KEY (id, category_identifier, description, name, value),
-                             CONSTRAINT uk_acsft7jsqopjaisbkjnm2e3rc UNIQUE (id)
-);
-
-
 -- public.loginsession definition
 
 -- Drop table
@@ -125,50 +67,35 @@ CREATE TABLE public.loginsession (
 );
 
 
--- public.manager definition
+-- public.item definition
 
 -- Drop table
 
--- DROP TABLE public.manager;
+-- DROP TABLE public.item;
 
-CREATE TABLE public.manager (
-                                id bytea NOT NULL,
-                                cellphone varchar(255) NULL,
-                                "date" varchar(255) NULL,
-                                email varchar(255) NULL,
-                                "name" varchar(255) NULL,
-                                "password" varchar(255) NULL,
-                                socials_security varchar(255) NULL,
-                                user_identifier bytea NULL,
-                                department varchar(255) NULL,
-                                restaurant_identifier varchar(255) NULL,
-                                CONSTRAINT manager_pkey PRIMARY KEY (id)
-);
-
-
--- public.menu definition
-
--- Drop table
-
--- DROP TABLE public.menu;
-
-CREATE TABLE public.menu (
+CREATE TABLE public.item (
                              id bytea NOT NULL,
-                             restaurant_identifier varchar(255) NULL,
-                             CONSTRAINT menu_pkey PRIMARY KEY (id)
+                             description varchar(255) NULL,
+                             "name" varchar(255) NULL,
+                             value float8 NULL,
+                             category_id bytea NULL,
+                             CONSTRAINT item_pkey PRIMARY KEY (id),
+                             CONSTRAINT fk2n9w8d0dp4bsfra9dcg0046l4 FOREIGN KEY (category_id) REFERENCES public.category(id)
 );
 
 
--- public.rating definition
+-- public.category_items definition
 
 -- Drop table
 
--- DROP TABLE public.rating;
+-- DROP TABLE public.category_items;
 
-CREATE TABLE public.rating (
-                               id bytea NOT NULL,
-                               rating int8 NULL,
-                               CONSTRAINT rating_pkey PRIMARY KEY (id)
+CREATE TABLE public.category_items (
+                                       category_id bytea NOT NULL,
+                                       items_id bytea NOT NULL,
+                                       CONSTRAINT uk_fompgmgeqyqrfab7o3hknm8le UNIQUE (items_id),
+                                       CONSTRAINT fkndv81ar0pvens33imsg56sovg FOREIGN KEY (category_id) REFERENCES public.category(id),
+                                       CONSTRAINT fkquqbl7rjn095s3u1251lirnob FOREIGN KEY (items_id) REFERENCES public.item(id)
 );
 
 
@@ -185,21 +112,65 @@ CREATE TABLE public.restaurant (
                                    "date" varchar(255) NULL,
                                    manager_identifier varchar(255) NULL,
                                    menu_identifier varchar(255) NULL,
+                                   menu_uuid bytea NULL,
                                    "name" varchar(255) NULL,
                                    socials_security varchar(255) NULL,
+                                   transaction_id bytea NULL,
                                    CONSTRAINT restaurant_pkey PRIMARY KEY (id)
 );
 
 
--- public.super_user definition
+-- public."transaction" definition
 
 -- Drop table
 
--- DROP TABLE public.super_user;
+-- DROP TABLE public."transaction";
 
--- CREATE TABLE public.super_user (
---                                    id int8 NOT NULL,
---                                    email varchar(255) NOT NULL,
---                                    senha varchar(255) NOT NULL,
---                                    CONSTRAINT super_user_pkey PRIMARY KEY (id, email, senha)
--- );
+CREATE TABLE public."transaction" (
+                                      id bytea NOT NULL,
+                                      client_order_id bytea NULL,
+                                      restaurant_id bytea NULL,
+                                      user_id bytea NULL,
+                                      CONSTRAINT transaction_pkey PRIMARY KEY (id)
+);
+
+
+-- public.users definition
+
+-- Drop table
+
+-- DROP TABLE public.users;
+
+CREATE TABLE public.users (
+                              id bytea NOT NULL,
+                              adress_identifier varchar(255) NULL,
+                              cellphone varchar(255) NULL,
+                              "date" varchar(255) NULL,
+                              email varchar(255) NULL,
+                              is_admin bool NULL,
+                              "name" varchar(255) NULL,
+                              "password" varchar(255) NULL,
+                              socials_security varchar(255) NULL,
+                              "type" int4 NULL,
+                              restaurant_id bytea NULL,
+                              transaction_id bytea NULL,
+                              CONSTRAINT users_pkey PRIMARY KEY (id)
+);
+
+
+-- public.restaurant foreign keys
+
+ALTER TABLE public.restaurant ADD CONSTRAINT fkc77ul3amstbhj2dpbsfu1m74o FOREIGN KEY (transaction_id) REFERENCES public."transaction"(id);
+
+
+-- public."transaction" foreign keys
+
+ALTER TABLE public."transaction" ADD CONSTRAINT fk3oa74eeyhpt9hyc75kuuu360d FOREIGN KEY (client_order_id) REFERENCES public.client_order(id);
+ALTER TABLE public."transaction" ADD CONSTRAINT fkanjpo5tiapru7an6cw4cu37y4 FOREIGN KEY (user_id) REFERENCES public.users(id);
+ALTER TABLE public."transaction" ADD CONSTRAINT fknvdps9exnqq5vmfhm26gs2dn5 FOREIGN KEY (restaurant_id) REFERENCES public.restaurant(id);
+
+
+-- public.users foreign keys
+
+ALTER TABLE public.users ADD CONSTRAINT fkcn7awwo916vg0my6knhmkn03j FOREIGN KEY (restaurant_id) REFERENCES public.restaurant(id);
+ALTER TABLE public.users ADD CONSTRAINT fksc6cuxsk496hl02gey5kivxih FOREIGN KEY (transaction_id) REFERENCES public."transaction"(id);

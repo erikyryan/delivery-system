@@ -1,13 +1,11 @@
 package br.com.delivery.pidao.entities.dto;
 
 import lombok.AllArgsConstructor;
-import lombok.Data;
 import lombok.Getter;
-import lombok.Setter;
 
 @Getter
 @AllArgsConstructor
-public class AddressClientDTO {
+public class AddressCustomerDTO {
 
     private String publicPlace;
     private String number;
@@ -16,8 +14,6 @@ public class AddressClientDTO {
     private String state;
     private String city;
     private String details;
-
-    public AddressCustomerDTO(){}
 
     public AddressDTO dtoAndCustomerIdentifierToAdressDTO(String customerIdentifier){
         AddressDTO address = new AddressDTO();

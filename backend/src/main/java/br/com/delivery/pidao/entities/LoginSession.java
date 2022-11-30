@@ -35,9 +35,8 @@ public class LoginSession {
     @Column(name = "logoutdate")
     private Date logoutDate;
 
-    //TODO: implementar o login session para os tipos devidos de usuarios
     public LoginSession(Users user) {
-        this.userIdentifier = user.getUserIdentifier();
+        this.userIdentifier = user.getUuid().toString();
         this.token = UUID.randomUUID().toString();
         this.loginDate = new Date();
         this.expirationDate = Date.from(LocalDateTime.now().plus(Duration.of(10, ChronoUnit.MINUTES)).atZone(ZoneId.systemDefault()).toInstant());

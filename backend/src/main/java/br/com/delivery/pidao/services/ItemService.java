@@ -81,9 +81,9 @@ public class ItemService {
         Optional<Users> usermanager = usersRepository.findByEmailAndType(userDTO.getEmail(), UserTypeEnum.MANAGER);
 
         if (usermanager.isPresent()) {
-            Optional<Restaurant> managerRestaurant = restaurantRepository.findByRestaurantIdentifier(usermanager.get().getRestaurant().getRestaurantIdentifier());
-            if (managerRestaurant.isPresent()) {
-                return managerRestaurant.get();
+            Optional<Restaurant> restaurant = Optional.of(usermanager.get().getRestaurant());
+            if (restaurant.isPresent()) {
+                return restaurant.get();
             }
             throw new RestaurantNotFound("Restaurante não encontrado");
         }

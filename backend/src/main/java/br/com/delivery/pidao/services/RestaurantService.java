@@ -23,7 +23,7 @@ public class RestaurantService {
             throw new RestaurantNotFound("Restaurante não existente");
         }
 
-        return restaurant.get().getRestaurantIdentifier();
+        return restaurant.get().getUuid().toString();
     }
 
     public UUID findMenuByIdentifier(String menuIdentifier) {

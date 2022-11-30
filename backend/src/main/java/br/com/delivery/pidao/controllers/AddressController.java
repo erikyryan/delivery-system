@@ -20,7 +20,7 @@ import lombok.RequiredArgsConstructor;
 @AllArgsConstructor
 public class AddressController {
 
-    AdressService adressService;
+    AdressService addressService;
 
     SessionService sessionService;
 
@@ -38,8 +38,8 @@ public class AddressController {
         try {
             sessionService.validateToken(token);
             UsersDTO userDTO = sessionService.findUsersDTOByToken(token);
-            adressService.findByIdentifier(token);
-            return ResponseEntity.ok(adressService);
+            addressService.findByIdentifier(token);
+            return ResponseEntity.ok(addressService);
         }catch (Exception e ){
             return ResponseEntity.badRequest().body(e.getMessage());
         }   

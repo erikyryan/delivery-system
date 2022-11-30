@@ -1,24 +1,7 @@
 package br.com.delivery.pidao.service;
 
-import static org.mockito.Mockito.when;
-
-import java.util.List;
-import java.util.Optional;
-import java.util.UUID;
-
-import org.junit.Before;
-import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
-
-import br.com.delivery.pidao.entities.Category;
-import br.com.delivery.pidao.entities.Menu;
-import br.com.delivery.pidao.entities.dto.CategoryDTO;
-import br.com.delivery.pidao.repositories.CategoryRepository;
-import br.com.delivery.pidao.services.CategoryService;
-import br.com.delivery.pidao.services.MenuService;
-import junit.framework.Assert;
 
 @RunWith(MockitoJUnitRunner.Silent.class)
 public class CategoryServiceTest {

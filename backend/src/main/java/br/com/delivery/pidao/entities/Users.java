@@ -18,10 +18,9 @@ import java.util.UUID;
 @NoArgsConstructor
 public class Users implements Serializable {
 
-    private String userIdentifier = UUID.randomUUID().toString();
-
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "id", updatable = false, unique = true, nullable = false)
     private UUID uuid;
 
 

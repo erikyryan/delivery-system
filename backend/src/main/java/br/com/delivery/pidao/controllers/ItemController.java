@@ -20,6 +20,8 @@ public class ItemController {
 
     private SessionService sessionService;
 
+    private UserService userService;
+
     @PostMapping
     public ResponseEntity<?> insertItem(@RequestBody ItemDTO itemDTO,@RequestHeader("token") final String token){
         try{
@@ -36,10 +38,9 @@ public class ItemController {
     @PutMapping("/{itemIdentifier}")
     public ResponseEntity<?> updateItem(@PathVariable String itemIdentifier, @RequestHeader("token") String token, @RequestBody ItemDTO itemDTO){
         try{
-            String userIdentifier = sessionService.validateToken(token);
+            sessionService.validateToken(token);
             UsersDTO userDTO = sessionService.findUsersDTOByToken(token);
-            itemService.getRestaurantIfTheUserIsAManagerFromUserDTO(userDTO);
-            userService.isManager(userIdentifier);
+            userService.isManager(userDTO);
             return ResponseEntity.ok(itemService.updateItem(itemDTO,itemIdentifier));
         }catch (Exception e){
             return ResponseEntity.badRequest().body(e.getMessage());
@@ -49,9 +50,9 @@ public class ItemController {
     @DeleteMapping("/{menuIdentifier}")
     public ResponseEntity<?> deleteItem(@PathVariable String itemIdentifier,@RequestHeader("token") final String token, @RequestBody ItemDescriptionDTO itemDescriptionDTO){
         try{
-            String userIdentifier =sessionService.validateToken(token);
+            sessionService.validateToken(token);
             UsersDTO userDTO = sessionService.findUsersDTOByToken(token);
-            userService.isManager(userIdentifier);
+            userService.isManager(userDTO);
             itemService.deleteItem(itemIdentifier);
             return ResponseEntity.ok().build();
         }catch (Exception e){
@@ -62,8 +63,9 @@ public class ItemController {
     @GetMapping("/public/{menuIdentifier}")
     public ResponseEntity<?> findAllByMenuIdentifier(@PathVariable String menuIdentifier,@RequestHeader("token") final String token){
         try{
-            String userIdentifier = sessionService.validateToken(token);
-            userService.isManager(userIdentifier);
+            sessionService.validateToken(token);
+            UsersDTO userDTO = sessionService.findUsersDTOByToken(token);
+            userService.isManager(userDTO);
             return ResponseEntity.ok(itemService.getItensFromMenuIdentifier(menuIdentifier));
         }catch (Exception e){
             return ResponseEntity.badRequest().body(e.getMessage());
@@ -73,8 +75,9 @@ public class ItemController {
     @GetMapping("/public/{categoryIdentifier}")
     public ResponseEntity<?> findAllByCategoryIdentifier(@PathVariable String categoryIdentifier,@RequestHeader("token") final String token){
         try{
-            String userIdentifier = sessionService.validateToken(token);
-            userService.isManager(userIdentifier);
+            sessionService.validateToken(token);
+            UsersDTO userDTO = sessionService.findUsersDTOByToken(token);
+            userService.isManager(userDTO);
             return ResponseEntity.ok(itemService.getItensFromCategoryIdentifier(categoryIdentifier));
         }catch (Exception e){
             return ResponseEntity.badRequest().body(e.getMessage());

@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.Date;
 import java.util.Optional;
+import java.util.UUID;
 
 @Service
 @AllArgsConstructor
@@ -31,7 +32,7 @@ public class SessionService {
     }
 
     public String generateSession(Users UsersS) {
-        Optional<LoginSession> session = loginSessionRepository.findByUserIdentifierAndLogoutDateNull(UsersS.getUserIdentifier());
+        Optional<LoginSession> session = loginSessionRepository.findByUserIdentifierAndLogoutDateNull(UsersS.getUuid().toString());
         if (session.isPresent()) {
             session.get().finish();
         }
@@ -53,7 +54,8 @@ public class SessionService {
 
     public Users findUsers(String token) {
         LoginSession session = this.findSessionByToken(token);
-        Optional<Users> users = UsersRepository.findByUserIdentifier(session.getUserIdentifier());
+        UUID uuid = UUID.fromString(session.getUserIdentifier());
+        Optional<Users> users = UsersRepository.findByUuid(uuid);
         if(!users.isPresent()){
             throw new RuntimeException("Users não encontrado!");
         }else{}
@@ -63,7 +65,8 @@ public class SessionService {
 
     public UsersDTO findUsersDTOByToken(String token) {
         LoginSession session = this.findSessionByToken(token);
-        Optional<Users> users = UsersRepository.findByUserIdentifier(session.getUserIdentifier());
+        UUID uuid = UUID.fromString(session.getUserIdentifier());
+        Optional<Users> users = UsersRepository.findByUuid(uuid);
         if(!users.isPresent()){
             throw new RuntimeException("Users não encontrado!");
         }
