@@ -73,11 +73,6 @@ public class CategoryService {
         return true;
     }
 
-    public Category isPresent(String details){
-        Optional<Category> category = categoryRepository.findByDetails(details);
-        return category.isPresent() ? category.get() : null;
-    }
-
     List<Category> findByMenuIdentifier(String menuIdentifier){
         UUID uuid = UUID.fromString(menuIdentifier);
         List<Category> categories = categoryRepository.findByMenuUuid(uuid);

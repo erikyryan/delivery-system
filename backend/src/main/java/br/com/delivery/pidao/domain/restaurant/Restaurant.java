@@ -18,10 +18,6 @@ public class Restaurant implements Serializable {
 
     private String addressRestaurant;
 
-    private String menuIdentifier;
-
-    private String managerIdentifier;
-
     private String date;
 
     private String name;

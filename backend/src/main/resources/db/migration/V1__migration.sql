@@ -111,8 +111,6 @@ CREATE TABLE public.restaurant (
                                    address_id bytea NULL,
                                    cellphone varchar(255) NULL,
                                    "date" varchar(255) NULL,
-                                   manager_identifier varchar(255) NULL,
-                                   menu_identifier varchar(255) NULL,
                                    menu_id bytea NULL,
                                    "name" varchar(255) NULL,
                                    socials_security varchar(255) NULL,
