@@ -1,28 +1,31 @@
 package br.com.delivery.pidao.services;
 
 
+import br.com.delivery.pidao.dao.UserDAO;
 import br.com.delivery.pidao.entities.*;
 import br.com.delivery.pidao.entities.dto.*;
-import br.com.delivery.pidao.enums.UserTypeEnum;
 import br.com.delivery.pidao.exceptions.ItemNotFound;
 import br.com.delivery.pidao.exceptions.RestaurantNotFound;
 import br.com.delivery.pidao.repositories.ItemRepository;
 import br.com.delivery.pidao.repositories.RestaurantRepository;
-import br.com.delivery.pidao.repositories.UsersRepository;
 import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
 @AllArgsConstructor
 public class ItemService {
 
-    private UsersRepository usersRepository;
+    private UserService userService;
 
-    private RestaurantService restaurantService;
+    private MenuService menuService;
 
     private CategoryService categoryService;
 
@@ -31,8 +34,7 @@ public class ItemService {
     private RestaurantRepository restaurantRepository;
 
     public ItemDTO addItem(final ItemDTO itemDTO){
-        UUID categoryUuid = UUID.fromString(itemDTO.getCategoryUuid());
-        Optional<Item> item = itemRepository.findByNameAndDescriptionAndCategoryUuid(itemDTO.getName(), itemDTO.getDescription(), categoryUuid);
+        Optional<Item> item = itemRepository.findByNameAndDescriptionAndAndCategoryIdentifier(itemDTO.getName(), itemDTO.getDescription(), itemDTO.getCategoryIdentifier());
         if(item.isPresent()){
             throw new IllegalArgumentException("Item já existente");
         }else{
@@ -43,8 +45,7 @@ public class ItemService {
     }
 
     public ItemDTO updateItem(final ItemDTO itemDTO, String itemIdentifier){
-        UUID uuid = UUID.fromString(itemIdentifier);
-        Optional<Item> item = itemRepository.findByUuid(uuid);
+        Optional<Item> item = itemRepository.findByItemIdentifier(itemIdentifier);
         if(item.isPresent()){
             Item newItem = item.get();
 
@@ -66,8 +67,7 @@ public class ItemService {
 
 
     public Boolean deleteItem(String itemIdentifier){
-        UUID uuid = UUID.fromString(itemIdentifier);
-        Optional<Item> item = itemRepository.findByUuid(uuid);
+        Optional<Item> item = itemRepository.findByItemIdentifier(itemIdentifier);
 
         if(item.isPresent()){
             itemRepository.delete(item.get());
@@ -77,17 +77,17 @@ public class ItemService {
         }
     }
 
-    public Restaurant getRestaurantIfTheUserIsAManagerFromUserDTO(UsersDTO userDTO) throws IOException {
-        Optional<Users> usermanager = usersRepository.findByEmailAndType(userDTO.getEmail(), UserTypeEnum.MANAGER);
+    public Restaurant getRestaurantIfTheUserIsAManagerFromUserDTO(String userIdentifier) throws IOException {
+        Optional<Manager> manager = userService.isManager(userIdentifier);
 
-        if (usermanager.isPresent()) {
-            Optional<Restaurant> restaurant = Optional.of(usermanager.get().getRestaurant());
-            if (restaurant.isPresent()) {
-                return restaurant.get();
+        if (manager.isPresent()) {
+            Optional<Restaurant> managerRestaurant = restaurantRepository.findByRestaurantIdentifier(manager.get().getRestaurantIdentifier());
+            if (managerRestaurant.isPresent()) {
+                return managerRestaurant.get();
             }
             throw new RestaurantNotFound("Restaurante não encontrado");
         }
-        throw new IOException("Acesso não autorizado");
+        throw new AccessException("Acesso não autorizado");
     }
 
     public List<ItemDTO> getItensFromMenuIdentifier(String menuIdentifier) {

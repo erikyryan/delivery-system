@@ -32,7 +32,6 @@ public class Item implements Serializable {
     @NotNull
     private Double value;
 
-    @Nullable
     private String description;
 
     @ManyToOne
