@@ -33,7 +33,11 @@ public class Restaurant implements Serializable {
     @OneToOne
     private Transaction transaction;
 
+    @OneToOne
+    private Address address;
+
     @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name="menu_id")
     private UUID menuUuid;
 
 }

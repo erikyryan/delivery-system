@@ -13,10 +13,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
-import java.util.Optional;
+import java.rmi.AccessException;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -25,16 +23,15 @@ public class ItemService {
 
     private UserService userService;
 
-    private MenuService menuService;
-
     private CategoryService categoryService;
 
     private ItemRepository itemRepository;
 
-    private RestaurantRepository restaurantRepository;
+    private RestaurantService restaurantService;
 
     public ItemDTO addItem(final ItemDTO itemDTO){
-        Optional<Item> item = itemRepository.findByNameAndDescriptionAndAndCategoryIdentifier(itemDTO.getName(), itemDTO.getDescription(), itemDTO.getCategoryIdentifier());
+        UUID categoryUuid = UUID.fromString(itemDTO.getCategoryUuid());
+        Optional<Item> item = itemRepository.findByNameAndDescriptionAndCategoryUuid(itemDTO.getName(), itemDTO.getDescription(), categoryUuid);
         if(item.isPresent()){
             throw new IllegalArgumentException("Item já existente");
         }else{
@@ -45,7 +42,8 @@ public class ItemService {
     }
 
     public ItemDTO updateItem(final ItemDTO itemDTO, String itemIdentifier){
-        Optional<Item> item = itemRepository.findByItemIdentifier(itemIdentifier);
+        UUID uuid = UUID.fromString(itemIdentifier);
+        Optional<Item> item = itemRepository.findByUuid(uuid);
         if(item.isPresent()){
             Item newItem = item.get();
 
@@ -67,7 +65,8 @@ public class ItemService {
 
 
     public Boolean deleteItem(String itemIdentifier){
-        Optional<Item> item = itemRepository.findByItemIdentifier(itemIdentifier);
+        UUID uuid = UUID.fromString(itemIdentifier);
+        Optional<Item> item = itemRepository.findByUuid(uuid);
 
         if(item.isPresent()){
             itemRepository.delete(item.get());
@@ -75,19 +74,6 @@ public class ItemService {
         }else{
             throw new RuntimeException("Item não existente");
         }
-    }
-
-    public Restaurant getRestaurantIfTheUserIsAManagerFromUserDTO(String userIdentifier) throws IOException {
-        Optional<Manager> manager = userService.isManager(userIdentifier);
-
-        if (manager.isPresent()) {
-            Optional<Restaurant> managerRestaurant = restaurantRepository.findByRestaurantIdentifier(manager.get().getRestaurantIdentifier());
-            if (managerRestaurant.isPresent()) {
-                return managerRestaurant.get();
-            }
-            throw new RestaurantNotFound("Restaurante não encontrado");
-        }
-        throw new AccessException("Acesso não autorizado");
     }
 
     public List<ItemDTO> getItensFromMenuIdentifier(String menuIdentifier) {
@@ -106,8 +92,8 @@ public class ItemService {
     }
 
     private List<Item> findByCategoryIdentifier(String categoryIdentifier){
-        UUID categoryUuid = UUID.fromString(categoryIdentifier);
-        List<Item> items = itemRepository.findByCategoryUuid(categoryUuid);
+        UUID uuid = UUID.fromString(categoryIdentifier);
+        List<Item> items = itemRepository.findByCategoryUuid(uuid);
         if(!items.isEmpty()){
             return items;
 

@@ -22,7 +22,7 @@ public class UserService {
 
     private SessionService loginSessionService;
 
-    private AdressService adressService;
+    private AddressService adressService;
 
     public String login(UsersDTO UsersDTO) {
         Users currentUsers = validateLogin(UsersDTO);

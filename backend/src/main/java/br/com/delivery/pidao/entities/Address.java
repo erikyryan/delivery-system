@@ -24,7 +24,9 @@ public class Address implements Serializable {
     private String city;
     private String details;
 
-    private String clientIdentifier;
+    @Column(name = "user_id")
+    private UUID userUuid;
 
-    private String restarauntIdentifier;
+    @Column(name = "restaraunt_id")
+    private UUID restarauntUuid;
 }

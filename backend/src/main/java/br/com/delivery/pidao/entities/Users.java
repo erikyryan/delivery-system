@@ -10,6 +10,7 @@ import lombok.NoArgsConstructor;
 import javax.persistence.*;
 
 import java.io.Serializable;
+import java.util.List;
 import java.util.UUID;
 
 @Data
@@ -38,8 +39,6 @@ public class Users implements Serializable {
 
     private String cellphone;
 
-    private String adressIdentifier;
-
     private UserTypeEnum type;
 
     private Boolean isAdmin;
@@ -49,5 +48,8 @@ public class Users implements Serializable {
 
     @OneToOne
     private Restaurant restaurant;
+
+    @OneToMany
+    private List<Address> addresses;
 
 }

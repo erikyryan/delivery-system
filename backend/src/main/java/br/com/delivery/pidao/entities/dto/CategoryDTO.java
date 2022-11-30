@@ -8,6 +8,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import javax.persistence.Column;
 import java.util.UUID;
 
 @Getter
@@ -20,6 +21,7 @@ public class CategoryDTO {
     private String details;
 
     @NotNull
+    @Column(name = "menu_id")
     private String menuUuid;
 
     public Category dtoToEntity() {

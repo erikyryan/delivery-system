@@ -14,29 +14,23 @@ import java.util.UUID;
 @AllArgsConstructor
 public class AddressService {
 
-    AddressRepository addressRepository;
+    AddressRepository adressRepository;
 
     public AddressDTO addAddress(final AddressDTO adressDTO){
         Address newAdress = adressDTO.dtoToEntity();
-        addressRepository.save(newAdress);
+        adressRepository.save(newAdress);
         return adressDTO;
         
     }
 
     public Address findByIdentifier(String adressIdentifier) {
         UUID uuid = UUID.fromString(adressIdentifier);
-        Optional<Address> adress = addressRepository.findByUuid(uuid);
+        Optional<Address> adress = adressRepository.findByUuid(uuid);
         if(adress.isPresent()){
             return adress.get();
         }
         throw new RuntimeException("Endereço não encontrado");
 
-    }
-
-    public Address isPresent(String adressIdentifier){
-        UUID uuid = UUID.fromString(adressIdentifier);
-        Optional<Address> adress = addressRepository.findByUuid(uuid);
-        return adress.isPresent() ? adress.get() : null;
     }
 
 }

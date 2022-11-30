@@ -22,6 +22,7 @@ public class Category implements Serializable {
     @NotNull
     private String details;
 
+    @Column(name = "menu_id")
     private UUID menuUuid;
 
     @OneToMany

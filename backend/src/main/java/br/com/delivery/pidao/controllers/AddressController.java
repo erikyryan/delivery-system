@@ -20,7 +20,7 @@ import lombok.RequiredArgsConstructor;
 @AllArgsConstructor
 public class AddressController {
 
-    AdressService addressService;
+    AddressService addressService;
 
     SessionService sessionService;
 

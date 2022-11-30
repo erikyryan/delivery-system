@@ -6,6 +6,8 @@ import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.util.UUID;
+
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
@@ -32,9 +34,8 @@ public class AddressDTO {
        address.setState(state);
        address.setCity(city);
        address.setDetails(details);
-       address.setClientIdentifier(customerIdentifier);
-       address.setRestarauntIdentifier(restarauntIdentifier);
-
+       address.setUserUuid(UUID.fromString(customerIdentifier));
+       address.setRestarauntUuid(UUID.fromString(customerIdentifier));
        return address;
     }
 

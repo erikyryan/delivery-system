@@ -27,7 +27,7 @@ public class ItemController {
         try{
             sessionService.validateToken(token);
             UsersDTO userDTO = sessionService.findUsersDTOByToken(token);
-            itemService.getRestaurantIfTheUserIsAManagerFromUserDTO(userDTO);
+            userService.isManager(userDTO);
             return ResponseEntity.ok(itemService.addItem(itemDTO));
         }catch (Exception e){
             return ResponseEntity.badRequest().body(e.getMessage());
