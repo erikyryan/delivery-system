@@ -16,9 +16,8 @@ public class ClientOrder implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "id", updatable = false, unique = true, nullable = false)
     private UUID uuid;
-
-    private String clientOrderIdentifier = UUID.randomUUID().toString();
 
     private String name;
     private String value;
@@ -28,6 +27,7 @@ public class ClientOrder implements Serializable {
     private String clientIdentifier;
 
     public OrderDTO orderToDto() {
+
         OrderDTO orderDTO = new OrderDTO();
 
         orderDTO.setName(name);

@@ -1,7 +1,7 @@
 package br.com.delivery.pidao.controllers;
 
 import br.com.delivery.pidao.entities.dto.CategoryDTO;
-import br.com.delivery.pidao.entities.dto.UsersDTO;
+import br.com.delivery.pidao.entities.dto.UserDTO;
 import br.com.delivery.pidao.services.CategoryService;
 import br.com.delivery.pidao.services.ItemService;
 import br.com.delivery.pidao.services.SessionService;
@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/category")
-@RequiredArgsConstructor
+@AllArgsConstructor
 public class CategoryController {
 
     private CategoryService categoryService;
@@ -21,12 +21,15 @@ public class CategoryController {
 
     private ItemService itemService;
 
+    private UserService userService;
+
     @PostMapping
     public ResponseEntity<?> insertCategory(@RequestHeader final String token, @RequestBody final CategoryDTO categoryDTO){
         try {
-            sessionService.validateToken(token);
+            String userIdentifier = sessionService.validateToken(token);
             UsersDTO userDTO = sessionService.findUsersDTOByToken(token);
             itemService.getRestaurantIfTheUserIsAManagerFromUserDTO(userDTO);
+            userService.isManager(userIdentifier);
             return ResponseEntity.ok(categoryService.addCategory(categoryDTO));
         }catch (Exception e ){
             return ResponseEntity.badRequest().body(e.getMessage());
@@ -36,9 +39,8 @@ public class CategoryController {
     @GetMapping("/{categoryIdentifier}")
     public ResponseEntity<?> findCategoryByIdentifier(@RequestHeader final String token, @RequestHeader String categoryIdentifier){
         try {
-            sessionService.validateToken(token);
-            UsersDTO userDTO = sessionService.findUsersDTOByToken(token);
-            itemService.getRestaurantIfTheUserIsAManagerFromUserDTO(userDTO);
+            String userIdentifier = sessionService.validateToken(token);
+            userService.isManager(userIdentifier);
             return ResponseEntity.ok(categoryService.findByIdentifier(categoryIdentifier));
         }catch (Exception e ){
             return ResponseEntity.badRequest().body(e.getMessage());
@@ -48,9 +50,8 @@ public class CategoryController {
     @PutMapping
     public ResponseEntity<?> updateCategory(@RequestHeader final String token,@RequestBody CategoryDTO categoryDTO){
         try {
-            sessionService.validateToken(token);
-            UsersDTO userDTO = sessionService.findUsersDTOByToken(token);
-            itemService.getRestaurantIfTheUserIsAManagerFromUserDTO(userDTO);
+            String userIdentifier = sessionService.validateToken(token);
+            userService.isManager(userIdentifier);
             return ResponseEntity.ok(categoryService.updateCategory(categoryDTO));
         }catch (Exception e ){
             return ResponseEntity.badRequest().body(e.getMessage());
@@ -60,9 +61,8 @@ public class CategoryController {
     @DeleteMapping("/{categoryIdentifier}")
     public ResponseEntity<?> updateCategory(@RequestHeader final String token,@PathVariable String categoryIdentifier){
         try {
-            sessionService.validateToken(token);
-            UsersDTO userDTO = sessionService.findUsersDTOByToken(token);
-            itemService.getRestaurantIfTheUserIsAManagerFromUserDTO(userDTO);
+            String userIdentifier = sessionService.validateToken(token);
+            userService.isManager(userIdentifier);
             categoryService.deleteCategory(categoryIdentifier);
             return ResponseEntity.ok().build();
         }catch (Exception e ){

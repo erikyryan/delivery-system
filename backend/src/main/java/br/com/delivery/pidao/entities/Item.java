@@ -23,9 +23,8 @@ public class Item implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private long Id;
-
-    private String itemIdentifier = UUID.randomUUID().toString();
+    @Column(name = "id", updatable = false, unique = true, nullable = false)
+    private UUID uuid;
 
     @NotNull
     private String name;

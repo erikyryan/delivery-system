@@ -1,7 +1,6 @@
 package br.com.delivery.pidao.services;
 
 
-import br.com.delivery.pidao.dao.UserDAO;
 import br.com.delivery.pidao.entities.*;
 import br.com.delivery.pidao.entities.dto.*;
 import br.com.delivery.pidao.enums.UserTypeEnum;
@@ -11,7 +10,6 @@ import br.com.delivery.pidao.repositories.ItemRepository;
 import br.com.delivery.pidao.repositories.RestaurantRepository;
 import br.com.delivery.pidao.repositories.UsersRepository;
 import lombok.AllArgsConstructor;
-import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
@@ -45,7 +43,8 @@ public class ItemService {
     }
 
     public ItemDTO updateItem(final ItemDTO itemDTO, String itemIdentifier){
-        Optional<Item> item = itemRepository.findByItemIdentifier(itemIdentifier);
+        UUID uuid = UUID.fromString(itemIdentifier);
+        Optional<Item> item = itemRepository.findByUuid(uuid);
         if(item.isPresent()){
             Item newItem = item.get();
 
@@ -67,7 +66,8 @@ public class ItemService {
 
 
     public Boolean deleteItem(String itemIdentifier){
-        Optional<Item> item = itemRepository.findByItemIdentifier(itemIdentifier);
+        UUID uuid = UUID.fromString(itemIdentifier);
+        Optional<Item> item = itemRepository.findByUuid(uuid);
 
         if(item.isPresent()){
             itemRepository.delete(item.get());
@@ -122,7 +122,8 @@ public class ItemService {
     }
 
     public  Item getItemByIdentifier(String itemIdentifier){
-        Optional<Item> item = itemRepository.findByItemIdentifier(itemIdentifier);
+        UUID uuid = UUID.fromString(itemIdentifier);
+        Optional<Item> item = itemRepository.findByUuid(uuid);
         if(item.isPresent()){
             return item.get();
         }

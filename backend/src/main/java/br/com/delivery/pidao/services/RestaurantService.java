@@ -16,8 +16,8 @@ public class RestaurantService {
     private RestaurantRepository restaurantRepository;
 
     public String findByRestaurantIdentifier(String restaurantIdentifier) {
-
-        Optional<Restaurant> restaurant = restaurantRepository.findByRestaurantIdentifier(restaurantIdentifier);
+        UUID uuid = UUID.fromString(restaurantIdentifier);
+        Optional<Restaurant> restaurant = restaurantRepository.findByUuid(uuid);
 
         if(restaurant.isPresent()){
             throw new RestaurantNotFound("Restaurante não existente");

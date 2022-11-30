@@ -19,12 +19,15 @@ public class SessionService {
 
     private UsersRepository UsersRepository;
 
-    public void validateToken(String token) {
+    public String validateToken(String token) {
         LoginSession session = this.findSessionByToken(token);
         Date expirationDate = session.getExpirationDate();
         if (new Date().after(expirationDate)) {
             throw new RuntimeException("Sessão expirou!");
         }
+
+        return session.getUserIdentifier();
+
     }
 
     public String generateSession(Users UsersS) {
@@ -33,10 +36,10 @@ public class SessionService {
             session.get().finish();
         }
 
-        LoginSession UsersSession = new LoginSession(UsersS);
-        loginSessionRepository.save(UsersSession);
+        LoginSession usersSession = new LoginSession(UsersS);
+        loginSessionRepository.save(usersSession);
 
-        return UsersSession.getToken();
+        return usersSession.getToken();
     }
 
     public LoginSession findSessionByToken(String token) {
@@ -50,23 +53,22 @@ public class SessionService {
 
     public Users findUsers(String token) {
         LoginSession session = this.findSessionByToken(token);
-        Optional<Users> Users = UsersRepository.findByUserIdentifier(session.getUserIdentifier());
-        if(!Users.isPresent()){
+        Optional<Users> users = UsersRepository.findByUserIdentifier(session.getUserIdentifier());
+        if(!users.isPresent()){
             throw new RuntimeException("Users não encontrado!");
         }else{}
 
-        return Users.get();
+        return users.get();
     }
 
     public UsersDTO findUsersDTOByToken(String token) {
         LoginSession session = this.findSessionByToken(token);
-        Optional<Users> Users = UsersRepository.findByUserIdentifier(session.getUserIdentifier());
-        if(!Users.isPresent()){
+        Optional<Users> users = UsersRepository.findByUserIdentifier(session.getUserIdentifier());
+        if(!users.isPresent()){
             throw new RuntimeException("Users não encontrado!");
-        }else{}
+        }
 
         return new UsersDTO();
-        //UsersDTO(Users.get().getEmail(),Users.get().getPassword());
     }
 
     public LoginSession logout(String token) {

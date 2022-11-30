@@ -9,6 +9,7 @@ import org.apache.catalina.User;
 import org.springframework.stereotype.Component;
 
 import java.util.Optional;
+import java.util.UUID;
 
 
 @Component

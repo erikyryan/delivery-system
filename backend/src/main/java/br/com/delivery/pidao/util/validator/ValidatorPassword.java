@@ -1,4 +1,4 @@
-package validator;
+package br.com.delivery.pidao.util.validator;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;

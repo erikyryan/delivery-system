@@ -11,12 +11,12 @@ import org.springframework.web.bind.annotation.RestController;
 import br.com.delivery.pidao.entities.dto.*;
 import br.com.delivery.pidao.services.*;
 import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 
 @RestController
 @RequestMapping("/User")
 @AllArgsConstructor
 public class UserController {
-
 
     private UserService userService;
 

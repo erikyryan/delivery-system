@@ -25,9 +25,9 @@ public class AddressController {
     SessionService sessionService;
 
     @PostMapping("/addAddress")
-    public ResponseEntity<?> insertAdress(@RequestBody AddressDTO adressDTO){
+    public ResponseEntity<?> insertAddress(@RequestBody AddressDTO adressDTO){
         try{
-            return ResponseEntity.ok(adressService.addAdress(adressDTO));
+            return ResponseEntity.ok(addressService.addAddress(adressDTO));
         }catch (Exception e){
             return ResponseEntity.badRequest().body(e.getMessage());
         }

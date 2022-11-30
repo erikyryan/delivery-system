@@ -1,8 +1,6 @@
 package br.com.delivery.pidao.entities;
 
 import lombok.Data;
-import org.hibernate.annotations.LazyCollection;
-import org.hibernate.annotations.LazyCollectionOption;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -15,11 +13,10 @@ public class Restaurant implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "id", updatable = false, unique = true, nullable = false)
     private UUID uuid;
 
-    private String adressRestaurant;
-
-    private String restaurantIdentifier = UUID.randomUUID().toString();
+    private String addressRestaurant;
 
     private String menuIdentifier;
 

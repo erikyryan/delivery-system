@@ -7,7 +7,7 @@ import lombok.Setter;
 
 @Getter
 @AllArgsConstructor
-public class AddressCustomerDTO {
+public class AddressClientDTO {
 
     private String publicPlace;
     private String number;

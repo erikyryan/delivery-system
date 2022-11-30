@@ -13,9 +13,8 @@ public class Address implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private long id;
-
-    private String adressIdentifier = UUID.randomUUID().toString();
+    @Column(name = "id", updatable = false, unique = true, nullable = false)
+    private UUID uuid;
 
     private String publicPlace;
     private String number;

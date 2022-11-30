@@ -1,5 +1,7 @@
 package br.com.delivery.pidao.entities;
 
+import lombok.Getter;
+
 import javax.persistence.*;
 import java.time.Duration;
 import java.time.LocalDateTime;
@@ -9,13 +11,14 @@ import java.util.Date;
 import java.util.UUID;
 
 @Entity
+@Getter
 @Table(name = "loginsession")
 public class LoginSession {
 
     @Id
-    @GeneratedValue(strategy= GenerationType.AUTO)
-    @Column(name = "id", unique = true)
-    private Long id;
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "id", updatable = false, unique = true, nullable = false)
+    private UUID uuid;
 
     @Column(name = "useridentifier")
     private String userIdentifier;
