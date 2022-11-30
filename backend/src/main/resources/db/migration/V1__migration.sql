@@ -7,13 +7,13 @@
 CREATE TABLE public.address (
                                 id bytea NOT NULL,
                                 city varchar(255) NULL,
-                                client_identifier varchar(255) NULL,
                                 details varchar(255) NULL,
                                 neighborhood varchar(255) NULL,
                                 "number" varchar(255) NULL,
                                 public_place varchar(255) NULL,
-                                restaraunt_identifier varchar(255) NULL,
+                                restaraunt_id bytea NULL,
                                 state varchar(255) NULL,
+                                user_id bytea NULL,
                                 zip_code varchar(255) NULL,
                                 CONSTRAINT address_pkey PRIMARY KEY (id)
 );
@@ -28,7 +28,7 @@ CREATE TABLE public.address (
 CREATE TABLE public.category (
                                  id bytea NOT NULL,
                                  details varchar(255) NULL,
-                                 menu_uuid bytea NULL,
+                                 menu_id bytea NULL,
                                  CONSTRAINT category_pkey PRIMARY KEY (id)
 );
 
@@ -84,18 +84,18 @@ CREATE TABLE public.item (
 );
 
 
--- public.category_items definition
+-- public.category_item definition
 
 -- Drop table
 
--- DROP TABLE public.category_items;
+-- DROP TABLE public.category_item;
 
-CREATE TABLE public.category_items (
-                                       category_id bytea NOT NULL,
-                                       items_id bytea NOT NULL,
-                                       CONSTRAINT uk_fompgmgeqyqrfab7o3hknm8le UNIQUE (items_id),
-                                       CONSTRAINT fkndv81ar0pvens33imsg56sovg FOREIGN KEY (category_id) REFERENCES public.category(id),
-                                       CONSTRAINT fkquqbl7rjn095s3u1251lirnob FOREIGN KEY (items_id) REFERENCES public.item(id)
+CREATE TABLE public.category_item (
+                                      category_id bytea NOT NULL,
+                                      item_id bytea NOT NULL,
+                                      CONSTRAINT uk_phkndilpkprh9p1w07pw4xejv UNIQUE (item_id),
+                                      CONSTRAINT fkcq2n0opf5shyh84ex1fhukcbh FOREIGN KEY (category_id) REFERENCES public.category(id),
+                                      CONSTRAINT fku8b4lwqutcdq3363gf6mlujq FOREIGN KEY (item_id) REFERENCES public.item(id)
 );
 
 
@@ -108,11 +108,12 @@ CREATE TABLE public.category_items (
 CREATE TABLE public.restaurant (
                                    id bytea NOT NULL,
                                    address_restaurant varchar(255) NULL,
+                                   address_id bytea NULL,
                                    cellphone varchar(255) NULL,
                                    "date" varchar(255) NULL,
                                    manager_identifier varchar(255) NULL,
                                    menu_identifier varchar(255) NULL,
-                                   menu_uuid bytea NULL,
+                                   menu_id bytea NULL,
                                    "name" varchar(255) NULL,
                                    socials_security varchar(255) NULL,
                                    transaction_id bytea NULL,
@@ -143,7 +144,7 @@ CREATE TABLE public."transaction" (
 
 CREATE TABLE public.users (
                               id bytea NOT NULL,
-                              adress_identifier varchar(255) NULL,
+                              address_id bytea NULL,
                               cellphone varchar(255) NULL,
                               "date" varchar(255) NULL,
                               email varchar(255) NULL,
