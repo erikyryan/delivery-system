@@ -17,8 +17,6 @@ import java.util.stream.Collectors;
 @AllArgsConstructor
 public class ItemService {
 
-    private UserService userService;
-
     private CategoryService categoryService;
 
     private ItemRepository itemRepository;
