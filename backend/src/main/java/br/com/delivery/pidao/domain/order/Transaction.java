@@ -1,6 +1,6 @@
 package br.com.delivery.pidao.domain.order;
 
-import br.com.delivery.pidao.domain.order.entity.ClientOrder;
+import br.com.delivery.pidao.domain.order.entity.CustomerOrder;
 import br.com.delivery.pidao.domain.restaurant.Restaurant;
 import br.com.delivery.pidao.domain.user.Users;
 import lombok.Data;
@@ -25,7 +25,7 @@ public class Transaction implements Serializable {
     private Restaurant restaurant;
 
     @OneToOne
-    private ClientOrder clientOrder;
+    private CustomerOrder customerOrder;
 
 
 }

@@ -15,19 +15,19 @@ public class UserDAO {
     public boolean isManager(Users.UsersDTO userDTO){
         Optional<Users> user = usersRepository.findByEmailAndType(userDTO.getEmail(), userDTO.getTypeUser());
         Users userManager = user.get();
-        return userManager.getType() == UserTypeEnum.MANAGER ? true : false;
+        return userManager.getTypeUser() == UserTypeEnum.MANAGER ? true : false;
     }
 
     public boolean isCustomer(Users.UsersDTO userDTO){
         Optional<Users> user = usersRepository.findByEmailAndType(userDTO.getEmail(), userDTO.getTypeUser());
         Users userCustomer = user.get();
-        return userCustomer.getType() == UserTypeEnum.CUSTOMER ? true : false;
+        return userCustomer.getTypeUser() == UserTypeEnum.CUSTOMER ? true : false;
     }
 
     public boolean isDeliveryman(Users.UsersDTO userDTO){
         Optional<Users> user = usersRepository.findByEmailAndType(userDTO.getEmail(), userDTO.getTypeUser());
         Users userDeliveryman = user.get();
-        return userDeliveryman.getType() == UserTypeEnum.DELIVERYMAN ? true : false;
+        return userDeliveryman.getTypeUser() == UserTypeEnum.DELIVERYMAN ? true : false;
     }
 
     public Optional<Users> isPresent(String socialSecurity){

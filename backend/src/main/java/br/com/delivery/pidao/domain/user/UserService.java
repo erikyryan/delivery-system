@@ -80,7 +80,7 @@ public class UserService {
         this.validateEmailAndTaxNumber(UsersDTO.getEmail(), UsersDTO.getSocialSecurity());
 
         Users UsersCustomer = new Users();
-        UsersCustomer.setType(UserTypeEnum.CUSTOMER);
+        UsersCustomer.setTypeUser(UserTypeEnum.CUSTOMER);
         UsersCustomer.setIsAdmin(false);
         
         UsersCustomer = UsersDTO.dtoToEntity();
@@ -96,7 +96,7 @@ public class UserService {
         this.validateEmailAndTaxNumber( UsersDTO.getEmail(), UsersDTO.getSocialSecurity());
 
         Users UsersManager = new Users();
-        UsersManager.setType(UserTypeEnum.MANAGER);
+        UsersManager.setTypeUser(UserTypeEnum.MANAGER);
         UsersManager.setIsAdmin(true);
         
         UsersManager = UsersDTO.dtoToEntity();

@@ -1,6 +1,6 @@
 package br.com.delivery.pidao.domain.order.dto;
 
-import br.com.delivery.pidao.domain.order.entity.ClientOrder;
+import br.com.delivery.pidao.domain.order.entity.CustomerOrder;
 import br.com.delivery.pidao.domain.order.enums.OrderStatus;
 import lombok.Data;
 
@@ -11,17 +11,17 @@ public class OrderDTO {
     private String value;
     private OrderStatus status;
     private String comment;
-    private String clientIdentifier;
+    private String customerIdentifier;
 
-    public ClientOrder dtoToEntity() {
+    public CustomerOrder dtoToEntity() {
 
-        ClientOrder clientOrder = new ClientOrder();
-        clientOrder.setName(name);
-        clientOrder.setValue(value);
-        clientOrder.setStatus(status);
-        clientOrder.setComment(comment);
-        clientOrder.setClientIdentifier(clientIdentifier);
+        CustomerOrder customerOrder = new CustomerOrder();
+        customerOrder.setName(name);
+        customerOrder.setValue(value);
+        customerOrder.setStatus(status);
+        customerOrder.setComment(comment);
+        customerOrder.setCustomerIdentifier(customerIdentifier);
 
-        return clientOrder;
+        return customerOrder;
     }
 }

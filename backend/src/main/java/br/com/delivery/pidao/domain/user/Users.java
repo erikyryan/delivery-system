@@ -34,11 +34,11 @@ public class Users implements Serializable {
 
     private String name;
 
-    private String socialsSecurity;
+    private String socialSecurity;
 
     private String cellphone;
 
-    private UserTypeEnum type;
+    private UserTypeEnum typeUser;
 
     private Boolean isAdmin;
 
@@ -80,9 +80,9 @@ public class Users implements Serializable {
             users.setName(name);
             users.setEmail(email);
             users.setPassword(password);
-            users.setSocialsSecurity(socialSecurity);
+            users.setSocialSecurity(socialSecurity);
             users.setCellphone(cellphone);
-            users.setType(typeUser);
+            users.setTypeUser(typeUser);
             users.setIsAdmin(IsAdmin);
             users.setDate(date);
             return users;
